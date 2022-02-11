@@ -11,15 +11,6 @@ import { ArrowLeftIcon, SearchIcon } from '@heroicons/react/outline'
 const Header = ({ accprofile = null }) => {
     const router = useRouter()
 
-    const [showReturnArrow, setShowReturnArrow] = useState(false)
-
-    useEffect(() => {
-        let sepedUrl = `${router.pathname}${router.query}`.split('/')
-        console.log(sepedUrl)
-        setShowReturnArrow(['home', 'admin', 'search', 'collections'].indexOf(sepedUrl[1]) === -1)
-    }, [router.pathname])
-
-
     const searchSubmit = (e) => {
         e.preventDefault()
         let keyword = e.target[0].value

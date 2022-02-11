@@ -6,18 +6,18 @@ const SideSelector = ({ changeSide }) => {
     const [onSide, setOnSide] = useState(1)
 
     return (
-        <div className="hidden lg:flex w-72 h-10 bg-neutral-50 rounded-3xl justify-self-center items-center">
+        <div className="hidden lg:flex w-72 h-10 px-2 bg-neutral-50 rounded-3xl justify-self-center items-center">
+            <button onClick={() => { setOnSide(0); changeSide(0) }}
+                className={`flex w-1/3 h-8 ${onSide === 0 ? 'bg-primary-700' : ''} rounded-2xl justify-center items-center`}>
+                <p className={`${onSide === 0 ? 'text-neutral-50' : 'text-neutral-800'} w-1/2 border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>支持</p>
+            </button>
             <button onClick={() => { setOnSide(1); changeSide(1) }}
                 className={`flex w-1/3 h-8 ${onSide === 1 ? 'bg-primary-700' : ''} rounded-2xl justify-center items-center`}>
-                <p className={`${onSide === 1 ? 'text-neutral-50' : 'text-neutral-800'} w-1/2 border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>支持</p>
+                <p className={`${onSide === 1 ? 'text-neutral-50' : 'text-neutral-800'} border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>不區分立場</p>
             </button>
             <button onClick={() => { setOnSide(2); changeSide(2) }}
                 className={`flex w-1/3 h-8 ${onSide === 2 ? 'bg-primary-700' : ''} rounded-2xl justify-center items-center`}>
-                <p className={`${onSide === 2 ? 'text-neutral-50' : 'text-neutral-800'} border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>不區分立場</p>
-            </button>
-            <button onClick={() => { setOnSide(3); changeSide(3) }}
-                className={`flex w-1/3 h-8 ${onSide === 3 ? 'bg-primary-700' : ''} rounded-2xl justify-center items-center`}>
-                <p className={`${onSide === 3 ? 'text-neutral-50' : 'text-neutral-800'} w-1/2 border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>反對</p>
+                <p className={`${onSide === 2 ? 'text-neutral-50' : 'text-neutral-800'} w-1/2 border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>反對</p>
             </button>
         </div>
     )
@@ -28,17 +28,17 @@ const IntegratedSideSelector = ({ changeSide }) => {
 
     return (
         <div className="flex lg:hidden w-full h-10 bg-neutral-50 items-center">
+            <button onClick={() => { setOnSide(0); changeSide(0) }}
+                className={`flex w-1/3 h-8  rounded-2xl justify-center items-center`}>
+                <p className={`${onSide === 0 ? 'text-primary-800' : 'text-neutral-400'} w-1/3 border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>支持</p>
+            </button>
             <button onClick={() => { setOnSide(1); changeSide(1) }}
                 className={`flex w-1/3 h-8  rounded-2xl justify-center items-center`}>
-                <p className={`${onSide === 1 ? 'text-primary-800' : 'text-neutral-400'} w-1/3 border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>支持</p>
+                <p className={`${onSide === 1 ? 'text-primary-800' : 'text-neutral-400'} min-w-[33%] border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>不區分立場</p>
             </button>
             <button onClick={() => { setOnSide(2); changeSide(2) }}
                 className={`flex w-1/3 h-8  rounded-2xl justify-center items-center`}>
-                <p className={`${onSide === 2 ? 'text-primary-800' : 'text-neutral-400'} min-w-[33%] border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>不區分立場</p>
-            </button>
-            <button onClick={() => { setOnSide(3); changeSide(3) }}
-                className={`flex w-1/3 h-8  rounded-2xl justify-center items-center`}>
-                <p className={`${onSide === 3 ? 'text-primary-800' : 'text-neutral-400'} w-1/3 border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>反對</p>
+                <p className={`${onSide === 2 ? 'text-primary-800' : 'text-neutral-400'} w-1/3 border-b-2 transition-colors duration-300 border-transparent hover:border-primary-700 text-sm leading-6`}>反對</p>
             </button>
         </div>
     )

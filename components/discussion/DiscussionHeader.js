@@ -7,7 +7,6 @@ import { route } from 'next/dist/server/router';
 // import ReportContent from './ReportContent';
 
 const DiscussionHeader = ({ pagedata }) => {
-    console.log(pagedata)
     const router = useRouter()
 
     const [showStandpoint, setShowStandpoint] = useState(false);
@@ -22,12 +21,12 @@ const DiscussionHeader = ({ pagedata }) => {
 
     if (router.isFallback) {
         return (
-            <div className="bg-white w-full mx-auto py-3">
-                <div className="w-40 h-12 my-1 rounded-xl animate-pulse bg-gray-300"></div>
-                <div className="w-20 h-8 my-1 rounded-xl animate-pulse bg-gray-300"></div>
-                <div className="w-full h-9 rounded-xl animate-pulse bg-gray-300"></div>
-                <div className="w-full h-9 rounded-xl animate-pulse bg-gray-300"></div>
-                <div className="w-full h-9 rounded-xl animate-pulse bg-gray-300"></div>
+            <div className="bg-white w-full mx-auto px-9 py-6">
+                <div className="w-40 h-8 my-1 rounded-xl animate-pulse bg-gray-300"></div>
+                <div className="w-20 h-5 mt-1 mb-4 rounded-xl animate-pulse bg-gray-300"></div>
+                <div className="w-[calc(100%-20px)] h-6 my-1.5 rounded-xl animate-pulse bg-gray-300"></div>
+                <div className="w-[calc(100%-32px)] h-6 my-1.5 rounded-xl animate-pulse bg-gray-300"></div>
+                <div className="w-full h-6 my-1.5 rounded-xl animate-pulse bg-gray-300"></div>
             </div>
         )
     } else {
@@ -40,8 +39,8 @@ const DiscussionHeader = ({ pagedata }) => {
                 </div>
                 <div className="flex flex-wrap justify-start gap-4">
                     {pagedata.tags.map((tag, i) =>
-                        <Link href={`/search?tags=${tag}`} >
-                            <div key={i} className="flex h-8 flex-shrink-0 px-4 border-[1.5px] border-neutral-400 rounded-2xl items-center cursor-pointer">
+                        <Link href={`/search?tags=${tag}`} key={i} >
+                            <div className="flex h-8 flex-shrink-0 px-4 border-[1.5px] border-neutral-400 rounded-2xl items-center cursor-pointer">
                                 <p className="text-center text-neutral-500 text-sm">{`#${tag}`}</p>
                             </div>
                         </Link>
