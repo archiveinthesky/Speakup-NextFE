@@ -5,7 +5,13 @@ import { postCommentBE } from "../../lib/discussion/comments";
 const NewComment = ({ boardId, addComment }) => {
     const commentDiv = useRef(null);
     const [enteringComment, setEnteringComment] = useState(false);
+    const [choosingSide, setChoosingSide] = useState(false);
     const [commentSide, setCommentSide] = useState(null);
+
+    const postComment = async (cmtSide) => {
+        addComment(await postCommentBE(commentDiv.current.innerText, boardId, cmtSide));
+        setEnteringComment(false);
+    };
 
     return (
         <div className="flex w-full items-center justify-end">
@@ -27,16 +33,39 @@ const NewComment = ({ boardId, addComment }) => {
                     />
                 )}
                 {enteringComment ? (
-                    <div className="absolute top-1.5 right-2 flex items-center justify-end gap-2">
+                    <div className="absolute top-1.5 right-2 flex h-7 flex-wrap items-center justify-end gap-2 overflow-hidden">
+                        <button
+                            className={`text-primary-700 h-6 w-6 flex-shrink-0 ${
+                                choosingSide ? "hidden" : "block"
+                            }`}
+                            onClick={async () => {
+                                if (commentDiv.current.innerText !== "") {
+                                    setChoosingSide(true);
+                                }
+                            }}
+                        >
+                            <PaperAirplaneIcon className="h-6 w-6" />
+                        </button>
+                        <button
+                            className={`text-primary-700 h-6 w-6 flex-shrink-0 ${
+                                choosingSide ? "hidden" : "block"
+                            } `}
+                            onClick={() => {
+                                setEnteringComment(!enteringComment);
+                            }}
+                        >
+                            <XIcon className="h-6 w-6" />
+                        </button>
                         <button
                             className={`border-primary-700 ${
                                 commentSide === "sup"
                                     ? " text-primary-50 bg-primary-700"
                                     : "text-primary-700  bg-neutral-100"
+                            } ${
+                                choosingSide ? "block" : "hidden"
                             } h-6 w-6 flex-shrink-0 rounded-full border text-center text-sm `}
                             onClick={() => {
-                                if (commentSide === "sup") setCommentSide(null);
-                                else setCommentSide("sup");
+                                postComment("sup");
                             }}
                         >
                             支
@@ -46,38 +75,28 @@ const NewComment = ({ boardId, addComment }) => {
                                 commentSide === "agn"
                                     ? " text-primary-50 bg-primary-700"
                                     : "text-primary-700  bg-neutral-100"
+                            } ${
+                                choosingSide ? "block" : "hidden"
                             } h-6 w-6 flex-shrink-0 rounded-full border text-center text-sm `}
                             onClick={() => {
-                                if (commentSide === "agn") setCommentSide(null);
-                                else setCommentSide("agn");
+                                postComment("agn");
                             }}
                         >
                             反
                         </button>
                         <button
-                            className={`text-primary-700 h-6 w-6 flex-shrink-0`}
-                            onClick={async () => {
-                                if (commentDiv.current.innerText !== "") {
-                                    addComment(
-                                        await postCommentBE(
-                                            commentDiv.current.innerText,
-                                            boardId,
-                                            commentSide
-                                        )
-                                    );
-                                    setEnteringComment(false);
-                                }
-                            }}
-                        >
-                            <PaperAirplaneIcon className="h-6 w-6" />
-                        </button>
-                        <button
-                            className={`text-primary-700 h-6 w-6 flex-shrink-0 `}
+                            className={`border-primary-700 ${
+                                commentSide === "agn"
+                                    ? " text-primary-50 bg-primary-700"
+                                    : "text-primary-700  bg-neutral-100"
+                            } ${
+                                choosingSide ? "block" : "hidden"
+                            } h-6 w-6 flex-shrink-0 rounded-full border text-center text-sm `}
                             onClick={() => {
-                                setEnteringComment(!enteringComment);
+                                postComment("non");
                             }}
                         >
-                            <XIcon className="h-6 w-6" />
+                            無
                         </button>
                     </div>
                 ) : (

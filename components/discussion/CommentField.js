@@ -181,7 +181,7 @@ const CommentField = ({ boardId, onSide }) => {
         <>
             {errorOccured === false ? (
                 <div className="bg-neutral-50">
-                    <div className="mx-auto mb-4 flex flex-col divide-y divide-neutral-300 px-9 py-3 ">
+                    <div className="mx-auto mb-4 flex flex-col divide-y divide-neutral-300 px-9 lg:py-3 ">
                         <NewComment boardId={boardId} addComment={addUserComment} />
                         {[...userComments, ...comments].map((cmt, i) => {
                             return (
