@@ -22,12 +22,12 @@ const MainBoard = ({ discussionContent }) => {
 
   if (discussionContent !== undefined)
     return (
-      <div className="scrollbar-hide h-screen w-screen overflow-x-hidden bg-neutral-100">
+      <div className="h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
         <Header />
         <Sidebar />
         <Footbar />
         <div className="flex h-screen w-full pt-14">
-          <div className="scrollbar-hide mx-auto w-11/12 max-w-3xl overflow-y-auto lg:px-4">
+          <div className="mx-auto w-11/12 max-w-3xl overflow-y-auto scrollbar-hide lg:px-4">
             <div className="mt-6 w-full lg:mt-10">
               <DiscussionHeader pagedata={discussionContent} />
             </div>

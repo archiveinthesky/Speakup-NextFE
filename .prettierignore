@@ -1,0 +1,15 @@
+#npm generated
+node_modules
+package.json
+package-lock.json
+
+#Next generated
+public
+.next
+
+#Editor related
+.vscode
+
+#Config Files
+*.config.js
+.eslintrc.js
