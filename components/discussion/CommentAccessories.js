@@ -28,6 +28,9 @@ const NewComment = ({ boardId, addComment }) => {
                         onKeyPress={(e) => {
                             if (e.key === "Enter") {
                                 e.preventDefault();
+                                if (commentDiv.current.innerText !== "" && !choosingSide) {
+                                    setChoosingSide(true);
+                                }
                             }
                         }}
                     />

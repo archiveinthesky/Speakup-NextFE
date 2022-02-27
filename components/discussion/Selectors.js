@@ -13,7 +13,7 @@ const SideSelector = ({ changeSide }) => {
                     changeSide(0);
                 }}
                 className={`flex h-8 w-1/3 ${
-                    onSide === 0 ? "bg-primary-700" : ""
+                    onSide === 0 ? "bg-primary-700 underline-offset-1" : ""
                 } items-center justify-center rounded-2xl`}
             >
                 <p
@@ -30,7 +30,7 @@ const SideSelector = ({ changeSide }) => {
                     changeSide(1);
                 }}
                 className={`flex h-8 w-1/3 ${
-                    onSide === 1 ? "bg-primary-700" : ""
+                    onSide === 1 ? "bg-primary-700 underline-offset-1" : ""
                 } items-center justify-center rounded-2xl`}
             >
                 <p
@@ -47,7 +47,7 @@ const SideSelector = ({ changeSide }) => {
                     changeSide(2);
                 }}
                 className={`flex h-8 w-1/3 ${
-                    onSide === 2 ? "bg-primary-700" : ""
+                    onSide === 2 ? "bg-primary-700 underline-offset-1" : ""
                 } items-center justify-center rounded-2xl`}
             >
                 <p
@@ -120,7 +120,7 @@ const CommentSort = ({ changeSortMethod }) => {
     const [sortMethod, setSortMethod] = useState(0);
 
     return (
-        <Menu as="div" className="relative z-10 inline-block justify-self-end text-left">
+        <Menu as="div" className="relative inline-block justify-self-end text-left">
             <Menu.Button className="text-primary-800 justify-centera inline-flex w-full items-center rounded-3xl border border-neutral-200 bg-neutral-50 px-4 py-2 text-sm shadow-sm hover:bg-gray-50">
                 <p>留言排序方式</p>
                 <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />

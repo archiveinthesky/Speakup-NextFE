@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef } from "react";
 import styles from "../../styles/CommentCard.module.css";
 
-// import ReportContent from './ReportContent'
-// import ProfileImg from '../../Assets/General/defualtprofile.png'
+import ReportInterface from "../common/ReportInterface";
 
 import { XIcon, FlagIcon } from "@heroicons/react/solid";
 import { ArrowCircleUpIcon, DotsVerticalIcon, ReplyIcon } from "@heroicons/react/outline";
@@ -352,21 +351,28 @@ const CommentCard = forwardRef(
                                 </button>
                                 {showExtendedMenu && <ExtendedMenu />}
                             </div>
-
-                            {/* {showReportMenu && <ReportContent
-                        rHeader="請問此留言有什麼問題？"
-                        rQuestions={["留言內容惡意攻擊其他使用者", "留言內容與此討論無關", "留言內容含有騷擾、廣告內容", "其他"]}
-                        closeReportContent={() => { setShowReportMenu(false) }}
-                        boardId={boardId}
-                        motherComment={motherComment}
-                        commentid={cmtdata.id}
-                    />} */}
                         </div>
 
                         {fetchReplies !== null && <ShowRepliesButton />}
                     </div>
                 </div>
                 {showReplyBox && <ReplyTextField />}
+                {showReportMenu && (
+                    <ReportInterface
+                        title={"請問您認為此留言有什麼問題？"}
+                        options={[
+                            "內容與討論無關",
+                            "廣告或洗版訊息",
+                            "散播仇恨言論或人生攻擊",
+                            "含有煽情露骨內容",
+                            "散播恐怖主義",
+                        ]}
+                        submitFunction={(option, value = "") => {}}
+                        closeFunction={() => {
+                            setShowReportMenu(false);
+                        }}
+                    />
+                )}
             </>
         );
     }
