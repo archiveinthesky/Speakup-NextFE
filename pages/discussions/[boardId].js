@@ -24,7 +24,7 @@ const MainBoard = ({ discussionContent }) => {
         return (
             <div className="h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
                 <Header />
-                <Sidebar />
+                <Sidebar retractable={true} />
                 <Footbar />
                 <div className="flex h-screen w-full pt-14">
                     <div className="mx-auto w-11/12 max-w-3xl overflow-y-auto scrollbar-hide lg:px-4">
