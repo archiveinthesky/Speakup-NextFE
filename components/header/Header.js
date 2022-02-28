@@ -14,9 +14,7 @@ const Header = ({ accprofile = null }) => {
         e.preventDefault();
         let keyword = e.target[0].value;
         if (keyword !== null) {
-            if (keyword.charAt(0) === '#')
-                window.location.href = `/search?tags=${keyword.substring(1)}`;
-            else window.location.href = `/search?keyword=${keyword}`;
+            window.location.href = `/search/results?searchterm=${keyword}`;
         }
     };
 
@@ -42,7 +40,7 @@ const Header = ({ accprofile = null }) => {
                         onSubmit={searchSubmit}
                     >
                         <input
-                            className="h-9 w-full rounded-3xl bg-neutral-50 p-5 text-base text-neutral-600"
+                            className="h-9 w-full rounded-3xl bg-neutral-50 p-5 text-base text-neutral-600 focus:outline-0"
                             placeholder="搜尋你感興趣的議題"
                             type="text"
                         />

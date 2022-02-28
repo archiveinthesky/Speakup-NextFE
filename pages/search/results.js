@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Header from '../../components/header/Header';
 import Sidebar from '../../components/navbar/Sidebar';
 import Footbar from '../../components/navbar/Footbar';
-import WideNavCard from '../../components/navcards/NavCard';
+import NavCard from '../../components/navcards/NavCard';
 import Pagebar from '../../components/navbar/Pagebar';
 
 const SearchResults = ({ discussionContent }) => {
@@ -46,11 +46,11 @@ const SearchResults = ({ discussionContent }) => {
                     </h1>
                     <div className="mt-8 flex flex-col gap-6">
                         {searchResults.map((cardContent, i) => (
-                            <WideNavCard key={i} cardContent={cardContent} />
+                            <NavCard key={i} cardContent={cardContent} />
                         ))}
                     </div>
                 </div>
-                <div className="h-16"></div>
+                <div className="h-16 flex-shrink-0"></div>
                 <Pagebar
                     maxPage={maxPage}
                     url={(id) => {
@@ -58,6 +58,7 @@ const SearchResults = ({ discussionContent }) => {
                     }}
                     selected={onPage}
                 />
+                <div className="mt-16 h-1 w-1 flex-shrink-0" />
             </div>
         </div>
     );

@@ -5,7 +5,7 @@ import {
     UserCircleIcon,
 } from '@heroicons/react/outline';
 
-const WideNavCard = ({ cardContent }) => {
+const WideNavCard = ({ cardContent, showDetails }) => {
     return (
         <Link href={`/discussions/${cardContent.boardId}`}>
             <div className="flex w-full cursor-pointer justify-between overflow-hidden rounded-2xl bg-neutral-50 pr-4 md:pr-7">
@@ -18,7 +18,11 @@ const WideNavCard = ({ cardContent }) => {
                         {cardContent.content}
                     </p>
                 </div>
-                <div className="hidden w-24 flex-shrink-0 flex-col justify-end gap-1 pb-4 text-primary-600 md:flex">
+                <div
+                    className={`hidden w-24 flex-shrink-0 flex-col justify-end gap-1 pb-4 text-primary-600 ${
+                        showDetails && 'md:flex'
+                    }`}
+                >
                     <div className="flex items-center">
                         <UserCircleIcon className="mr-2 h-6 w-6 flex-shrink-0" />
                         <p className="text-xs">{cardContent.author}</p>
