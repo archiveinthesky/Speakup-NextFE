@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "server": "exec ./runbe.sh"
+    "server": "exec ./runbe.sh",
+    "jsonserver": "npx json-server --watch db.json --port 5500"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.3",

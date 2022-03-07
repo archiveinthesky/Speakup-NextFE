@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { BookmarkIcon } from '@heroicons/react/outline';
+import { BookmarkIcon, FlagIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
-import { route } from 'next/dist/server/router';
+import ReportInterface from '../common/ReportInterface';
 
 const DiscussionHeader = ({ pagedata }) => {
     const router = useRouter();
@@ -119,30 +119,41 @@ const DiscussionHeader = ({ pagedata }) => {
                             </p>
                         </button>
                     </div>
-                    <div className="flex h-8 justify-start">
+                    <div className="flex h-8 justify-start gap-2">
                         <button onClick={toggleSaved}>
                             <BookmarkIcon
-                                className={`h-8 w-8 text-primary-600 transition-colors ${
+                                className={`h-7 w-7 text-primary-600 transition-colors ${
                                     userSaved ? 'fill-yellow-300' : 'fill-white'
                                 }`}
                             />
                         </button>
-                        {/* <button onClick={() => { setShowReportMenu(true) }}>
-                                        <svg className="w-8 h-8 mx-2 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 33">
-                                            <g id="Icon_feather-flag" data-name="Icon feather-flag" transform="translate(-4.5 -1.5)">
-                                                <path id="Path_5" data-name="Path 5" d="M6,22.5S7.5,21,12,21s7.5,3,12,3,6-1.5,6-1.5V4.5S28.5,6,24,6,16.5,3,12,3,6,4.5,6,4.5Z" fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
-                                                <path id="Path_6" data-name="Path 6" d="M6,33V22.5" fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
-                                            </g>
-                                        </svg>
-                                    </button> */}
+                        <button
+                            onClick={() => {
+                                setShowReportMenu(true);
+                            }}
+                        >
+                            <FlagIcon className="h-7 w-7 text-primary-600 " />
+                        </button>
                     </div>
                 </div>
 
-                {/* {showReportMenu && <ReportContent
-                            rHeader="請問此主題有什麼問題？"
-                            rQuestions={["內容包含不實訊息", "內容過度偏頗", "其他"]}
-                            closeReportContent={() => { setShowReportMenu(false) }}
-                        />} */}
+                {showReportMenu && (
+                    <ReportInterface
+                        title={'請問您認為此主題有什麼問題？'}
+                        options={[
+                            '內容包含不實訊息',
+                            '內容立場過度偏頗',
+                            '內容包含廣告',
+                            '散播仇恨言論或人生攻擊',
+                            '含有煽情露骨內容',
+                            '散播恐怖主義',
+                        ]}
+                        submitFunction={(option, value = '') => {}}
+                        closeFunction={() => {
+                            setShowReportMenu(false);
+                        }}
+                    />
+                )}
             </div>
         );
     }
