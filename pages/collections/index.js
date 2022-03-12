@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import Header from '../components/header/Header';
-import Sidebar from '../components/navbar/Sidebar';
-import Footbar from '../components/navbar/Footbar';
-import NavCard from '../components/navcards/NavCard';
-import Pagebar from '../components/navbar/Pagebar';
+import Header from '../../components/header/Header';
+import Sidebar from '../../components/navbar/Sidebar';
+import Footbar from '../../components/navbar/Footbar';
+import NavCard from '../../components/navcards/NavCard';
+import Pagebar from '../../components/navbar/Pagebar';
 
 const Collections = ({ discussionContent }) => {
     const router = useRouter();
