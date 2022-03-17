@@ -56,6 +56,9 @@ const AccountOptions = () => {
                                             ? 'bg-gray-100 text-gray-900'
                                             : 'text-gray-700'
                                     } flex items-center gap-3 px-4 py-2 text-left text-sm`}
+                                    onClick={() => {
+                                        window.location.href = '/settings';
+                                    }}
                                 >
                                     <CogIcon className="h-7 w-7" />
                                     <p className=" text-base">設定</p>

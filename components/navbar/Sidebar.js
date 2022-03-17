@@ -8,12 +8,14 @@ import {
 
 const Sidebar = ({ retractable }) => {
     const tags = ['教育', '娛樂', '媒體', '科技'];
+    const commonStyles =
+        'absolute top-14 left-0 hidden h-[calc(100vh-56px)] flex-shrink-0 flex-col overflow-x-hidden rounded-r-[32px] border-neutral-800 bg-white transition-width duration-500 ease-out lg:flex';
     //['娛樂', '環境', '司法', '國家發展', '經濟', '少數族群', '媒體', '醫藥', '道德', '政治', '教育', '家庭', '女性', '自由', '宗教', '科技', '社會政策', '社會運動', '體育'];
 
     if (retractable) {
         return (
             <div
-                className={`group absolute top-14 left-0 hidden h-[calc(100vh-56px)] w-20 flex-shrink-0 flex-col overflow-x-hidden rounded-r-[32px] bg-neutral-50 transition-width duration-500 ease-out hover:w-64 hover:drop-shadow-xl lg:flex`}
+                className={`group ${commonStyles} w-20 hover:w-64 hover:drop-shadow-xl lg:flex`}
             >
                 <div className="h-6" />
                 <div className="w-full">
@@ -70,9 +72,7 @@ const Sidebar = ({ retractable }) => {
         );
     } else {
         return (
-            <div
-                className={`absolute top-14 left-0 hidden h-[calc(100vh-56px)] w-64 flex-shrink-0 flex-col overflow-x-hidden rounded-r-[32px] bg-neutral-50 transition-width duration-500 ease-out lg:flex`}
-            >
+            <div className={`${commonStyles} w-64`}>
                 <div className="h-6" />
                 <div className="w-full">
                     <ul className="mx-auto pl-7 text-primary-900">
