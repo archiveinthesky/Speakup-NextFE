@@ -4,7 +4,7 @@ const Pagebar = ({ maxPage, url, selected }) => {
     console.log(selected);
 
     return (
-        <div className="mx-12 flex flex-wrap gap-3">
+        <div className="mx-7 flex flex-wrap gap-3 md:mx-12">
             {[...Array(maxPage).keys()].map((i) => {
                 return (
                     <Link href={url(i + 1)} key={i}>

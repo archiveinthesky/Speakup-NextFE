@@ -11,9 +11,9 @@ const WideNavCard = ({ cardContent, showDetails }) => {
     return (
         <Link href={`/discussions/${cardContent.boardId}`}>
             <div className="flex w-full cursor-pointer justify-between overflow-hidden rounded-2xl bg-neutral-50 pr-4 md:pr-7">
-                <div className="w-20 flex-shrink-0 bg-primary-700 md:w-24"></div>
+                <div className="w-[4.5rem] flex-shrink-0 bg-primary-700  md:w-24"></div>
                 <div className="h-full flex-grow px-4 py-3">
-                    <h3 className="text-xl text-primary-800">
+                    <h3 className=" text-lg text-primary-800 md:text-xl">
                         {cardContent.title}
                     </h3>
                     <p className="mt-1 h-[72px] text-ellipsis text-primary-600 line-clamp-3">

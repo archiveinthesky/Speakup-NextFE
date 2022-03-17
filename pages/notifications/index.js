@@ -17,10 +17,10 @@ const NotificationMenu = () => {
     }, []);
 
     return (
-        <div className="h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
+        <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
             <Header />
             <Footbar />
-            <div className=" mx-11 mt-24 md:mx-20 md:mt-32 md:mb-24">
+            <div className=" mx-6 mt-20 bg-white px-5 pt-6 md:mx-20 md:mt-32 md:mb-2">
                 <h2 className="text-2xl text-primary-700 md:text-3xl">
                     您的通知
                 </h2>

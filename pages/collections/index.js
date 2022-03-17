@@ -30,12 +30,12 @@ const Collections = ({ discussionContent }) => {
     }, [router.query]);
 
     return (
-        <div className="h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
+        <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
             <Header />
             <Sidebar retractable={false} />
             <Footbar />
             <div className="flex h-screen w-full flex-col items-center pt-14 lg:ml-64 lg:w-[calc(100%-16rem)]">
-                <div className="mt-16 w-[calc(100%-96px)] max-w-3xl md:w-[calc(100%-160px)] ">
+                <div className="mt-10 w-[calc(100%-72px)] max-w-3xl md:w-[calc(100%-160px)] ">
                     <h1 className="text-3xl text-primary-700">
                         想翻個有興趣的議題？沒問題
                     </h1>

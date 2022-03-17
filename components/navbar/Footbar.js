@@ -25,12 +25,12 @@ const Footbar = () => {
                     <BookmarkIcon className="h-8 w-8" />
                 </a>
             </Link>
-            <Link href="/home">
+            <Link href="/notifications">
                 <a>
                     <BellIcon className="h-8 w-8" />
                 </a>
             </Link>
-            <Link href="/home">
+            <Link href="/settings">
                 <a>
                     <UserCircleIcon className="h-8 w-8" />
                 </a>

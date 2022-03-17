@@ -35,13 +35,13 @@ const SearchResults = ({ discussionContent }) => {
     }, [router.query]);
 
     return (
-        <div className="h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
+        <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
             <Header />
             <Sidebar retractable={false} />
             <Footbar />
             <div className="flex h-screen w-full flex-col items-center pt-14 lg:ml-64 lg:w-[calc(100%-16rem)]">
-                <div className="mt-16 w-[calc(100%-96px)] max-w-3xl md:w-[calc(100%-160px)] ">
-                    <h1 className="text-3xl text-primary-700">
+                <div className="mt-10 w-[calc(100%-56px)] max-w-3xl md:mt-16 md:w-[calc(100%-160px)] ">
+                    <h1 className="text-2xl text-primary-700 md:text-3xl">
                         以下為{searchTerm}的搜尋結果
                     </h1>
                     <div className="mt-8 flex flex-col gap-6">
