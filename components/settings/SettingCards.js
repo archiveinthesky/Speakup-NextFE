@@ -6,7 +6,7 @@ const styles = {
     input: 'h-11 w-full max-w-sm rounded-sm border border-neutral-200 py-2 px-4 text-lg text-neutral-600 focus:outline-none',
     date: 'h-11 w-48 rounded-sm border border-neutral-200 py-2 px-4 text-lg text-neutral-600 focus:outline-none',
     button: 'flex h-11 w-20 items-center justify-center rounded-md bg-primary-800 text-white focus:outline-none',
-    p: 'text-right text-lg leading-[44px] text-neutral-800',
+    p: 'text-left md:text-right text-lg leading-[44px] text-neutral-800',
 };
 
 const BasicSettingsCard = ({ initValues }) => {
@@ -41,7 +41,7 @@ const BasicSettingsCard = ({ initValues }) => {
 
     return (
         <div className=" w-full bg-white pb-10">
-            <div className="mx-16 flex items-center justify-between py-5">
+            <div className="mx-6 flex items-center justify-between py-5 md:mx-16">
                 <h1 className=" text-2xl text-neutral-800 ">基本資料</h1>
                 {changed && (
                     <button
@@ -53,7 +53,7 @@ const BasicSettingsCard = ({ initValues }) => {
                 )}
             </div>
             <hr className=" mb-6 border-t-2" />
-            <div className="grid grid-cols-[4fr,6fr] gap-8 text-right ">
+            <div className="flex flex-col gap-8 px-6 text-left md:grid md:grid-cols-[4fr,6fr] md:text-right">
                 <p className={styles.p}>您的姓名</p>
                 <div className="text-left">
                     <input
@@ -167,9 +167,11 @@ const NotificationSettingsCard = () => {
 
     return (
         <div className=" w-full bg-white pb-10">
-            <h1 className=" mx-16 py-5 text-2xl text-neutral-800">通知設定</h1>
+            <h1 className="mx-6 py-5 text-2xl text-neutral-800 md:mx-16">
+                通知設定
+            </h1>
             <hr className=" mb-6 border-t-2" />
-            <div className="grid grid-cols-[4fr,6fr] items-center gap-8 text-right">
+            <div className="flex flex-col gap-8 px-6 text-left md:grid md:grid-cols-[4fr,6fr] md:text-right">
                 <p className={styles.p}>檢舉結果通知</p>
                 <Switch
                     checked={reported}
