@@ -5,9 +5,7 @@ import {
     UserCircleIcon,
 } from '@heroicons/react/outline';
 
-const WideNavCard = ({ cardContent, showDetails }) => {
-    console.table(cardContent);
-
+const NavCard = ({ cardContent, showDetails }) => {
     return (
         <Link href={`/discussions/${cardContent.boardId}`}>
             <div className="flex w-full cursor-pointer justify-between overflow-hidden rounded-2xl bg-neutral-50 pr-4 md:pr-7">
@@ -43,4 +41,4 @@ const WideNavCard = ({ cardContent, showDetails }) => {
     );
 };
 
-export default WideNavCard;
+export default NavCard;

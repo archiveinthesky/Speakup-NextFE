@@ -9,7 +9,7 @@ import {
 const Sidebar = ({ retractable }) => {
     const tags = ['教育', '娛樂', '媒體', '科技'];
     const commonStyles =
-        'absolute top-14 left-0 hidden h-[calc(100vh-56px)] flex-shrink-0 flex-col overflow-x-hidden rounded-r-[32px] border-neutral-800 bg-white transition-width duration-500 ease-out lg:flex';
+        'fixed top-14 left-0 hidden h-[calc(100vh-56px)] flex-shrink-0 flex-col overflow-x-hidden rounded-r-[32px] border-neutral-800 bg-white transition-width duration-500 ease-out lg:flex';
     //['娛樂', '環境', '司法', '國家發展', '經濟', '少數族群', '媒體', '醫藥', '道德', '政治', '教育', '家庭', '女性', '自由', '宗教', '科技', '社會政策', '社會運動', '體育'];
 
     if (retractable) {
@@ -28,7 +28,7 @@ const Sidebar = ({ retractable }) => {
                                 </p>
                             </li>
                         </Link>
-                        <Link href="/search?tags=封測議題">
+                        <Link href="/search/results?searchterm=封測議題">
                             <li className="flex cursor-pointer list-none gap-4 py-3">
                                 <TrendingUpIcon className="w-7 flex-shrink-0" />
                                 <p className=" whitespace-nowrap text-xl leading-8 text-transparent group-hover:text-primary-900">
@@ -50,7 +50,7 @@ const Sidebar = ({ retractable }) => {
                     <div className="py-3">
                         <hr className="mx-auto w-5/6 border-t-2 border-gray-300" />
                     </div>
-                    <ul className="h-full list-none overflow-y-auto overflow-x-hidden pl-20">
+                    <ul className="h-full list-none overflow-y-auto pl-20 overflow-x-hidden">
                         {tags.map((tag, i) => {
                             return (
                                 <Link
@@ -84,7 +84,7 @@ const Sidebar = ({ retractable }) => {
                                 </p>
                             </li>
                         </Link>
-                        <Link href="/search?tags=封測議題">
+                        <Link href="/search/results?searchterm=封測議題">
                             <li className="flex cursor-pointer list-none gap-4 py-3">
                                 <TrendingUpIcon className="w-7 flex-shrink-0" />
                                 <p className=" whitespace-nowrap text-xl leading-8 text-primary-900">
@@ -106,7 +106,7 @@ const Sidebar = ({ retractable }) => {
                     <div className="py-3">
                         <hr className="mx-auto w-5/6 border-t-2 border-gray-300" />
                     </div>
-                    <ul className="h-full list-none overflow-y-auto overflow-x-hidden pl-20">
+                    <ul className="h-full list-none overflow-y-auto pl-20 overflow-x-hidden">
                         {tags.map((tag, i) => {
                             return (
                                 <Link

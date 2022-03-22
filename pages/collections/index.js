@@ -30,7 +30,7 @@ const Collections = ({ discussionContent }) => {
     }, [router.query]);
 
     return (
-        <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
+        <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100 scrollbar-hide overflow-x-hidden">
             <Header />
             <Sidebar retractable={false} />
             <Footbar />
@@ -41,7 +41,7 @@ const Collections = ({ discussionContent }) => {
                     </h1>
                     <div className="gap2 mt-8 flex flex-col gap-8">
                         {collections.map((dayContent, i) => (
-                            <div>
+                            <div key={i}>
                                 <h3 className=" text-2xl text-primary-700">{`${dayContent.date.substring(
                                     0,
                                     2
