@@ -5,23 +5,23 @@ import {
     NotificationSettingsCard,
 } from '../../components/settings/SettingCards';
 
+import Sidebar from '../../components/navbar/Sidebar';
+
+import dayjs from 'dayjs';
+
 const Settings = () => {
     return (
         <div className="fixed top-0 left-0 h-screen w-screen overflow-y-scroll bg-neutral-50">
             <Header />
+            <Sidebar />
             <Footbar />
-            <div className="w-full px-6 md:px-10">
-                <div className="mx-auto flex max-w-7xl flex-grow-0 flex-col gap-10 pt-20 md:pt-[136px]">
-                    <div className="bg-white py-6">
-                        <h1 className=" mx-6 text-2xl text-neutral-800 md:mx-16">
-                            Speakup使用者設定調整
-                        </h1>
-                    </div>
+            <div className="w-full px-6 md:px-10 lg:py-6 lg:pl-72">
+                <div className="mx-auto flex max-w-7xl flex-grow-0 flex-col gap-10 pt-20 md:pt-24">
                     <BasicSettingsCard
                         initValues={{
                             name: '櫻島麻衣',
                             username: 'sakura_mai',
-                            birthday: '2004-12-02',
+                            birthday: dayjs().subtract(13, 'year').toDate(),
                             email: 'wakeup@reality.truth',
                         }}
                     />
