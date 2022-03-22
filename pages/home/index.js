@@ -1,5 +1,4 @@
 import { SearchCircleIcon } from '@heroicons/react/outline';
-import { useState, useEffect } from 'react';
 
 import Header from '../../components/header/Header';
 import Footbar from '../../components/navbar/Footbar';
@@ -23,7 +22,7 @@ const UserHome = ({ data }) => {
                                 {track.name}
                             </h2>
                             <div className="flex ">
-                                <div className="mt-6 flex gap-9 overflow-x-scroll pb-2">
+                                <div className="3 mt-6 flex gap-9 overflow-x-auto pb-3.5 scrollbar-thin scrollbar-track-neutral-100 scrollbar-thumb-neutral-500">
                                     {track.cards.map((card, i) => (
                                         <div
                                             className="w-96 flex-shrink-0 "
