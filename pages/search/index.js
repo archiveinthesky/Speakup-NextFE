@@ -25,8 +25,8 @@ const SearchMenu = () => {
             <Header />
             <Sidebar />
             <Footbar />
-            <div className="ml-64">
-                <div className="mx-auto  mt-14 max-w-3xl bg-gray-50 px-3 py-5 md:mt-[20vh]">
+            <div className="lg:ml-64">
+                <div className="mx-auto mt-14 max-w-3xl bg-gray-50 px-3 py-5 md:mt-[20vh]">
                     <form
                         className="flex  h-8 items-center lg:h-14"
                         onSubmit={formSubmit}
