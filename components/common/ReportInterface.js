@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const ReportInterface = ({ title, options, submitFunction, closeFunction }) => {
     const [displayTitle, setDisplayTitle] = useState(title);

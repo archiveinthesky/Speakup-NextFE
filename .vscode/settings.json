@@ -3,7 +3,6 @@
     ".DS_Store": true,
     // ".env.local": true,
     // ".env.production": true,
-    ".eslintrc.js": true,
     ".git": true,
     ".gitattributes": true,
     ".gitignore": true,

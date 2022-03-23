@@ -1,3 +1,4 @@
+import React from 'react';
 import { UserCircleIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 

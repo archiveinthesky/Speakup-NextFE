@@ -1,3 +1,4 @@
+import React from 'react';
 import { ChevronDownIcon, SearchCircleIcon } from '@heroicons/react/outline';
 import { useState, useEffect } from 'react';
 

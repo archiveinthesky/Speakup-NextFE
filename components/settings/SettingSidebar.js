@@ -1,10 +1,11 @@
+import React from 'react';
 import {
     CogIcon,
     BellIcon,
     InformationCircleIcon,
 } from '@heroicons/react/outline';
 
-const SettingsSidebar = ({}) => {
+const SettingsSidebar = () => {
     return (
         <div className="fixed top-14 left-0 hidden h-[calc(100vh-56px)] w-64 flex-shrink-0 flex-col rounded-r-[32px] border-neutral-800 bg-white transition-width duration-500 ease-out overflow-x-hidden lg:flex">
             <div className="h-6" />

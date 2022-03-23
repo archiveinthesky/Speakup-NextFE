@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import AccountOptions from './AccountOptions';
 import NotificationButton from './Notifications';
 
-import { ArrowLeftIcon, SearchIcon } from '@heroicons/react/outline';
+import { SearchIcon } from '@heroicons/react/outline';
 
-const Header = ({ accprofile = null }) => {
+const Header = () => {
     const router = useRouter();
 
     const searchSubmit = (e) => {

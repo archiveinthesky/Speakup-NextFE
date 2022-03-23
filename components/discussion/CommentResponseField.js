@@ -1,3 +1,4 @@
+import React from 'react';
 import { ReplyIcon } from '@heroicons/react/outline';
 import CommentCard from './CommentCard';
 

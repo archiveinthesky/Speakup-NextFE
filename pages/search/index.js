@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { SearchIcon } from '@heroicons/react/outline';
 import Header from '../../components/header/Header';

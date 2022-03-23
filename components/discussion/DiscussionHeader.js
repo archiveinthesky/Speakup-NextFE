@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { BookmarkIcon, FlagIcon } from '@heroicons/react/outline';

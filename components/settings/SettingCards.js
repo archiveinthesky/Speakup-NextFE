@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 
@@ -138,7 +139,7 @@ const BasicSettingsCard = ({ initValues }) => {
                         multiple={false}
                         maxSize={5 * 1024 ** 2}
                     >
-                        {(status) => {
+                        {() => {
                             return (
                                 <div className=" flex items-center justify-center gap-4">
                                     <PhotographIcon className="h-16 w-16" />
