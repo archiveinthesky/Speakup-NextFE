@@ -24,7 +24,7 @@ const SearchResults = ({ discussionContent }) => {
                 setOnPage(router.query.onpage);
                 console.log(onPage);
             } else console.log(router.query);
-            fetch('http://localhost:5500/searchresults').then(
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/searchresults`).then(
                 async (response) => {
                     let res = await response.json();
                     setSearchResults(res.results);
@@ -35,7 +35,7 @@ const SearchResults = ({ discussionContent }) => {
     }, [router.query]);
 
     return (
-        <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
+        <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100 scrollbar-hide overflow-x-hidden">
             <Header />
             <Sidebar retractable={false} />
             <Footbar />

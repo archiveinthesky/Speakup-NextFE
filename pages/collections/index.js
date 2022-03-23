@@ -19,7 +19,7 @@ const Collections = ({ discussionContent }) => {
                 setOnPage(router.query.onpage);
                 console.log(onPage);
             }
-            fetch('http://localhost:5500/collections').then(
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/collections`).then(
                 async (response) => {
                     let res = await response.json();
                     setCollections(res.collections);

@@ -40,10 +40,12 @@ const NotificationButton = () => {
     const [newNotifications, setNewNotifications] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5500/notifications').then(async (response) => {
-            let res = await response.json();
-            setNotifications(res);
-        });
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notifications`).then(
+            async (response) => {
+                let res = await response.json();
+                setNotifications(res);
+            }
+        );
     }, []);
 
     const readNotifications = () => {

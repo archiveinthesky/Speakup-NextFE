@@ -102,7 +102,7 @@ const UserHome = ({ data }) => {
 export default UserHome;
 
 export async function getServerSideProps() {
-    const res = await fetch('http://localhost:5500/home');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/home`);
     const data = await res.json();
 
     return { props: { data } };
