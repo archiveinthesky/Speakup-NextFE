@@ -74,7 +74,7 @@ const SignUp = () => {
                             console.log(res);
                             if (response.status === 201) {
                                 localStorage.setItem(
-                                    'Authorization',
+                                    'AuthToken',
                                     `Token ${res.Token}`
                                 );
                                 window.location.href = '/home';
