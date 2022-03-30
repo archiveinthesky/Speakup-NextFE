@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
-// import './Styles/discussion.css'
 import Header from '../../components/header/Header';
 import Sidebar from '../../components/navbar/Sidebar';
 import Footbar from '../../components/navbar/Footbar';
@@ -105,8 +104,13 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/isr/boards`
+    );
+    const paths = await res.json();
+
     return {
-        paths: [{ params: { boardId: '1' } }],
+        paths: paths,
         fallback: true,
     };
 }

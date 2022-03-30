@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SearchIcon } from '@heroicons/react/outline';
 import Header from '../../components/header/Header';
 import Sidebar from '../../components/navbar/Sidebar';
