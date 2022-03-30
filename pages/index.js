@@ -12,11 +12,13 @@ export default function Home() {
                     {/* <a href="/about">
                         <p className="text-lg">關於我們</p>
                     </a> */}
-                    <div className="hidden h-12 rounded-2xl bg-aqua-600 px-4 lg:block">
-                        <p className="text-center leading-[48px] text-white">
-                            開始使用
-                        </p>
-                    </div>
+                    <Link href="/signup">
+                        <div className="hidden h-12 cursor-pointer rounded-2xl bg-aqua-600 px-4 lg:block">
+                            <p className="text-center leading-[48px] text-white">
+                                開始使用
+                            </p>
+                        </div>
+                    </Link>
                 </div>
             </div>
             <div className="relative mt-20 h-[30vw] w-full">
@@ -57,10 +59,14 @@ export default function Home() {
                         每個人的聲音都該被聽到
                     </p>
                     <div className=" h-10"></div>
-                    <button className=" mx-auto flex h-20 w-60 items-center justify-around rounded-[48px] bg-aqua-600 px-6">
-                        <p className=" text-4xl text-white">加入討論</p>
-                        <ChevronRightIcon className="h-11 w-11 text-white" />
-                    </button>
+                    <Link href="/signup">
+                        <div>
+                            <div className=" mx-auto flex h-20 w-60 cursor-pointer items-center justify-around rounded-[48px] bg-aqua-600 px-6">
+                                <p className=" text-4xl text-white">加入討論</p>
+                            </div>
+                            <ChevronRightIcon className="h-11 w-11 text-white" />
+                        </div>
+                    </Link>
                     <div className="h-20 lg:h-40"></div>
                 </div>
                 <div className="w-screen bg-aqua-50 py-16">
@@ -105,8 +111,8 @@ export default function Home() {
                             <br />
                             馬上開始討論吧
                         </h1>
-                        <Link className="my-auto" href="/signup">
-                            <div className="flex h-16 w-44 items-center justify-center rounded-[40px] bg-white text-2xl hover:drop-shadow-md lg:text-4xl xl:h-20 xl:w-52">
+                        <Link href="/signup">
+                            <div className="flex h-16 w-44 cursor-pointer items-center justify-center rounded-[40px] bg-white text-2xl hover:drop-shadow-md lg:text-3xl xl:h-20 xl:w-52 xl:text-4xl">
                                 開始使用
                             </div>
                         </Link>
