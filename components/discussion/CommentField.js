@@ -17,7 +17,7 @@ import {
 
 import { cloneDeep } from 'lodash';
 
-const CommentField = ({ boardId, onSide }) => {
+const CommentField = ({ boardId, onSide, sortMethod }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [comments, setComments] = useState([]);
     const [userComments, setUserComments] = useState([]);
@@ -30,7 +30,14 @@ const CommentField = ({ boardId, onSide }) => {
     const fetchComments = useCallback(async (start, end) => {
         if (canFetchMoreCmt) {
             setIsLoading(true);
-            let response = await getComments(start, end, boardId, onSide);
+            let SortMethod = [null, 'time', 'replies'][sortMethod - 1];
+            let response = await getComments(
+                boardId,
+                onSide,
+                start,
+                end,
+                SortMethod
+            );
             let cmtarray = [];
             let canfetchmorecmt = true;
             for (let i in response) {
@@ -163,8 +170,11 @@ const CommentField = ({ boardId, onSide }) => {
     };
 
     useEffect(() => {
+        setComments([]);
+        setUserComments([]);
+        setFurthestCmt(0);
         fetchComments(1, 10, false);
-    }, [onSide]);
+    }, [onSide, sortMethod]);
 
     useEffect(() => {
         if (entry !== undefined) {

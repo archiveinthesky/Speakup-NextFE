@@ -10,6 +10,7 @@ import {
     ReplyIcon,
 } from '@heroicons/react/outline';
 import { TrashIcon } from '@heroicons/react/outline';
+import { Popover } from '@mantine/core';
 
 const CommentCard = forwardRef(
     (
@@ -96,11 +97,9 @@ const CommentCard = forwardRef(
         const deleteComment = () => {
             let onside = ['sup', 'all', 'agn'][onSide];
             fetch(
-                `${
-                    process.env.NEXT_PUBLIC_BACKEND_URL
-                }/api/comments/delete/${boardId}/${onside}${
-                    motherComment !== null ? '/' + motherComment : ''
-                }/${cmtdata.id}`,
+                motherComment === null
+                    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/${boardId}/${onside}/${cmtdata.id}`
+                    : `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/replies/${boardId}/${motherComment}/${cmtdata.id}`,
                 {
                     method: 'DELETE',
                     headers: {
@@ -116,66 +115,54 @@ const CommentCard = forwardRef(
 
         const ExtendedMenu = () => {
             return (
-                <span
-                    className="absolute top-0 left-0 h-screen w-screen"
-                    onClick={() => {
-                        setShowExtendedMenu(false);
-                    }}
-                >
-                    <div
-                        className="absolute flex flex-col"
-                        style={{
-                            top:
-                                cardmenu.current.getBoundingClientRect().y + 35,
-                            right:
-                                window.innerWidth -
-                                cardmenu.current.getBoundingClientRect().x -
-                                15,
+                <div className="flex flex-col">
+                    <button
+                        className="px-4 py-2 filter transition-colors duration-200 hover:bg-neutral-50"
+                        onClick={() => {
+                            setShowReportMenu(true);
+                            setShowExtendedMenu(false);
                         }}
                     >
+                        <FlagIcon className="inline h-6 w-6 text-primary-700" />
+                        <h3 className="inline pl-1 text-sm text-primary-700">
+                            檢舉
+                        </h3>
+                    </button>
+
+                    {cmtdata.isOwner && (
                         <button
-                            className=" z-10 bg-gray-50 px-4 py-2 drop-shadow-md filter transition-colors duration-200 hover:bg-neutral-50"
+                            className=" px-4 py-2 filter transition-colors duration-200 hover:bg-neutral-50"
                             onClick={() => {
-                                setShowReportMenu(true);
+                                setShowExtendedMenu(false);
+                                deleteComment();
                             }}
                         >
-                            <FlagIcon className="inline h-6 w-6 text-primary-700" />
+                            <TrashIcon className="inline h-6 w-6 text-primary-700" />
                             <h3 className="inline pl-1 text-sm text-primary-700">
-                                檢舉
+                                刪除
                             </h3>
                         </button>
+                    )}
 
-                        {cmtdata.isOwner && (
-                            <button
-                                className=" z-10 bg-gray-50 px-4 py-2 drop-shadow-md filter transition-colors duration-200 hover:bg-neutral-50"
-                                onClick={deleteComment}
-                            >
-                                <TrashIcon className="inline h-6 w-6 text-primary-700" />
-                                <h3 className="inline pl-1 text-sm text-primary-700">
-                                    刪除
-                                </h3>
-                            </button>
-                        )}
-
-                        {motherComment === null && (
-                            <button
-                                className="visible z-10 bg-white px-4 py-2 drop-shadow-md filter transition-colors duration-200 hover:bg-gray-200 2xl:hidden"
-                                onClick={() => {
-                                    setShowReplyBox(!showReplyBox);
-                                }}
-                            >
-                                {showReplyBox ? (
-                                    <XIcon className="inline h-7 w-7" />
-                                ) : (
-                                    <ReplyIcon className="inline h-7 w-7" />
-                                )}
-                                <h3 className="inline pl-1 text-gray-400">
-                                    {showReplyBox ? '取消' : '回覆'}
-                                </h3>
-                            </button>
-                        )}
-                    </div>
-                </span>
+                    {motherComment === null && (
+                        <button
+                            className="px-4 py-2 text-primary-700  filter transition-colors duration-200 hover:bg-gray-200 2xl:hidden"
+                            onClick={() => {
+                                setShowExtendedMenu(false);
+                                setShowReplyBox(!showReplyBox);
+                            }}
+                        >
+                            {showReplyBox ? (
+                                <XIcon className="inline h-6 w-6" />
+                            ) : (
+                                <ReplyIcon className="inline h-6 w-6" />
+                            )}
+                            <h3 className="inline pl-1 text-sm">
+                                {showReplyBox ? '取消' : '回覆'}
+                            </h3>
+                        </button>
+                    )}
+                </div>
             );
         };
 
@@ -209,7 +196,7 @@ const CommentCard = forwardRef(
             };
 
             return (
-                <div className="ml-10 mb-2 flex w-11/12 items-center overflow-x-hidden pt-1">
+                <div className="ml-10 mb-2 flex w-11/12 items-center pt-1 overflow-x-hidden">
                     <div
                         className={`w-full flex-grow-0 rounded-3xl border-2 border-neutral-400 py-1.5 pl-5 pr-10 text-sm`}
                         contentEditable={true}
@@ -377,16 +364,28 @@ const CommentCard = forwardRef(
                             </div>
 
                             <div>
-                                <button
-                                    className="text-3xl"
-                                    onClick={() => {
-                                        setShowExtendedMenu(true);
+                                <Popover
+                                    opened={showExtendedMenu}
+                                    onClose={() => {
+                                        setShowExtendedMenu(false);
                                     }}
-                                    ref={cardmenu}
+                                    target={
+                                        <button
+                                            className="text-3xl"
+                                            onClick={() => {
+                                                setShowExtendedMenu(true);
+                                            }}
+                                            ref={cardmenu}
+                                            width={58}
+                                        >
+                                            <DotsVerticalIcon className="h-6 w-6 text-neutral-500" />
+                                        </button>
+                                    }
+                                    spacing={0}
+                                    position="bottom"
                                 >
-                                    <DotsVerticalIcon className="h-6 w-6 text-neutral-500" />
-                                </button>
-                                {showExtendedMenu && <ExtendedMenu />}
+                                    <ExtendedMenu />
+                                </Popover>
                             </div>
                         </div>
 
