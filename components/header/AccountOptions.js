@@ -10,7 +10,7 @@ import {
 
 const AccountOptions = () => {
     const logout = () => {
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/logout/`, {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/logout`, {
             method: 'POST',
             headers: {
                 Authorization: localStorage.getItem('AuthToken'),

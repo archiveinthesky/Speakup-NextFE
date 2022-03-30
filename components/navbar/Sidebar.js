@@ -55,7 +55,7 @@ const Sidebar = ({ retractable }) => {
                         {tags.map((tag, i) => {
                             return (
                                 <Link
-                                    href={`/search?tags=${tag}`}
+                                    href={`/search/results?searchterm=@${tag}`}
                                     key={`link${i}`}
                                 >
                                     <li
@@ -111,7 +111,7 @@ const Sidebar = ({ retractable }) => {
                         {tags.map((tag, i) => {
                             return (
                                 <Link
-                                    href={`/search?tags=${tag}`}
+                                    href={`/search/results?searchterm=@${tag}`}
                                     key={`link${i}`}
                                 >
                                     <li

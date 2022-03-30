@@ -11,12 +11,12 @@ const NotificationMenu = () => {
         if (window.innerWidth > 1024) {
             window.location.replace('/home');
         }
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notifications`).then(
-            async (response) => {
-                let res = await response.json();
-                setNotifications(res);
-            }
-        );
+        // fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/notifications`).then(
+        //     async (response) => {
+        //         let res = await response.json();
+        //         setNotifications(res);
+        //     }
+        // );
     }, []);
 
     return (

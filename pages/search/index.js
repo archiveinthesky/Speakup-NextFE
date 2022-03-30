@@ -54,7 +54,7 @@ const SearchMenu = () => {
                                     key={i}
                                     className="rounded-3xl bg-neutral-100 px-4 py-2 text-neutral-800"
                                     onClick={() => {
-                                        window.location.href = `/search/results?searchterm=#${tag}`;
+                                        window.location.href = `/search/results?searchterm=@${tag}`;
                                     }}
                                 >
                                     <p className="my-auto text-sm lg:text-lg">

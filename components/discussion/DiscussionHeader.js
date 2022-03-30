@@ -46,7 +46,10 @@ const DiscussionHeader = ({ pagedata }) => {
                 </div>
                 <div className="flex flex-wrap justify-start gap-4">
                     {pagedata.tags.map((tag, i) => (
-                        <Link href={`/search?tags=${tag}`} key={i}>
+                        <Link
+                            href={`/search/results?searchterm=@${tag}`}
+                            key={i}
+                        >
                             <div className="flex h-8 flex-shrink-0 cursor-pointer items-center rounded-2xl border-[1.5px] border-neutral-400 px-4">
                                 <p className="text-center text-sm text-neutral-500">{`#${tag}`}</p>
                             </div>

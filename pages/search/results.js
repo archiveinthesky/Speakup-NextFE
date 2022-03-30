@@ -21,17 +21,27 @@ const SearchResults = ({ discussionContent }) => {
                 window.location.href = '/search';
             }
             setSearchTerm(router.query.searchterm);
+            console.log(router.query);
             if (router.query.onpage !== undefined) {
                 setOnPage(router.query.onpage);
                 console.log(onPage);
             } else console.log(router.query);
-            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/searchresults`).then(
-                async (response) => {
-                    let res = await response.json();
-                    setSearchResults(res.results);
-                    setMaxPage(res.pages);
-                }
-            );
+            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/search`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('AuthToken'),
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    searchterm: router.query.searchterm,
+                }),
+            }).then(async (response) => {
+                let res = await response.json();
+                console.log(res);
+                setSearchResults(res.results);
+                setMaxPage(res.pages);
+            });
         }
     }, [router.query]);
 
@@ -43,7 +53,9 @@ const SearchResults = ({ discussionContent }) => {
             <div className="flex h-screen w-full flex-col items-center pt-14 lg:ml-64 lg:w-[calc(100%-16rem)]">
                 <div className="mt-10 w-[calc(100%-56px)] max-w-3xl md:mt-16 md:w-[calc(100%-160px)] ">
                     <h1 className="text-2xl text-primary-700 md:text-3xl">
-                        以下為{searchTerm}的搜尋結果
+                        {maxPage > 0
+                            ? `以下為${searchTerm}的搜尋結果`
+                            : `很抱歉，我們找不到符合${searchTerm}的結果`}
                     </h1>
                     <div className="mt-8 flex flex-col gap-6">
                         {searchResults.map((cardContent, i) => (

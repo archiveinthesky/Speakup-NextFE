@@ -5,11 +5,11 @@ import { useState, useEffect } from 'react';
 import Header from '../../components/header/Header';
 import Footbar from '../../components/navbar/Footbar';
 import Sidebar from '../../components/navbar/Sidebar';
-import NavCard from '../../components/navigation/NavCard';
 import HomeNavCard from '../../components/navigation/HomeNavCard';
 import Link from 'next/link';
 
 const UserHome = ({ data }) => {
+    console.log(data);
     const [homeVer, setHomeVer] = useState('mob');
 
     useEffect(() => {
@@ -36,12 +36,12 @@ const UserHome = ({ data }) => {
                 <div className="mt-[calc(max(30vh,208px))] mb-16 flex h-[calc(100vh-max(30vh,208px)-64px)] w-full flex-col gap-4 overflow-y-scroll px-12">
                     <h2 className="pt-6 text-xl">{data.tracks[0].name}</h2>
                     <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
-                        {data.tracks[0].cards.map((card, i) => (
+                        {data.tracks[0].cards?.map((card, i) => (
                             <HomeNavCard key={i} cardContent={card} />
                         ))}
                     </div>
                     <Link
-                        href={`/search/results?searchterm=${data.tracks[0].name}`}
+                        href={`/search/results?searchterm=${data.tracks[0].title}`}
                     >
                         <div className="cursor-pointer text-center">
                             <p>探索更多</p>
@@ -82,7 +82,7 @@ const UserHome = ({ data }) => {
                                     </div>
                                     <div className="flex w-20 flex-shrink-0 items-center justify-center">
                                         <a
-                                            href={`/search/results?searchterm=#${track.name}`}
+                                            href={`/search/results?searchterm=@${track.title}`}
                                             className=" w-10 rounded-full text-primary-700"
                                         >
                                             <SearchCircleIcon />
@@ -103,7 +103,9 @@ const UserHome = ({ data }) => {
 export default UserHome;
 
 export async function getServerSideProps() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/home`);
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/home`
+    );
     const data = await res.json();
 
     return { props: { data } };

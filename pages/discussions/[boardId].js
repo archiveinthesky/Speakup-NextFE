@@ -22,7 +22,7 @@ const MainBoard = ({ discussionContent }) => {
 
     if (discussionContent !== undefined)
         return (
-            <div className="h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
+            <div className="h-screen w-screen bg-neutral-100 scrollbar-hide overflow-x-hidden">
                 <Header />
                 <Sidebar retractable={true} />
                 <Footbar />
@@ -45,6 +45,7 @@ const MainBoard = ({ discussionContent }) => {
                                     key={i}
                                     boardId={discussionContent.boardId}
                                     onSide={commentFieldSide}
+                                    sortMethod={commentSort}
                                 />
                             ))}
                         </div>

@@ -24,6 +24,8 @@ const BasicSettingsCard = ({ initValues }) => {
     const [uploadPFPModal, setUploadPFPModal] = useState(false);
     const [selectedPFP, setSelectedPFP] = useState('');
     const [urlPFP, setUrlPFP] = useState('');
+    const [submitting, setSubmitting] = useState(false);
+    const [submitSuccess, setSubmitSuccess] = useState(false);
 
     const [pwdOverlay, setPwdOverlay] = useState(false);
 
@@ -42,18 +44,18 @@ const BasicSettingsCard = ({ initValues }) => {
 
         validate: {
             name: (val) =>
-                val.length >= 5 ? '名稱過長，建議您使用縮寫' : null,
+                val.length >= 50 ? '名稱過長，建議您使用縮寫' : null,
             username: (val) =>
                 (() => {
                     return val.length >= 20 ? '名稱過長' : null;
                 })(),
             birthday: null,
-            email: (val) =>
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-                    val
-                )
-                    ? null
-                    : '信箱格式錯誤',
+            // email: (val) =>
+            //     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            //         val
+            //     )
+            //         ? null
+            //         : '信箱格式錯誤',
         },
     });
 
@@ -76,16 +78,47 @@ const BasicSettingsCard = ({ initValues }) => {
         },
     });
 
+    const submitUserData = form.onSubmit((values) => {
+        console.log(values);
+        let vals = values;
+        let date = dayjs(values.birthday);
+        let month = date.month() + 1;
+        month = month < 10 ? `0${month}` : `${month}`;
+        let day = date.date();
+        day = day < 10 ? `0${day}` : `${day}`;
+        vals.birthday = `${dayjs().year()}-${month}-${day}`;
+        setSubmitting(true);
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/data`, {
+            method: 'POST',
+            headers: {
+                Authorization: localStorage.getItem('AuthToken'),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(vals),
+        }).then((response) => {
+            if (response.status === 409) {
+                form.setErrors({ username: '此使用者名稱已被使用' });
+            } else if (response.status == 200) setSubmitSuccess(true);
+            setSubmitting(false);
+        });
+    });
+
     return (
         <form
             className=" w-full bg-white pb-10"
-            onSubmit={form.onSubmit((values) => console.log(values))}
+            onSubmit={submitUserData}
+            id="dataform"
         >
             <div className="mx-6 flex items-center justify-between py-5 md:mx-16">
                 <h1 className=" text-2xl text-neutral-800 ">基本資料</h1>
                 <Button
                     className="flex h-10 w-20 items-center justify-center rounded-md bg-primary-600 text-white focus:outline-none disabled:bg-opacity-50"
                     type="submit"
+                    color={submitSuccess ? 'green' : 'blue'}
+                    loading={submitting}
+                    onMouseLeave={() => {
+                        setSubmitSuccess(false);
+                    }}
                 >
                     儲存
                 </Button>
@@ -94,7 +127,7 @@ const BasicSettingsCard = ({ initValues }) => {
             <div className="flex flex-col gap-4 px-6 text-left md:grid md:grid-cols-[4fr,6fr] md:items-center md:gap-y-5 ">
                 <p className={styles.p}>您的姓名</p>
                 <TextInput
-                    classNames={{ input: 'max-w-sm h-12 text-lg' }}
+                    classNames={{ input: 'max-w-sm h-10' }}
                     required
                     {...form.getInputProps('name')}
                 />
@@ -178,6 +211,33 @@ const BasicSettingsCard = ({ initValues }) => {
                             variant="filled"
                             className="bg-primary-600"
                             onClick={() => {
+                                let formData = new FormData();
+                                formData.append(
+                                    'file',
+                                    new Blob(selectedPFP, {
+                                        type: 'image/jpeg',
+                                    })
+                                );
+                                console.log(selectedPFP);
+                                console.log(typeof formData.get('file'));
+
+                                fetch(
+                                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/data/profileimg`,
+                                    {
+                                        method: 'POST',
+                                        headers: {
+                                            Authorization:
+                                                localStorage.getItem(
+                                                    'AuthToken'
+                                                ),
+                                            // 'Content-Type':
+                                            //     'multipart/form-data',
+                                        },
+                                        body: formData,
+                                    }
+                                ).then((response) => {
+                                    console.log(response);
+                                });
                                 setSelectedPFP('');
                                 setUrlPFP('');
                             }}
@@ -187,16 +247,21 @@ const BasicSettingsCard = ({ initValues }) => {
                     </Group>
                 </Modal>
 
-                <p className={styles.p}>您的電子郵件</p>
+                {/* <p className={styles.p}>您的電子郵件</p>
                 <TextInput
                     classNames={{ input: 'max-w-sm h-10' }}
                     {...form.getInputProps('email')}
-                />
+                /> */}
 
                 <p className={styles.p}>您的密碼</p>
                 <Button
                     className={styles.button}
                     onClick={() => {
+                        pwdForm.setValues({
+                            oldPwd: '',
+                            newPwd: '',
+                            valPwd: '',
+                        });
                         setPwdOverlay(true);
                     }}
                 >
@@ -211,10 +276,10 @@ const BasicSettingsCard = ({ initValues }) => {
                 >
                     <form
                         className="flex flex-col gap-4"
-                        onSubmit={pwdForm.onSubmit((values) => {
-                            console.log(values);
-                            setPwdOverlay(false);
-                        })}
+                        id="pwdform"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                        }}
                     >
                         <PasswordInput
                             placeholder="您原本的密碼"
@@ -248,7 +313,41 @@ const BasicSettingsCard = ({ initValues }) => {
                             <Button
                                 variant="filled"
                                 className="bg-primary-600"
-                                type="submit"
+                                onClick={pwdForm.onSubmit((values) => {
+                                    fetch(
+                                        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/data/pwd`,
+                                        {
+                                            method: 'PUT',
+                                            headers: {
+                                                Authorization:
+                                                    localStorage.getItem(
+                                                        'AuthToken'
+                                                    ),
+                                                'Content-Type':
+                                                    'application/json',
+                                                Accept: 'application/json',
+                                            },
+                                            body: JSON.stringify(values),
+                                        }
+                                    ).then(async (response) => {
+                                        let res;
+                                        try {
+                                            res = await response.json();
+                                            console.log(res);
+                                        } catch {}
+                                        if (response.status === 400) {
+                                            if (
+                                                res.error ===
+                                                'Old password incorrect'
+                                            )
+                                                pwdForm.setErrors({
+                                                    oldPwd: '密碼錯誤',
+                                                });
+                                        } else if (response.status === 200) {
+                                            setPwdOverlay(false);
+                                        }
+                                    });
+                                })}
                             >
                                 確定
                             </Button>

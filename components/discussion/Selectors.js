@@ -118,7 +118,7 @@ const IntegratedSideSelector = ({ changeSide }) => {
 };
 
 const CommentSort = ({ changeSortMethod }) => {
-    const [sortMethod, setSortMethod] = useState(0);
+    const [sortMethod, setSortMethod] = useState(1);
 
     return (
         <Menu
@@ -126,7 +126,7 @@ const CommentSort = ({ changeSortMethod }) => {
             className="relative inline-block justify-self-end text-left"
         >
             <Menu.Button className="justify-centera inline-flex w-full items-center rounded-3xl border border-neutral-200 bg-neutral-50 px-4 py-2 text-sm text-primary-800 shadow-sm hover:bg-gray-50">
-                <p>留言排序方式</p>
+                <p>{`依${['熱門度', '時間', '回覆數'][sortMethod - 1]}排序`}</p>
                 <ChevronDownIcon
                     className="-mr-1 ml-2 h-5 w-5"
                     aria-hidden="true"
@@ -142,7 +142,7 @@ const CommentSort = ({ changeSortMethod }) => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
             >
-                <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-neutral-50 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                         <Menu.Item>
                             {({ active }) => (
