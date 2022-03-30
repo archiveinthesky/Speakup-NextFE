@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -19,6 +19,12 @@ const MainBoard = ({ discussionContent }) => {
     const router = useRouter();
     const [commentFieldSide, setCommentFieldSide] = useState(1);
     const [commentSort, setCommentSort] = useState(0);
+
+    useEffect(() => {
+        if (!localStorage.getItem('AuthToken')) {
+            window.location.href = '/login';
+        }
+    }, []);
 
     if (discussionContent !== undefined)
         return (

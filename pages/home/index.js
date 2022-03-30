@@ -8,8 +8,27 @@ import Sidebar from '../../components/navbar/Sidebar';
 import HomeNavCard from '../../components/navigation/HomeNavCard';
 import Link from 'next/link';
 
-const UserHome = ({ data }) => {
-    console.log(data);
+const UserHome = ({}) => {
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        if (!localStorage.getItem('AuthToken')) {
+            window.location.href = '/login';
+        }
+    }, []);
+
+    useEffect(async () => {
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/home`, {
+            headers: {
+                Authorization: localStorage.getItem('AuthToken'),
+            },
+        }).then(async (response) => {
+            let res = await response.json();
+            setData(res);
+            console.log(res);
+        });
+    }, []);
+
     const [homeVer, setHomeVer] = useState('mob');
 
     useEffect(() => {
@@ -21,9 +40,9 @@ const UserHome = ({ data }) => {
         return () => {
             window.onresize = null;
         };
-    });
+    }, []);
 
-    if (homeVer === 'mob') {
+    if (data && homeVer === 'mob') {
         return (
             <div className=" fixed top-0 left-0 h-screen w-screen bg-white">
                 <Footbar />
@@ -52,7 +71,7 @@ const UserHome = ({ data }) => {
                 </div>
             </div>
         );
-    } else if (homeVer === 'des') {
+    } else if (data && homeVer === 'des') {
         return (
             <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100">
                 <Header />
@@ -102,11 +121,11 @@ const UserHome = ({ data }) => {
 
 export default UserHome;
 
-export async function getServerSideProps() {
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/home`
-    );
-    const data = await res.json();
+// export async function getServerSideProps() {
+//     const res = await fetch(
+//         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/home`
+//     );
+//     const data = await res.json();
 
-    return { props: { data } };
-}
+//     return { props: { data } };
+// }

@@ -8,6 +8,12 @@ import Footbar from '../../components/navbar/Footbar';
 const SearchMenu = () => {
     const [searchText, setSearchText] = useState('');
 
+    useEffect(() => {
+        if (!localStorage.getItem('AuthToken')) {
+            window.location.href = '/login';
+        }
+    }, []);
+
     //prettier-ignore
     const tags = [
         '娛樂','環境','司法','國家發展','經濟','少數族群','媒體','醫藥','道德','政治','教育','家庭','女性','自由','宗教','科技','社會政策','社會運動','體育',

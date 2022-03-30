@@ -16,6 +16,12 @@ const SearchResults = ({ discussionContent }) => {
     const [onPage, setOnPage] = useState(1);
 
     useEffect(() => {
+        if (!localStorage.getItem('AuthToken')) {
+            window.location.href = '/login';
+        }
+    }, []);
+
+    useEffect(() => {
         if (router.isReady) {
             if (router.query.searchterm === undefined) {
                 window.location.href = '/search';

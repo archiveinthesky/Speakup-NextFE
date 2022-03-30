@@ -8,6 +8,12 @@ const NotificationMenu = () => {
     const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {
+        if (!localStorage.getItem('AuthToken')) {
+            window.location.href = '/login';
+        }
+    }, []);
+
+    useEffect(() => {
         if (window.innerWidth > 1024) {
             window.location.replace('/home');
         }

@@ -59,7 +59,7 @@ const Login = () => {
                             console.log(res);
                             if (response.status === 200) {
                                 localStorage.setItem(
-                                    'Authorization',
+                                    'AuthToken',
                                     `Token ${res.Token}`
                                 );
                                 window.location.href = '/home';

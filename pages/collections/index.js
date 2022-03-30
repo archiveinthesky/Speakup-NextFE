@@ -15,6 +15,12 @@ const Collections = ({ discussionContent }) => {
     const [onPage, setOnPage] = useState(1);
 
     useEffect(() => {
+        if (!localStorage.getItem('AuthToken')) {
+            window.location.href = '/login';
+        }
+    }, []);
+
+    useEffect(() => {
         if (router.isReady) {
             if (router.query.onpage !== undefined) {
                 setOnPage(router.query.onpage);

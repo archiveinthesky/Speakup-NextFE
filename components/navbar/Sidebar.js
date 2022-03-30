@@ -29,11 +29,11 @@ const Sidebar = ({ retractable }) => {
                                 </p>
                             </li>
                         </Link>
-                        <Link href="/search/results?searchterm=封測議題">
+                        <Link href="/search/results?searchterm=@熱門議題">
                             <li className="flex cursor-pointer list-none gap-4 py-3">
                                 <TrendingUpIcon className="w-7 flex-shrink-0" />
                                 <p className=" whitespace-nowrap text-xl leading-8 text-transparent group-hover:text-primary-900">
-                                    封測議題
+                                    熱門議題
                                 </p>
                             </li>
                         </Link>
@@ -85,11 +85,11 @@ const Sidebar = ({ retractable }) => {
                                 </p>
                             </li>
                         </Link>
-                        <Link href="/search/results?searchterm=封測議題">
+                        <Link href="/search/results?searchterm=@熱門議題">
                             <li className="flex cursor-pointer list-none gap-4 py-3">
                                 <TrendingUpIcon className="w-7 flex-shrink-0" />
                                 <p className=" whitespace-nowrap text-xl leading-8 text-primary-900">
-                                    封測議題
+                                    熱門議題
                                 </p>
                             </li>
                         </Link>
