@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useQueryClient, useInfiniteQuery } from 'react-query';
 
 import CommentCard from './CommentCard';
 import CommentResponseField from './CommentResponseField';
@@ -18,56 +19,35 @@ import {
 import { cloneDeep } from 'lodash';
 
 const CommentField = ({ boardId, onSide, sortMethod }) => {
-    const [isLoading, setIsLoading] = useState(false);
     const [comments, setComments] = useState([]);
     const [userComments, setUserComments] = useState([]);
-    const [furthestCmt, setFurthestCmt] = useState(0);
-    const [canFetchMoreCmt, setCanFetchMoreCmt] = useState(true);
-    const [errorOccured, setErrorOccured] = useState(false);
 
-    const { ref: lastCardRef, inView: lastCardInView, entry } = useInView();
-
-    const fetchComments = useCallback(async (start, end) => {
-        if (canFetchMoreCmt) {
-            setIsLoading(true);
-            let SortMethod = [null, 'time', 'replies'][sortMethod - 1];
-            let response = await getComments(
+    const {
+        data: cmtQueryData,
+        error: cmtQueryError,
+        isLoading: cmtQueryLoading,
+        fetchNextPage: cmtQueryFetchNextPage,
+        hasNextPage: cmtQueryHasNextPage,
+        isFetching: cmtQueryFetching,
+    } = useInfiniteQuery(
+        'comments',
+        ({ pageParam = 1 }) =>
+            getComments(
                 boardId,
                 onSide,
-                start,
-                end,
-                SortMethod
-            );
-            let cmtarray = [];
-            let canfetchmorecmt = true;
-            for (let i in response) {
-                if (response[i] === false) {
-                    canfetchmorecmt = false;
-                } else {
-                    cmtarray.push({
-                        data: response[i],
-                        replies: {
-                            data: [],
-                            newReplies: [],
-                            latestServerReply: 0,
-                            hasReplies: response[i].cmtReplies,
-                        },
-                    });
-                }
-            }
-            setCanFetchMoreCmt(canfetchmorecmt);
-            setFurthestCmt(comments.length + cmtarray.length);
-            setIsLoading(false);
-            setComments([...comments, ...cmtarray]);
+                pageParam,
+                [(null, 'time', 'replies')][sortMethod - 1]
+            ),
+        {
+            getNextPageParam: (lastPage, pages) => {
+                return Math.ceil(lastPage[0].totalComments / 20) > pages.length
+                    ? pages.length + 1
+                    : undefined;
+            },
         }
-    });
+    );
 
-    const fetchMoreComments = useCallback(() => {
-        console.log(canFetchMoreCmt);
-        if (canFetchMoreCmt && !isLoading) {
-            fetchComments(furthestCmt + 1, furthestCmt + 10);
-        }
-    }, [canFetchMoreCmt, isLoading, furthestCmt, fetchComments]);
+    const { ref: lastCardRef, inView: lastCardInView, entry } = useInView();
 
     const fetchCommentReply = async (commentId) => {
         let cmtObject = [...userComments, ...comments][commentId];
@@ -170,19 +150,23 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
     };
 
     useEffect(() => {
-        setComments([]);
         setUserComments([]);
-        setFurthestCmt(0);
-        fetchComments(1, 10, false);
     }, [onSide, sortMethod]);
 
     useEffect(() => {
         if (entry !== undefined) {
-            if (entry.isIntersecting) {
-                fetchMoreComments();
+            if (
+                entry.isIntersecting &&
+                cmtQueryHasNextPage &&
+                !cmtQueryLoading
+            ) {
+                cmtQueryFetchNextPage();
+            } else {
+                console.log(cmtQueryHasNextPage);
+                console.log(cmtQueryLoading);
             }
         }
-    }, [lastCardInView, fetchMoreComments]);
+    }, [lastCardInView]);
 
     const addUserComment = (commentContent) => {
         console.log({
@@ -208,105 +192,118 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
         ]);
     };
 
+    if (cmtQueryError)
+        return (
+            <div className="mx-auto flex h-48 w-full rounded-xl bg-red-200 py-3">
+                <div className="m-auto">
+                    <h1 className="text-center text-3xl font-medium text-red-500">
+                        錯誤
+                    </h1>
+                    <p className="my-2 px-6 text-center text-xl text-red-500">
+                        {cmtQueryError}
+                    </p>
+                </div>
+            </div>
+        );
+
     return (
-        <>
-            {errorOccured === false ? (
-                <div className="bg-neutral-50">
-                    <div className="mx-auto mb-4 flex flex-col divide-y divide-neutral-300 px-9 lg:py-3 ">
+        <div className="bg-neutral-50">
+            <div className="mx-auto mb-4 flex flex-col divide-y divide-neutral-300 px-9 lg:py-3 ">
+                {!cmtQueryLoading && (
+                    <>
                         <NewComment
                             boardId={boardId}
                             addComment={addUserComment}
                         />
-                        {[...userComments, ...comments].map((cmt, i) => {
-                            return (
-                                <div key={i} className="pt-4 pb-2">
-                                    <CommentCard
-                                        boardId={boardId}
-                                        onSide={onSide}
-                                        cmtdata={cmt.data}
-                                        APIPostReply={(
-                                            commentData,
-                                            cmtContent
-                                        ) => {
-                                            postReply(
-                                                i,
+                        {userComments
+                            .concat([].concat.apply([], cmtQueryData.pages))
+                            .map((cmt, i, array) => {
+                                if (cmt.totalComments) return;
+
+                                return (
+                                    <div key={i} className="pt-4 pb-2">
+                                        <CommentCard
+                                            boardId={boardId}
+                                            onSide={onSide}
+                                            cmtdata={cmt.data}
+                                            APIPostReply={(
                                                 commentData,
                                                 cmtContent
-                                            );
-                                        }}
-                                        delComment={() => {
-                                            delComment(i);
-                                        }}
-                                        fetchReplies={
-                                            cmt.replies.hasReplies -
-                                                cmt.replies.newReplies.length >
-                                                0 &&
-                                            cmt.replies.latestServerReply === 0
-                                                ? () => {
-                                                      fetchCommentReply(i);
-                                                  }
-                                                : null
-                                        }
-                                        ref={
-                                            i + 1 === comments.length
-                                                ? lastCardRef
-                                                : null
-                                        }
-                                    />
-                                    {cmt.replies.latestServerReply > 0 && (
-                                        <CommentResponseField
-                                            boardId={boardId}
-                                            onSide={onSide}
-                                            commentId={cmt.data.id}
-                                            commentData={cmt.replies.data}
-                                            delComment={(replyPos) => {
-                                                delReply(i, replyPos);
+                                            ) => {
+                                                postReply(
+                                                    i,
+                                                    commentData,
+                                                    cmtContent
+                                                );
                                             }}
-                                            fetchMoreReplies={
-                                                cmt.replies.latestServerReply +
+                                            delComment={() => {
+                                                delComment(i);
+                                            }}
+                                            fetchReplies={
+                                                cmt.replies.hasReplies -
                                                     cmt.replies.newReplies
-                                                        .length ===
-                                                cmt.replies.hasReplies
-                                                    ? null
-                                                    : () => {
+                                                        .length >
+                                                    0 &&
+                                                cmt.replies
+                                                    .latestServerReply === 0
+                                                    ? () => {
                                                           fetchCommentReply(i);
                                                       }
+                                                    : null
+                                            }
+                                            ref={
+                                                i + 1 === array.length
+                                                    ? lastCardRef
+                                                    : null
                                             }
                                         />
-                                    )}
-                                    {cmt.replies.newReplies.length > 0 && (
-                                        <CommentResponseField
-                                            boardId={boardId}
-                                            onSide={onSide}
-                                            commentId={cmt.data.id}
-                                            commentData={cmt.replies.newReplies}
-                                            delComment={(replyPos) => {
-                                                delReply(i, replyPos);
-                                            }}
-                                        />
-                                    )}
-                                </div>
-                            );
-                        })}
-
-                        {isLoading && <LoadingSkeleton />}
-                        {userComments.length + comments.length === 0 &&
-                            !isLoading && <NoCommentsDisplay />}
-                    </div>
-                </div>
-            ) : (
-                <div className="mx-auto flex h-48 w-full rounded-xl bg-red-200 py-3">
-                    <div className="m-auto">
-                        <h1 className="text-center text-3xl font-medium text-red-500">
-                            錯誤
-                        </h1>
-                        <p className="my-2 px-6 text-center text-xl text-red-500">
-                            {errorOccured}
-                        </p>
-                    </div>
-                </div>
-            )}
-        </>
+                                        {cmt.replies.latestServerReply > 0 && (
+                                            <CommentResponseField
+                                                boardId={boardId}
+                                                onSide={onSide}
+                                                commentId={cmt.data.id}
+                                                commentData={cmt.replies.data}
+                                                delComment={(replyPos) => {
+                                                    delReply(i, replyPos);
+                                                }}
+                                                fetchMoreReplies={
+                                                    cmt.replies
+                                                        .latestServerReply +
+                                                        cmt.replies.newReplies
+                                                            .length ===
+                                                    cmt.replies.hasReplies
+                                                        ? null
+                                                        : () => {
+                                                              fetchCommentReply(
+                                                                  i
+                                                              );
+                                                          }
+                                                }
+                                            />
+                                        )}
+                                        {cmt.replies.newReplies.length > 0 && (
+                                            <CommentResponseField
+                                                boardId={boardId}
+                                                onSide={onSide}
+                                                commentId={cmt.data.id}
+                                                commentData={
+                                                    cmt.replies.newReplies
+                                                }
+                                                delComment={(replyPos) => {
+                                                    delReply(i, replyPos);
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        {userComments.length + cmtQueryData.length === 0 &&
+                            !cmtQueryLoading && <NoCommentsDisplay />}
+                    </>
+                )}
+                {(cmtQueryLoading || cmtQueryFetching) && <LoadingSkeleton />}
+            </div>
+        </div>
     );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
-import { useRouter } from 'next/router';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import Header from '../../components/header/Header';
 import Sidebar from '../../components/navbar/Sidebar';
@@ -15,15 +15,20 @@ import {
 } from '../../components/discussion/Selectors';
 
 const MainBoard = ({ discussionContent }) => {
-    const router = useRouter();
     const [commentFieldSide, setCommentFieldSide] = useState(1);
     const [commentSort, setCommentSort] = useState(0);
+    const queryClient = new QueryClient();
 
     useEffect(() => {
         if (!localStorage.getItem('AuthToken')) {
             window.location.href = '/login';
         }
     }, []);
+
+    useEffect(() => {
+        // console.log('Reloading');
+        // queryClient.invalidateQueries();
+    }, [commentFieldSide, commentSort]);
 
     if (discussionContent !== undefined)
         return (
@@ -45,14 +50,17 @@ const MainBoard = ({ discussionContent }) => {
                             <IntegratedSideSelector
                                 changeSide={setCommentFieldSide}
                             />
-                            {[commentFieldSide].map((i) => (
-                                <CommentField
-                                    key={i}
-                                    boardId={discussionContent.boardId}
-                                    onSide={commentFieldSide}
-                                    sortMethod={commentSort}
-                                />
-                            ))}
+                            <QueryClientProvider client={queryClient}>
+                                <ReactQueryDevtools initialIsOpen={false} />
+                                {[commentFieldSide * commentSort].map(() => (
+                                    <CommentField
+                                        key={commentFieldSide * commentSort}
+                                        boardId={discussionContent.boardId}
+                                        onSide={commentFieldSide}
+                                        sortMethod={commentSort}
+                                    />
+                                ))}
+                            </QueryClientProvider>
                         </div>
                     </div>
                 </div>
