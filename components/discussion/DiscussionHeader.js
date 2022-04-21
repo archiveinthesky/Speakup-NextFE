@@ -31,7 +31,7 @@ const DiscussionHeader = ({ pagedata }) => {
     } else {
         return (
             <div className="mx-auto w-full bg-neutral-50 px-9 py-6">
-                <h1 className="pb-2 text-3xl text-neutral-800">
+                <h1 className="pb-2 text-3xl text-primary-900">
                     {pagedata.title}
                 </h1>
                 <div className="pb-3">
@@ -56,26 +56,22 @@ const DiscussionHeader = ({ pagedata }) => {
                         </Link>
                     ))}
                 </div>
-                <div className="mt-6 flex flex-col gap-5">
-                    <p className="text-lg text-neutral-700">
-                        {pagedata.content}
-                    </p>
+                <div className="mt-6 flex flex-col gap-5 text-neutral-700">
+                    <p className="text-lg">{pagedata.content}</p>
 
                     <div>
                         {showStandpoint && (
                             <div>
-                                <p className="mb-2 text-xl text-primary-600">
+                                <p className="mb-2 text-xl text-primary-800">
                                     支持者的立場
                                 </p>
-                                <p className="mb-5 text-lg text-neutral-700">
+                                <p className="mb-5 text-lg">
                                     {pagedata.supContent}
                                 </p>
-                                <p className="mb-2 text-xl text-primary-600">
+                                <p className="mb-2 text-xl text-primary-800">
                                     反對者的立場
                                 </p>
-                                <p className="text-lg text-neutral-700">
-                                    {pagedata.agnContent}
-                                </p>
+                                <p className="text-lg">{pagedata.agnContent}</p>
                             </div>
                         )}
                         <button
@@ -83,7 +79,7 @@ const DiscussionHeader = ({ pagedata }) => {
                                 setShowStandpoint(!showStandpoint);
                             }}
                         >
-                            <p className="text-left text-lg leading-10 text-primary-600">
+                            <p className="text-left text-lg leading-10 text-primary-700">
                                 {showStandpoint ? '收合' : '展開'}立場/論點
                             </p>
                         </button>
@@ -92,7 +88,7 @@ const DiscussionHeader = ({ pagedata }) => {
                     <div>
                         {showReference && (
                             <div>
-                                <p className="mb-2 text-xl text-primary-600">
+                                <p className="mb-2 text-xl text-primary-800">
                                     延伸資料
                                 </p>
                                 {pagedata.refLinks.map((link, i) => {
@@ -118,7 +114,7 @@ const DiscussionHeader = ({ pagedata }) => {
                                 setShowReference(!showReference);
                             }}
                         >
-                            <p className="text-left text-lg leading-10 text-primary-600">
+                            <p className="text-left text-lg leading-10 text-primary-700">
                                 {showReference ? '收合' : '展開'}參考/資料
                             </p>
                         </button>
@@ -126,7 +122,7 @@ const DiscussionHeader = ({ pagedata }) => {
                     <div className="flex h-8 justify-start gap-2">
                         <button onClick={toggleSaved}>
                             <BookmarkIcon
-                                className={`h-7 w-7 text-primary-600 transition-colors ${
+                                className={`h-7 w-7 text-primary-700 transition-colors ${
                                     userSaved ? 'fill-yellow-300' : 'fill-white'
                                 }`}
                             />
@@ -136,7 +132,7 @@ const DiscussionHeader = ({ pagedata }) => {
                                 setShowReportMenu(true);
                             }}
                         >
-                            <FlagIcon className="h-7 w-7 text-primary-600 " />
+                            <FlagIcon className="h-7 w-7 text-primary-700 " />
                         </button>
                     </div>
                 </div>

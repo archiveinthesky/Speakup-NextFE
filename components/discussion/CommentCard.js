@@ -117,28 +117,28 @@ const CommentCard = forwardRef(
             return (
                 <div className="flex flex-col">
                     <button
-                        className="px-4 py-2 filter transition-colors duration-200 hover:bg-neutral-50"
+                        className="px-4 py-2 filter transition-colors duration-200 hover:bg-nu-blue-50"
                         onClick={() => {
                             setShowReportMenu(true);
                             setShowExtendedMenu(false);
                         }}
                     >
-                        <FlagIcon className="inline h-6 w-6 text-primary-700" />
-                        <h3 className="inline pl-1 text-sm text-primary-700">
+                        <FlagIcon className="inline h-6 w-6 text-pm-blue-700" />
+                        <h3 className="inline pl-1 text-sm text-pm-blue-700">
                             檢舉
                         </h3>
                     </button>
 
                     {cmtdata.isOwner && (
                         <button
-                            className=" px-4 py-2 filter transition-colors duration-200 hover:bg-neutral-50"
+                            className=" px-4 py-2 filter transition-colors duration-200 hover:bg-nu-blue-50"
                             onClick={() => {
                                 setShowExtendedMenu(false);
                                 deleteComment();
                             }}
                         >
-                            <TrashIcon className="inline h-6 w-6 text-primary-700" />
-                            <h3 className="inline pl-1 text-sm text-primary-700">
+                            <TrashIcon className="inline h-6 w-6 text-pm-blue-700" />
+                            <h3 className="inline pl-1 text-sm text-pm-blue-700">
                                 刪除
                             </h3>
                         </button>
@@ -146,7 +146,7 @@ const CommentCard = forwardRef(
 
                     {motherComment === null && (
                         <button
-                            className="px-4 py-2 text-primary-700  filter transition-colors duration-200 hover:bg-gray-200 2xl:hidden"
+                            className="px-4 py-2 text-pm-blue-700  filter transition-colors duration-200 hover:bg-gray-200 2xl:hidden"
                             onClick={() => {
                                 setShowExtendedMenu(false);
                                 setShowReplyBox(!showReplyBox);
@@ -171,7 +171,7 @@ const CommentCard = forwardRef(
 
             return (
                 <button
-                    className="flex items-start gap-1 text-neutral-500"
+                    className="flex items-start gap-1 text-nu-blue-500"
                     onClick={() => {
                         setIsClicked(true);
                         fetchReplies();
@@ -198,7 +198,7 @@ const CommentCard = forwardRef(
             return (
                 <div className="ml-10 mb-2 flex w-11/12 items-center pt-1 overflow-x-hidden">
                     <div
-                        className={`w-full flex-grow-0 rounded-3xl border-2 border-neutral-400 py-1.5 pl-5 pr-10 text-sm`}
+                        className={`w-full flex-grow-0 rounded-3xl border-2 border-nu-blue-400 py-1.5 pl-5 pr-10 text-sm`}
                         contentEditable={true}
                         onKeyPress={(e) => {
                             if (e.key === 'Enter') {
@@ -212,7 +212,7 @@ const CommentCard = forwardRef(
                         className={`relative right-8 -bottom-1 pb-2`}
                         onClick={postReply}
                     >
-                        <ReplyIcon className="h-5 w-5 text-primary-800" />
+                        <ReplyIcon className="h-5 w-5 text-pm-blue-800" />
                     </button>
                 </div>
             );
@@ -227,14 +227,14 @@ const CommentCard = forwardRef(
                                 ? cmtdata.onSide === 'sup'
                                     ? 'border-green-300'
                                     : 'border-red-400'
-                                : 'border-neutral-300'
+                                : 'border-nu-blue-300'
                         } src='' alt="Profile overflow-hidden rounded-full`}
                     />
                     <div className="flex-grow">
-                        <h3 className="text-base text-primary-600">
+                        <h3 className="text-base text-primary-800">
                             {cmtdata.accName}
                         </h3>
-                        <p className="mt-2 mb-3 text-base text-neutral-600">
+                        <p className="mt-2 mb-3 text-base text-neutral-700">
                             {cmtdata.cmtContent}
                         </p>
 
@@ -265,7 +265,7 @@ const CommentCard = forwardRef(
                                                 <path
                                                     className={`${
                                                         liked
-                                                            ? 'fill-primary-500 stroke-primary-500'
+                                                            ? 'fill-primary-600 stroke-primary-600'
                                                             : 'fill-transparent stroke-neutral-500'
                                                     }`}
                                                     strokeLinecap="round"
@@ -291,7 +291,7 @@ const CommentCard = forwardRef(
                                             <ArrowCircleUpIcon
                                                 className={`inline w-7 overflow-hidden ${
                                                     supported
-                                                        ? 'border-primary-500 fill-primary-500 stroke-neutral-50'
+                                                        ? 'border-primary-600 fill-primary-600 stroke-neutral-50'
                                                         : 'text-neutral-500'
                                                 } ${
                                                     supported & enableAnim &&
@@ -329,7 +329,7 @@ const CommentCard = forwardRef(
                                                 <path
                                                     className={`${
                                                         disliked
-                                                            ? 'fill-primary-500 stroke-primary-500'
+                                                            ? 'fill-primary-600 stroke-primary-600'
                                                             : 'fill-transparent stroke-neutral-500'
                                                     }`}
                                                     strokeLinecap="round"
@@ -378,7 +378,7 @@ const CommentCard = forwardRef(
                                             ref={cardmenu}
                                             width={58}
                                         >
-                                            <DotsVerticalIcon className="h-6 w-6 text-neutral-500" />
+                                            <DotsVerticalIcon className="h-6 w-6 text-nu-blue-500" />
                                         </button>
                                     }
                                     spacing={0}

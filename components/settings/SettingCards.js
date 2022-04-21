@@ -16,8 +16,8 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { PhotographIcon } from '@heroicons/react/outline';
 
 const styles = {
-    button: 'flex h-11 w-20 items-center justify-center rounded-md bg-primary-600 text-white focus:outline-none',
-    p: 'text-left md:text-right text-lg leading-[44px] text-neutral-800',
+    button: 'flex h-11 w-20 items-center justify-center rounded-md bg-pm-blue-600 text-white focus:outline-none',
+    p: 'text-left md:text-right text-lg leading-[44px] text-nu-blue-800',
 };
 
 const BasicSettingsCard = ({ initValues }) => {
@@ -110,9 +110,9 @@ const BasicSettingsCard = ({ initValues }) => {
             id="dataform"
         >
             <div className="mx-6 flex items-center justify-between py-5 md:mx-16">
-                <h1 className=" text-2xl text-neutral-800 ">基本資料</h1>
+                <h1 className=" text-nu-blue-800 text-2xl ">基本資料</h1>
                 <Button
-                    className="flex h-10 w-20 items-center justify-center rounded-md bg-primary-600 text-white focus:outline-none disabled:bg-opacity-50"
+                    className="bg-pm-blue-600 flex h-10 w-20 items-center justify-center rounded-md text-white focus:outline-none disabled:bg-opacity-50"
                     type="submit"
                     color={submitSuccess ? 'green' : 'blue'}
                     loading={submitting}
@@ -209,7 +209,7 @@ const BasicSettingsCard = ({ initValues }) => {
                         </Button>
                         <Button
                             variant="filled"
-                            className="bg-primary-600"
+                            className="bg-pm-blue-600"
                             onClick={() => {
                                 let formData = new FormData();
                                 formData.append(
@@ -312,7 +312,7 @@ const BasicSettingsCard = ({ initValues }) => {
                             </Button>
                             <Button
                                 variant="filled"
-                                className="bg-primary-600"
+                                className="bg-pm-blue-600"
                                 onClick={pwdForm.onSubmit((values) => {
                                     fetch(
                                         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/data/pwd`,
@@ -364,7 +364,7 @@ const NotificationSettingsCard = () => {
 
     return (
         <div className=" w-full bg-white pb-10">
-            <h1 className="mx-6 py-5 text-2xl text-neutral-800 md:mx-16">
+            <h1 className="text-nu-blue-800 mx-6 py-5 text-2xl md:mx-16">
                 通知設定
             </h1>
             <hr className=" mb-6 border-t-2" />

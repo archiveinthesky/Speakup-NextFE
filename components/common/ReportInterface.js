@@ -9,11 +9,11 @@ const ReportInterface = ({ title, options, submitFunction, closeFunction }) => {
     return (
         <div className="fixed top-0 left-0 z-30 flex h-screen w-screen items-center justify-center">
             <span
-                className="absolute top-0 left-0 z-30 h-screen w-screen bg-neutral-800 opacity-70"
+                className="bg-nu-blue-800 absolute top-0 left-0 z-30 h-screen w-screen opacity-70"
                 onClick={closeFunction}
             />
-            <div className="z-40 w-5/6 max-w-[24rem] rounded-2xl bg-neutral-50 p-6 ">
-                <h3 className="text-2xl text-neutral-800">{displayTitle}</h3>
+            <div className="bg-nu-blue-50 z-40 w-5/6 max-w-[24rem] rounded-2xl p-6 ">
+                <h3 className="text-nu-blue-800 text-2xl">{displayTitle}</h3>
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -27,7 +27,7 @@ const ReportInterface = ({ title, options, submitFunction, closeFunction }) => {
                         {displayOptions.map((option, i) => (
                             <li
                                 key={i}
-                                className="my-4 list-none text-xl text-neutral-800"
+                                className="text-nu-blue-800 my-4 list-none text-xl"
                             >
                                 <input
                                     type="radio"
@@ -49,7 +49,7 @@ const ReportInterface = ({ title, options, submitFunction, closeFunction }) => {
                     </ul>
                     {submitted ? (
                         <button
-                            className="mt-6 h-10 w-16 rounded-lg bg-primary-500 text-sm text-white"
+                            className="bg-pm-blue-500 mt-6 h-10 w-16 rounded-lg text-sm text-white"
                             onClick={closeFunction}
                         >
                             關閉
@@ -57,7 +57,7 @@ const ReportInterface = ({ title, options, submitFunction, closeFunction }) => {
                     ) : (
                         <button
                             type="submit"
-                            className="h-10 w-16 rounded-lg bg-primary-500 text-sm text-white disabled:opacity-75"
+                            className="bg-pm-blue-500 h-10 w-16 rounded-lg text-sm text-white disabled:opacity-75"
                             disabled={reportOption === null}
                         >
                             提交

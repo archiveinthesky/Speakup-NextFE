@@ -18,7 +18,7 @@ const NewComment = ({ boardId, addComment }) => {
     return (
         <div className="flex w-full items-center justify-end">
             <div
-                className={`relative mt-2 mb-4 flex flex-grow-0 items-center border border-primary-700 px-3 transition-width ${
+                className={`relative mt-2 mb-4 flex flex-grow-0 items-center border border-primary-800 px-3 transition-width ${
                     enteringComment
                         ? 'w-full rounded-2xl'
                         : 'h-9 w-9 rounded-full'
@@ -27,7 +27,7 @@ const NewComment = ({ boardId, addComment }) => {
                 {enteringComment && (
                     <div
                         ref={commentDiv}
-                        className={`my-auto h-full w-full bg-transparent pl-2 pr-32 text-lg leading-9 focus:outline-none`}
+                        className={`my-auto h-full w-full bg-transparent pl-2 pr-32 text-lg leading-9 text-neutral-800 focus:outline-none`}
                         contentEditable={true}
                         onKeyPress={(e) => {
                             if (e.key === 'Enter') {
@@ -45,7 +45,7 @@ const NewComment = ({ boardId, addComment }) => {
                 {enteringComment ? (
                     <div className="absolute top-1.5 right-2 flex h-7 flex-wrap items-center justify-end gap-2 overflow-hidden">
                         <button
-                            className={`h-6 w-6 flex-shrink-0 text-primary-700 ${
+                            className={`h-6 w-6 flex-shrink-0 text-primary-800 ${
                                 choosingSide ? 'hidden' : 'block'
                             }`}
                             onClick={async () => {
@@ -57,7 +57,7 @@ const NewComment = ({ boardId, addComment }) => {
                             <PaperAirplaneIcon className="h-6 w-6" />
                         </button>
                         <button
-                            className={`h-6 w-6 flex-shrink-0 text-primary-700 ${
+                            className={`h-6 w-6 flex-shrink-0 text-primary-800 ${
                                 choosingSide ? 'hidden' : 'block'
                             } `}
                             onClick={() => {
@@ -67,10 +67,10 @@ const NewComment = ({ boardId, addComment }) => {
                             <XIcon className="h-6 w-6" />
                         </button>
                         <button
-                            className={`border-primary-700 ${
+                            className={`border-primary-800 ${
                                 commentSide === 'sup'
-                                    ? ' bg-primary-700 text-primary-50'
-                                    : 'bg-neutral-100  text-primary-700'
+                                    ? ' bg-primary-800 text-primary-50'
+                                    : 'bg-neutral-100  text-primary-800'
                             } ${
                                 choosingSide ? 'block' : 'hidden'
                             } h-6 w-6 flex-shrink-0 rounded-full border text-center text-sm `}
@@ -81,10 +81,10 @@ const NewComment = ({ boardId, addComment }) => {
                             支
                         </button>
                         <button
-                            className={`border-primary-700 ${
+                            className={`border-primary-800 ${
                                 commentSide === 'agn'
-                                    ? ' bg-primary-700 text-primary-50'
-                                    : 'bg-neutral-100  text-primary-700'
+                                    ? ' bg-primary-800 text-primary-50'
+                                    : 'bg-neutral-100  text-primary-800'
                             } ${
                                 choosingSide ? 'block' : 'hidden'
                             } h-6 w-6 flex-shrink-0 rounded-full border text-center text-sm `}
@@ -95,10 +95,10 @@ const NewComment = ({ boardId, addComment }) => {
                             反
                         </button>
                         <button
-                            className={`border-primary-700 ${
-                                commentSide === 'agn'
-                                    ? ' bg-primary-700 text-primary-50'
-                                    : 'bg-neutral-100  text-primary-700'
+                            className={`border-primary-800 ${
+                                commentSide === 'non'
+                                    ? ' bg-primary-800 text-primary-50'
+                                    : 'bg-neutral-100  text-primary-800'
                             } ${
                                 choosingSide ? 'block' : 'hidden'
                             } h-6 w-6 flex-shrink-0 rounded-full border text-center text-sm `}
@@ -118,7 +118,7 @@ const NewComment = ({ boardId, addComment }) => {
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 fill-primary-700"
+                            className="h-6 w-6 fill-primary-800"
                         >
                             <path d="M4 14a1 1 0 0 1 .3-.7l11-11a1 1 0 0 1 1.4 0l3 3a1 1 0 0 1 0 1.4l-11 11a1 1 0 0 1-.7.3H5a1 1 0 0 1-1-1v-3z" />
                             <rect width="20" height="2" x="2" y="20" rx="1" />

@@ -30,7 +30,7 @@ const Settings = () => {
     }, []);
 
     return (
-        <div className="fixed top-0 left-0 h-screen w-screen overflow-y-scroll bg-neutral-50">
+        <div className="bg-nu-blue-50 fixed top-0 left-0 h-screen w-screen overflow-y-scroll">
             <Header />
             <Sidebar />
             <Footbar />

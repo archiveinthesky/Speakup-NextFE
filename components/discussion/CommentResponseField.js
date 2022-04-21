@@ -13,7 +13,7 @@ const CommentResponseField = ({
     const ShowRepliesButton = () => {
         return (
             <button
-                className="flex items-start gap-1 text-neutral-500"
+                className="text-nu-blue-500 flex items-start gap-1"
                 onClick={fetchMoreReplies}
             >
                 <ReplyIcon className="inline h-5 w-5 rotate-180" />
@@ -23,7 +23,7 @@ const CommentResponseField = ({
     };
 
     return (
-        <div className="mt-2 ml-auto flex w-[88%] flex-col bg-neutral-50 md:w-11/12 lg:w-[88%] xl:w-11/12">
+        <div className="bg-nu-blue-50 mt-2 ml-auto flex w-[88%] flex-col md:w-11/12 lg:w-[88%] xl:w-11/12">
             {commentData.map((cmt, i) => {
                 return (
                     <CommentCard

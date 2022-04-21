@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useQueryClient, useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 
 import CommentCard from './CommentCard';
 import CommentResponseField from './CommentResponseField';
@@ -208,7 +208,7 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
 
     return (
         <div className="bg-neutral-50">
-            <div className="mx-auto mb-4 flex flex-col divide-y divide-neutral-300 px-9 lg:py-3 ">
+            <div className="mx-auto mb-4 flex flex-col divide-y divide-nu-blue-300 px-9 lg:py-3 ">
                 {!cmtQueryLoading && (
                     <>
                         <NewComment

@@ -27,7 +27,7 @@ const AccountOptions = () => {
         <Menu as="div" className="relative z-10 inline-block text-left">
             <div className="h-9">
                 <Menu.Button className="inline-flex h-9 w-9 justify-center overflow-hidden rounded-full text-sm text-gray-700 shadow-sm ">
-                    <UserCircleIcon className="h-9 w-9 text-primary-50" />
+                    <UserCircleIcon className="h-9 w-9 text-neutral-50" />
                 </Menu.Button>
             </div>
 

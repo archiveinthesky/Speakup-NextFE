@@ -52,13 +52,13 @@ const SearchResults = ({ discussionContent }) => {
     }, [router.query]);
 
     return (
-        <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100 scrollbar-hide overflow-x-hidden">
+        <div className="bg-nu-blue-100 fixed top-0 left-0 h-screen w-screen scrollbar-hide overflow-x-hidden">
             <Header />
             <Sidebar retractable={false} />
             <Footbar />
             <div className="flex h-screen w-full flex-col items-center pt-14 lg:ml-64 lg:w-[calc(100%-16rem)]">
                 <div className="mt-10 w-[calc(100%-56px)] max-w-3xl md:mt-16 md:w-[calc(100%-160px)] ">
-                    <h1 className="text-2xl text-primary-700 md:text-3xl">
+                    <h1 className="text-pm-blue-700 text-2xl md:text-3xl">
                         {maxPage > 0
                             ? `以下為${searchTerm}的搜尋結果`
                             : `很抱歉，我們找不到符合${searchTerm}的結果`}
