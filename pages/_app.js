@@ -1,8 +1,18 @@
 import React from 'react';
-import '../styles/globals.css';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-function MyApp({ Component, pageProps }) {
-    return <Component {...pageProps} />;
+import '../styles/globals.css';
+import { RecoilRoot } from 'recoil';
+
+function SpeakupFE({ Component, pageProps }) {
+    const queryClient = new QueryClient();
+    return (
+        <RecoilRoot>
+            <QueryClientProvider client={queryClient}>
+                <Component {...pageProps} />;
+            </QueryClientProvider>
+        </RecoilRoot>
+    );
 }
 
-export default MyApp;
+export default SpeakupFE;

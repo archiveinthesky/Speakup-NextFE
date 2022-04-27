@@ -2,44 +2,20 @@ import React from 'react';
 import { ReplyIcon } from '@heroicons/react/outline';
 import CommentCard from './CommentCard';
 
-const CommentResponseField = ({
-    boardId,
-    onSide,
-    commentId,
-    commentData,
-    delComment,
-    fetchMoreReplies = null,
-}) => {
-    const ShowRepliesButton = () => {
-        return (
-            <button
-                className="text-nu-blue-500 flex items-start gap-1"
-                onClick={fetchMoreReplies}
-            >
-                <ReplyIcon className="inline h-5 w-5 rotate-180" />
-                <p className="inline text-sm">查看更多回覆</p>
-            </button>
-        );
-    };
-
+const CommentResponseField = ({ commentId, commentData, deleteReply }) => {
     return (
-        <div className="bg-nu-blue-50 mt-2 ml-auto flex w-[88%] flex-col md:w-11/12 lg:w-[88%] xl:w-11/12">
+        <div className="mt-2 ml-auto flex w-[88%] flex-col md:w-11/12 lg:w-[88%] xl:w-11/12">
             {commentData.map((cmt, i) => {
+                if (!cmt.id) return <div key={`${commentId}${i}`} />;
                 return (
                     <CommentCard
-                        boardId={boardId}
-                        onSide={onSide}
-                        key={'r' + i}
-                        cmtdata={cmt}
+                        key={`${commentId}${i}`}
+                        data={cmt}
                         motherComment={commentId}
-                        delComment={() => {
-                            delComment(i);
-                        }}
-                        replyFunction={null}
+                        deleteFunction={deleteReply}
                     />
                 );
             })}
-            {fetchMoreReplies !== null && <ShowRepliesButton />}
         </div>
     );
 };

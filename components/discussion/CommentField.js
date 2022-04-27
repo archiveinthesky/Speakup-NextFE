@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useMutation } from 'react-query';
 
-import CommentCard from './CommentCard';
-import CommentResponseField from './CommentResponseField';
+import CommentGroup from './CommentGroup';
 import {
     NewComment,
     NoCommentsDisplay,
@@ -11,15 +10,14 @@ import {
 } from './CommentAccessories';
 
 import {
-    getCommentReply,
-    getComments,
-    postReplyBE,
-} from '../../lib/discussion/comments';
+    deleteComment,
+    getBoardComments,
+    postComment,
+} from '../lib/commentFuncs';
 
 import { cloneDeep } from 'lodash';
 
 const CommentField = ({ boardId, onSide, sortMethod }) => {
-    const [comments, setComments] = useState([]);
     const [userComments, setUserComments] = useState([]);
 
     const {
@@ -29,129 +27,61 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
         fetchNextPage: cmtQueryFetchNextPage,
         hasNextPage: cmtQueryHasNextPage,
         isFetching: cmtQueryFetching,
+        refetch: cmtQueryRefetch,
     } = useInfiniteQuery(
         'comments',
-        ({ pageParam = 1 }) =>
-            getComments(
+        ({ pageParam = 0 }) =>
+            getBoardComments(
                 boardId,
                 onSide,
                 pageParam,
                 [(null, 'time', 'replies')][sortMethod - 1]
             ),
         {
-            getNextPageParam: (lastPage, pages) => {
-                return Math.ceil(lastPage[0].totalComments / 20) > pages.length
+            getNextPageParam: (lastPage, pages) =>
+                Math.ceil(lastPage[0].totalComments / 20) > pages.length
                     ? pages.length + 1
-                    : undefined;
+                    : undefined,
+        }
+    );
+
+    const addComment = useMutation(
+        (cmtParams) => postComment(cmtParams.content, boardId, cmtParams.side),
+        {
+            onSuccess: (data) => {
+                console.log(typeof [data, ...userComments]);
+                setUserComments([data, ...userComments]);
+            },
+            onError: (err) => {
+                console.log(err);
+            },
+        }
+    );
+
+    const delComment = useMutation(
+        (commentId) => deleteComment(boardId, commentId),
+        {
+            onSuccess: (data, variables) => {
+                let commentId = variables.commentId;
+                let newComments;
+                if (userComments.some((element) => element.id === commentId)) {
+                    newComments = cloneDeep(userComments);
+                    setUserComments(
+                        newComments.filter(
+                            (element) => element.id !== commentId
+                        )
+                    );
+                } else {
+                    cmtQueryRefetch({
+                        refetchPage: (page, index) =>
+                            page.some((cmt) => cmt.id === commentId),
+                    });
+                }
             },
         }
     );
 
     const { ref: lastCardRef, inView: lastCardInView, entry } = useInView();
-
-    const fetchCommentReply = async (commentId) => {
-        let cmtObject = [...userComments, ...comments][commentId];
-        let response = await getCommentReply(
-            cmtObject.data.id,
-            cmtObject.replies.latestServerReply + 1,
-            Math.min(
-                cmtObject.replies.hasReplies,
-                cmtObject.replies.latestServerReply + 11
-            ),
-            boardId,
-            onSide
-        );
-        let newComments,
-            submitChanges,
-            targetCmtPos = commentId;
-        if (commentId < userComments.length) {
-            newComments = cloneDeep(userComments);
-            submitChanges = () => {
-                setUserComments(newComments);
-            };
-        } else {
-            newComments = cloneDeep(comments);
-            submitChanges = () => {
-                setComments(newComments);
-            };
-            targetCmtPos -= userComments.length;
-        }
-        let cmtarray = [];
-        let alreadyExistedIDs = newComments[
-            targetCmtPos
-        ].replies.newReplies.map((reply) => {
-            return reply.id;
-        });
-        for (let i in response) {
-            console.log(response[i]);
-            if (alreadyExistedIDs.indexOf(response[i].id) === -1)
-                cmtarray.push(response[i]);
-        }
-        newComments[targetCmtPos].replies.data = [
-            ...newComments[targetCmtPos].replies.data,
-            ...cmtarray,
-        ];
-        newComments[targetCmtPos].replies.latestServerReply += cmtarray.length;
-        submitChanges();
-    };
-
-    const postReply = async (commentPos, commentData, cmtcontent) => {
-        let res = await postReplyBE(
-            commentData.id,
-            cmtcontent,
-            boardId,
-            commentData.onSide
-        );
-        if (commentPos < userComments.length) {
-            let newCmts = cloneDeep(userComments);
-            newCmts[commentPos].replies.newReplies.push(res);
-            newCmts[commentPos].replies.hasReplies += 1;
-            setUserComments(newCmts);
-        } else {
-            let newCmts = cloneDeep(comments);
-            newCmts[commentPos - userComments.length].replies.newReplies.push(
-                res
-            );
-            newCmts[commentPos - userComments.length].replies.hasReplies += 1;
-            setComments(newCmts);
-        }
-    };
-
-    const delComment = (commentid) => {
-        let targetId = commentid;
-        let newComments, submitChanges;
-        if (commentid < userComments.length) {
-            newComments = cloneDeep(userComments);
-            newComments.splice(targetId, 1);
-            setUserComments(newComments);
-        } else {
-            targetId -= userComments.length;
-            newComments = cloneDeep(comments);
-            newComments.splice(targetId, 1);
-            setComments(newComments);
-        }
-    };
-
-    const delReply = (commentLoc, replyLoc, isNewReply = false) => {
-        if (commentLoc < userComments.length) {
-            let newCmts = cloneDeep(userComments);
-            if (isNewReply) {
-                newCmts[commentLoc].replies.newReplies.splice(replyLoc, 1);
-            } else {
-                newCmts[commentLoc].replies.data.splice(replyLoc, 1);
-            }
-            setUserComments(newCmts);
-        } else {
-            let newCmtLoc = commentLoc - userComments.length;
-            let newCmts = cloneDeep(comments);
-            newCmts[newCmtLoc].replies.data.splice(replyLoc, 1);
-            setComments(newCmts);
-        }
-    };
-
-    useEffect(() => {
-        setUserComments([]);
-    }, [onSide, sortMethod]);
 
     useEffect(() => {
         if (entry !== undefined) {
@@ -161,36 +91,9 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
                 !cmtQueryLoading
             ) {
                 cmtQueryFetchNextPage();
-            } else {
-                console.log(cmtQueryHasNextPage);
-                console.log(cmtQueryLoading);
             }
         }
     }, [lastCardInView]);
-
-    const addUserComment = (commentContent) => {
-        console.log({
-            data: commentContent,
-            replies: {
-                data: [],
-                newReplies: [],
-                latestServerReply: 0,
-                hasReplies: commentContent.cmtReplies,
-            },
-        });
-        setUserComments([
-            {
-                data: commentContent,
-                replies: {
-                    data: [],
-                    newReplies: [],
-                    latestServerReply: 0,
-                    hasReplies: 0,
-                },
-            },
-            ...userComments,
-        ]);
-    };
 
     if (cmtQueryError)
         return (
@@ -206,6 +109,12 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
             </div>
         );
 
+    useEffect(() => {
+        console.log(
+            userComments.concat([].concat.apply([], cmtQueryData?.pages))
+        );
+    }, [userComments]);
+
     return (
         <div className="bg-neutral-50">
             <div className="mx-auto mb-4 flex flex-col divide-y divide-nu-blue-300 px-9 lg:py-3 ">
@@ -213,91 +122,35 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
                     <>
                         <NewComment
                             boardId={boardId}
-                            addComment={addUserComment}
+                            addComment={(commentContent, side) => {
+                                addComment.mutate({
+                                    content: commentContent,
+                                    side: side,
+                                });
+                            }}
                         />
-                        {userComments
-                            .concat([].concat.apply([], cmtQueryData.pages))
-                            .map((cmt, i, array) => {
-                                if (cmt.totalComments) return;
-
-                                return (
-                                    <div key={i} className="pt-4 pb-2">
-                                        <CommentCard
+                        <div className="flex w-full flex-col gap-2 pt-4">
+                            {userComments
+                                .concat(
+                                    [].concat.apply([], cmtQueryData?.pages)
+                                )
+                                .map((data, i) =>
+                                    data.totalComments ? (
+                                        <div key={i}></div>
+                                    ) : (
+                                        <CommentGroup
+                                            key={i}
                                             boardId={boardId}
-                                            onSide={onSide}
-                                            cmtdata={cmt.data}
-                                            APIPostReply={(
-                                                commentData,
-                                                cmtContent
-                                            ) => {
-                                                postReply(
-                                                    i,
-                                                    commentData,
-                                                    cmtContent
-                                                );
+                                            cmtdata={data}
+                                            deleteComment={(cmtId) => {
+                                                delComment.mutate(cmtId);
                                             }}
-                                            delComment={() => {
-                                                delComment(i);
-                                            }}
-                                            fetchReplies={
-                                                cmt.replies.hasReplies -
-                                                    cmt.replies.newReplies
-                                                        .length >
-                                                    0 &&
-                                                cmt.replies
-                                                    .latestServerReply === 0
-                                                    ? () => {
-                                                          fetchCommentReply(i);
-                                                      }
-                                                    : null
-                                            }
-                                            ref={
-                                                i + 1 === array.length
-                                                    ? lastCardRef
-                                                    : null
-                                            }
                                         />
-                                        {cmt.replies.latestServerReply > 0 && (
-                                            <CommentResponseField
-                                                boardId={boardId}
-                                                onSide={onSide}
-                                                commentId={cmt.data.id}
-                                                commentData={cmt.replies.data}
-                                                delComment={(replyPos) => {
-                                                    delReply(i, replyPos);
-                                                }}
-                                                fetchMoreReplies={
-                                                    cmt.replies
-                                                        .latestServerReply +
-                                                        cmt.replies.newReplies
-                                                            .length ===
-                                                    cmt.replies.hasReplies
-                                                        ? null
-                                                        : () => {
-                                                              fetchCommentReply(
-                                                                  i
-                                                              );
-                                                          }
-                                                }
-                                            />
-                                        )}
-                                        {cmt.replies.newReplies.length > 0 && (
-                                            <CommentResponseField
-                                                boardId={boardId}
-                                                onSide={onSide}
-                                                commentId={cmt.data.id}
-                                                commentData={
-                                                    cmt.replies.newReplies
-                                                }
-                                                delComment={(replyPos) => {
-                                                    delReply(i, replyPos);
-                                                }}
-                                            />
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        {userComments.length + cmtQueryData.length === 0 &&
+                                    )
+                                )}
+                        </div>
+
+                        {userComments.length + cmtQueryData?.length === 0 &&
                             !cmtQueryLoading && <NoCommentsDisplay />}
                     </>
                 )}

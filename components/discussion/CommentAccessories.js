@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { PaperAirplaneIcon, XIcon } from '@heroicons/react/outline';
-import { postCommentBE } from '../../lib/discussion/comments';
+import { postCommentBE } from '../lib/commentFuncs';
 
 const NewComment = ({ boardId, addComment }) => {
     const commentDiv = useRef(null);
@@ -9,9 +9,7 @@ const NewComment = ({ boardId, addComment }) => {
     const [commentSide, setCommentSide] = useState(null);
 
     const postComment = async (cmtSide) => {
-        addComment(
-            await postCommentBE(commentDiv.current.innerText, boardId, cmtSide)
-        );
+        addComment(commentDiv.current.innerText, cmtSide);
         setEnteringComment(false);
     };
 

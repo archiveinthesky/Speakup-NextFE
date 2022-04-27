@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import Header from '../../components/header/Header';
@@ -13,16 +12,22 @@ import {
     IntegratedSideSelector,
     CommentSort,
 } from '../../components/discussion/Selectors';
+import { useSetRecoilState } from 'recoil';
+import { boardDataState } from '../../components/atoms/recoilAtoms';
 
 const MainBoard = ({ discussionContent }) => {
     const [commentFieldSide, setCommentFieldSide] = useState(1);
     const [commentSort, setCommentSort] = useState(0);
-    const queryClient = new QueryClient();
+
+    const setBoardData = useSetRecoilState(boardDataState);
 
     useEffect(() => {
         if (!localStorage.getItem('AuthToken')) {
             window.location.href = '/login';
         }
+        setBoardData({
+            boardId: discussionContent.boardId,
+        });
     }, []);
 
     useEffect(() => {
@@ -32,7 +37,7 @@ const MainBoard = ({ discussionContent }) => {
 
     if (discussionContent !== undefined)
         return (
-            <div className="h-screen w-screen bg-neutral-100 scrollbar-hide overflow-x-hidden">
+            <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100 scrollbar-hide overflow-x-hidden">
                 <Header />
                 <Sidebar retractable={true} />
                 <Footbar />
@@ -50,17 +55,16 @@ const MainBoard = ({ discussionContent }) => {
                             <IntegratedSideSelector
                                 changeSide={setCommentFieldSide}
                             />
-                            <QueryClientProvider client={queryClient}>
-                                <ReactQueryDevtools initialIsOpen={false} />
-                                {[commentFieldSide * commentSort].map(() => (
-                                    <CommentField
-                                        key={commentFieldSide * commentSort}
-                                        boardId={discussionContent.boardId}
-                                        onSide={commentFieldSide}
-                                        sortMethod={commentSort}
-                                    />
-                                ))}
-                            </QueryClientProvider>
+
+                            <ReactQueryDevtools initialIsOpen={false} />
+                            {[commentFieldSide * commentSort].map(() => (
+                                <CommentField
+                                    key={commentFieldSide * commentSort}
+                                    boardId={discussionContent.boardId}
+                                    onSide={commentFieldSide}
+                                    sortMethod={commentSort}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>
