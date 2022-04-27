@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import { cloneDeep } from 'lodash';
 
 import CommentCard from './CommentCard';
@@ -13,7 +13,7 @@ import {
 import { ReplyIcon } from '@heroicons/react/solid';
 import CommentResponseField from './CommentResponseField';
 
-const CommentGroup = ({ boardId, cmtdata, deleteComment }) => {
+const CommentGroup = forwardRef(({ boardId, cmtdata, deleteComment }, ref) => {
     const [userReplies, setUserReplies] = useState([]);
 
     const {
@@ -107,7 +107,7 @@ const CommentGroup = ({ boardId, cmtdata, deleteComment }) => {
     };
 
     return (
-        <div className="w-full">
+        <div className="w-full" ref={ref}>
             <CommentCard
                 data={cmtdata}
                 addReply={(content) => {
@@ -131,6 +131,6 @@ const CommentGroup = ({ boardId, cmtdata, deleteComment }) => {
             </div>
         </div>
     );
-};
+});
 
 export default CommentGroup;

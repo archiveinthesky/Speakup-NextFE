@@ -40,7 +40,7 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
         {
             getNextPageParam: (lastPage, pages) =>
                 Math.ceil(lastPage[0].totalComments / 20) > pages.length
-                    ? pages.length + 1
+                    ? pages.length
                     : undefined,
         }
     );
@@ -84,6 +84,10 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
     const { ref: lastCardRef, inView: lastCardInView, entry } = useInView();
 
     useEffect(() => {
+        cmtQueryRefetch({ refetchPage: () => true });
+    }, [onSide, sortMethod]);
+
+    useEffect(() => {
         if (entry !== undefined) {
             if (
                 entry.isIntersecting &&
@@ -109,12 +113,6 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
             </div>
         );
 
-    useEffect(() => {
-        console.log(
-            userComments.concat([].concat.apply([], cmtQueryData?.pages))
-        );
-    }, [userComments]);
-
     return (
         <div className="bg-neutral-50">
             <div className="mx-auto mb-4 flex flex-col divide-y divide-nu-blue-300 px-9 lg:py-3 ">
@@ -134,8 +132,8 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
                                 .concat(
                                     [].concat.apply([], cmtQueryData?.pages)
                                 )
-                                .map((data, i) =>
-                                    data.totalComments ? (
+                                .map((data, i, arr) => {
+                                    return data.totalComments ? (
                                         <div key={i}></div>
                                     ) : (
                                         <CommentGroup
@@ -145,9 +143,14 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
                                             deleteComment={(cmtId) => {
                                                 delComment.mutate(cmtId);
                                             }}
+                                            ref={
+                                                i === arr.length - 1
+                                                    ? lastCardRef
+                                                    : undefined
+                                            }
                                         />
-                                    )
-                                )}
+                                    );
+                                })}
                         </div>
 
                         {userComments.length + cmtQueryData?.length === 0 &&

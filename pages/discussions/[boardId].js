@@ -30,11 +30,6 @@ const MainBoard = ({ discussionContent }) => {
         });
     }, []);
 
-    useEffect(() => {
-        // console.log('Reloading');
-        // queryClient.invalidateQueries();
-    }, [commentFieldSide, commentSort]);
-
     if (discussionContent !== undefined)
         return (
             <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100 scrollbar-hide overflow-x-hidden">
@@ -55,16 +50,13 @@ const MainBoard = ({ discussionContent }) => {
                             <IntegratedSideSelector
                                 changeSide={setCommentFieldSide}
                             />
-
                             <ReactQueryDevtools initialIsOpen={false} />
-                            {[commentFieldSide * commentSort].map(() => (
-                                <CommentField
-                                    key={commentFieldSide * commentSort}
-                                    boardId={discussionContent.boardId}
-                                    onSide={commentFieldSide}
-                                    sortMethod={commentSort}
-                                />
-                            ))}
+                            <CommentField
+                                key={commentFieldSide * commentSort}
+                                boardId={discussionContent.boardId}
+                                onSide={commentFieldSide}
+                                sortMethod={commentSort}
+                            />
                         </div>
                     </div>
                 </div>
