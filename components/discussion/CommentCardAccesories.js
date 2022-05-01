@@ -14,14 +14,14 @@ const ExtendedMenu = ({
     return (
         <div className="flex flex-col">
             <button
-                className="px-4 py-2 filter transition-colors duration-200 hover:bg-nu-blue-50"
+                className="px-4 py-2 filter transition-colors duration-200 hover:bg-neutral-50"
                 onClick={() => {
                     setShowReportMenu(true);
                     setShowExtendedMenu(false);
                 }}
             >
-                <FlagIcon className="inline h-6 w-6 text-pm-blue-700" />
-                <h3 className="inline pl-1 text-sm text-pm-blue-700">檢舉</h3>
+                <FlagIcon className="inline h-6 w-6 text-primary-800" />
+                <h3 className="inline pl-1 text-sm text-primary-800">檢舉</h3>
             </button>
 
             {cmtdata.isOwner && (
@@ -32,16 +32,16 @@ const ExtendedMenu = ({
                         deleteFunction(cmtdata.id);
                     }}
                 >
-                    <TrashIcon className="inline h-6 w-6 text-pm-blue-700" />
-                    <h3 className="inline pl-1 text-sm text-pm-blue-700">
+                    <TrashIcon className="inline h-6 w-6 text-primary-800" />
+                    <h3 className="inline pl-1 text-sm text-primary-800">
                         刪除
                     </h3>
                 </button>
             )}
 
-            {motherComment === null && (
+            {!motherComment && (
                 <button
-                    className="px-4 py-2 text-pm-blue-700  filter transition-colors duration-200 hover:bg-gray-200 2xl:hidden"
+                    className="px-4 py-2 text-primary-800  filter transition-colors duration-200 hover:bg-gray-200 2xl:hidden"
                     onClick={() => {
                         setShowExtendedMenu(false);
                         setShowReplyBox(!showReplyBox);

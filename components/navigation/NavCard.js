@@ -9,18 +9,18 @@ import {
 const NavCard = ({ cardContent, showDetails }) => {
     return (
         <Link href={`/discussions/${cardContent.boardId}`}>
-            <div className="bg-nu-blue-50 flex w-full cursor-pointer justify-between overflow-hidden rounded-2xl pr-4 md:pr-7">
-                <div className="bg-pm-blue-700 w-[4.5rem] flex-shrink-0  md:w-24"></div>
+            <div className="flex w-full cursor-pointer justify-between overflow-hidden rounded-2xl bg-white pr-4 md:pr-7">
+                <div className="w-[4.5rem] flex-shrink-0 bg-primary-700  md:w-24"></div>
                 <div className="h-full flex-grow px-4 py-3">
-                    <h3 className=" text-pm-blue-800 text-lg md:text-xl">
+                    <h3 className=" text-lg text-neutral-800 md:text-xl">
                         {cardContent.title}
                     </h3>
-                    <p className="text-pm-blue-600 mt-1 h-[72px] text-ellipsis line-clamp-3">
+                    <p className="mt-1 h-[72px] text-ellipsis text-neutral-700 line-clamp-3">
                         {cardContent.content}
                     </p>
                 </div>
                 <div
-                    className={`text-pm-blue-600 hidden w-24 flex-shrink-0 flex-col justify-end gap-1 pb-4 ${
+                    className={`hidden w-24 flex-shrink-0 flex-col justify-end gap-1 pb-4 text-primary-600 ${
                         showDetails && 'md:flex'
                     }`}
                 >

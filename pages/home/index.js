@@ -44,10 +44,10 @@ const UserHome = ({}) => {
 
     if (data && homeVer === 'mob') {
         return (
-            <div className=" fixed top-0 left-0 h-screen w-screen bg-white">
+            <div className=" fixed top-0 left-0 h-screen w-screen bg-neutral-50">
                 <Footbar />
-                <div className="bg-pm-blue-600 absolute top-0 left-0 right-0 h-[30vh] min-h-[208px] pt-12">
-                    <img className="mx-auto w-20" src="/mic.png" />
+                <div className="absolute top-0 left-0 right-0 h-[30vh] min-h-[208px] bg-primary-600 pt-12">
+                    <img className="mx-auto w-20" src="/logo-mic.svg" />
                     <h1 className="mt-4 text-center text-2xl text-white">
                         歡迎回來Speakup
                     </h1>
@@ -62,7 +62,7 @@ const UserHome = ({}) => {
                     <Link
                         href={`/search/results?searchterm=${data.tracks[0].title}`}
                     >
-                        <div className="cursor-pointer text-center">
+                        <div className="cursor-pointer text-center text-primary-900">
                             <p>探索更多</p>
                             <ChevronDownIcon className=" mx-auto w-6" />
                         </div>
@@ -73,21 +73,21 @@ const UserHome = ({}) => {
         );
     } else if (data && homeVer === 'des') {
         return (
-            <div className="bg-nu-blue-100 fixed top-0 left-0 h-screen w-screen">
+            <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100">
                 <Header />
                 <Sidebar />
                 <div className="ml-64 mt-16 pl-20 pt-16">
-                    <h1 className="text-pm-blue-700 text-4xl">
+                    <h1 className="text-4xl text-primary-800">
                         {data.user} 歡迎回來Speakup!
                     </h1>
                     <div className="mt-6 flex w-full flex-col gap-9">
                         {data.tracks.map((track, i) => (
                             <div key={i}>
-                                <h2 className="text-pm-blue-700 text-2xl">
+                                <h2 className="text-2xl text-primary-800">
                                     {track.name}
                                 </h2>
                                 <div className="flex ">
-                                    <div className="3 scrollbar-track-nu-blue-100 scrollbar-thumb-nu-blue-500 mt-6 flex gap-9 overflow-x-auto pb-3.5 scrollbar-thin">
+                                    <div className="3 mt-6 flex gap-9 overflow-x-auto pb-3.5 scrollbar-thin scrollbar-track-neutral-100 scrollbar-thumb-neutral-500">
                                         {track.cards.map((card, i) => (
                                             <div
                                                 className="w-96 flex-shrink-0 "
@@ -102,7 +102,7 @@ const UserHome = ({}) => {
                                     <div className="flex w-20 flex-shrink-0 items-center justify-center">
                                         <a
                                             href={`/search/results?searchterm=@${track.title}`}
-                                            className=" text-pm-blue-700 w-10 rounded-full"
+                                            className=" w-10 rounded-full text-primary-700"
                                         >
                                             <SearchCircleIcon />
                                         </a>

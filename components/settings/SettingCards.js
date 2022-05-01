@@ -1,6 +1,7 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useMutation } from 'react-query';
 import dayjs from 'dayjs';
+import { isEqual } from 'lodash';
 
 import {
     TextInput,
@@ -9,6 +10,7 @@ import {
     Group,
     PasswordInput,
     Switch,
+    Checkbox,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
@@ -16,17 +18,14 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { PhotographIcon } from '@heroicons/react/outline';
 
 const styles = {
-    button: 'flex h-11 w-20 items-center justify-center rounded-md bg-pm-blue-600 text-white focus:outline-none',
-    p: 'text-left md:text-right text-lg leading-[44px] text-nu-blue-800',
+    button: 'flex h-11 w-20 items-center justify-center rounded-md bg-primary-700 hover:bg-primary-600 text-white focus:outline-none',
+    p: 'text-left md:text-right text-lg leading-[44px] text-neutral-800',
 };
 
 const BasicSettingsCard = ({ initValues }) => {
     const [uploadPFPModal, setUploadPFPModal] = useState(false);
     const [selectedPFP, setSelectedPFP] = useState('');
     const [urlPFP, setUrlPFP] = useState('');
-    const [submitting, setSubmitting] = useState(false);
-    const [submitSuccess, setSubmitSuccess] = useState(false);
-
     const [pwdOverlay, setPwdOverlay] = useState(false);
 
     useEffect(() => {
@@ -78,8 +77,38 @@ const BasicSettingsCard = ({ initValues }) => {
         },
     });
 
+    const userDataMutation = useMutation(
+        async (values) => {
+            let response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/data`,
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: localStorage.getItem('AuthToken'),
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(values),
+                }
+            );
+            console.log(response);
+            if (!response.ok) throw new Error(response.error);
+            return new Promise((resolve, reject) => {
+                resolve({});
+            });
+        },
+        {
+            onSettled: (data, error) => {
+                console.log(data);
+                console.log(error);
+            },
+            onError: (error) => {
+                console.error(error);
+                form.setErrors({ username: '此使用者名稱已被使用' });
+            },
+        }
+    );
+
     const submitUserData = form.onSubmit((values) => {
-        console.log(values);
         let vals = values;
         let date = dayjs(values.birthday);
         let month = date.month() + 1;
@@ -87,43 +116,35 @@ const BasicSettingsCard = ({ initValues }) => {
         let day = date.date();
         day = day < 10 ? `0${day}` : `${day}`;
         vals.birthday = `${dayjs().year()}-${month}-${day}`;
-        setSubmitting(true);
-        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/data`, {
-            method: 'POST',
-            headers: {
-                Authorization: localStorage.getItem('AuthToken'),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(vals),
-        }).then((response) => {
-            if (response.status === 409) {
-                form.setErrors({ username: '此使用者名稱已被使用' });
-            } else if (response.status == 200) setSubmitSuccess(true);
-            setSubmitting(false);
-        });
+        userDataMutation.mutate(vals);
     });
 
     return (
         <form
-            className=" w-full bg-white pb-10"
+            className="w-full pb-10 bg-white lg:bg-neutral-50"
             onSubmit={submitUserData}
             id="dataform"
         >
-            <div className="mx-6 flex items-center justify-between py-5 md:mx-16">
-                <h1 className=" text-nu-blue-800 text-2xl ">基本資料</h1>
+            <div className="flex items-center justify-between h-20 py-5 mx-6 md:mx-16">
+                <h1 className="text-2xl text-nu-blue-800">基本資料</h1>
                 <Button
-                    className="bg-pm-blue-600 flex h-10 w-20 items-center justify-center rounded-md text-white focus:outline-none disabled:bg-opacity-50"
+                    className={`${
+                        isEqual(form.values, initValues) ? 'hidden' : 'flex'
+                    } h-9 w-20 items-center justify-center rounded-md ${(() => {
+                        if (userDataMutation.isIdle) return 'bg-primary-700';
+                        if (userDataMutation.isSuccess) return 'bg-green-400';
+                        if (userDataMutation.isError) return 'bg-red-500';
+                    })()} text-white hover:bg-primary-600 focus:outline-none disabled:bg-opacity-50`}
                     type="submit"
-                    color={submitSuccess ? 'green' : 'blue'}
-                    loading={submitting}
+                    loading={userDataMutation.isLoading}
                     onMouseLeave={() => {
-                        setSubmitSuccess(false);
+                        // if (userDataMutation) userDataMutation.reset();
                     }}
                 >
                     儲存
                 </Button>
             </div>
-            <hr className=" mb-6 border-t-2" />
+            <hr className="mb-6 border-t-2 " />
             <div className="flex flex-col gap-4 px-6 text-left md:grid md:grid-cols-[4fr,6fr] md:items-center md:gap-y-5 ">
                 <p className={styles.p}>您的姓名</p>
                 <TextInput
@@ -174,8 +195,8 @@ const BasicSettingsCard = ({ initValues }) => {
                     >
                         {() => {
                             return (
-                                <div className=" flex items-center justify-center gap-4">
-                                    <PhotographIcon className="h-16 w-16" />
+                                <div className="flex items-center justify-center gap-4">
+                                    <PhotographIcon className="w-16 h-16" />
                                     <div className="">
                                         <h2>將使用者頭像拖曳至此以上傳</h2>
                                         <p>頭像不得超過5mb</p>
@@ -209,7 +230,7 @@ const BasicSettingsCard = ({ initValues }) => {
                         </Button>
                         <Button
                             variant="filled"
-                            className="bg-pm-blue-600"
+                            className="bg-primary-600"
                             onClick={() => {
                                 let formData = new FormData();
                                 formData.append(
@@ -312,7 +333,7 @@ const BasicSettingsCard = ({ initValues }) => {
                             </Button>
                             <Button
                                 variant="filled"
-                                className="bg-pm-blue-600"
+                                className="bg-primary-600"
                                 onClick={pwdForm.onSubmit((values) => {
                                     fetch(
                                         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/data/pwd`,
@@ -359,26 +380,114 @@ const BasicSettingsCard = ({ initValues }) => {
     );
 };
 
-const NotificationSettingsCard = () => {
-    const [reported, setReported] = useState(false);
+const NotificationSettingsCard = ({ initValues }) => {
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+
+    const notifyForm = useForm({
+        initialValues: initValues,
+    });
+
+    useEffect(() => {
+        if (!notifyForm.values.all) {
+            notifyForm.setValues({
+                all: false,
+                cmtMod: false,
+                brdMod: false,
+                cmtReply: false,
+                brdAlc: false, //Board analytics
+                ads: false,
+            });
+        }
+    }, [notifyForm.values.all]);
 
     return (
-        <div className=" w-full bg-white pb-10">
-            <h1 className="text-nu-blue-800 mx-6 py-5 text-2xl md:mx-16">
-                通知設定
-            </h1>
-            <hr className=" mb-6 border-t-2" />
-            <div className="flex flex-col gap-8 px-6 text-left md:grid md:grid-cols-[4fr,6fr] md:items-center ">
-                <p className={styles.p}>檢舉結果通知</p>
-                <Switch
-                    checked={reported}
-                    onChange={(e) => {
-                        setReported(e.currentTarget.checked);
+        <div className="w-full pb-10 bg-white lg:bg-neutral-50 ">
+            <div className="flex items-center justify-between h-20 py-5 mx-6 md:mx-16">
+                <h1 className="text-2xl text-nu-blue-800">平台通知</h1>
+                <Button
+                    className={`${
+                        isEqual(notifyForm.values, initValues)
+                            ? 'hidden'
+                            : 'flex'
+                    } h-9 w-20 items-center justify-center rounded-md bg-primary-700 text-white hover:bg-primary-600 focus:outline-none disabled:bg-opacity-50`}
+                    type="submit"
+                    // color={submitSuccess ? 'green' : 'red'}
+                    // loading={submitting}
+                    onMouseLeave={() => {
+                        setSubmitSuccess(false);
                     }}
+                >
+                    儲存
+                </Button>
+            </div>
+            <hr className="mb-6 border-t-2 " />
+            <div className="flex flex-col gap-8 px-6 text-left md:grid md:grid-cols-[4fr,6fr] md:items-center ">
+                <p className={styles.p}>開啟通知</p>
+                <Checkbox
+                    size="md"
+                    {...notifyForm.getInputProps('all', { type: 'checkbox' })}
                 />
+                {notifyForm.values.all && (
+                    <>
+                        <p className={styles.p}>留言審核結果</p>
+                        <Checkbox
+                            size="md"
+                            {...notifyForm.getInputProps('cmtMod', {
+                                type: 'checkbox',
+                            })}
+                        />
+                        <p className={styles.p}>議題審核結果</p>
+                        <Checkbox
+                            size="md"
+                            {...notifyForm.getInputProps('brdMod', {
+                                type: 'checkbox',
+                            })}
+                        />
+                        <p className={styles.p}>熱門留言回覆</p>
+                        <Checkbox
+                            size="md"
+                            {...notifyForm.getInputProps('cmtReply', {
+                                type: 'checkbox',
+                            })}
+                        />
+                        <p className={styles.p}>議題數據分析</p>
+                        <Checkbox
+                            size="md"
+                            {...notifyForm.getInputProps('brdAlc', {
+                                type: 'checkbox',
+                            })}
+                        />
+                        <p className={styles.p}>Speakup宣傳通知</p>
+                        <Checkbox
+                            size="md"
+                            {...notifyForm.getInputProps('ads', {
+                                type: 'checkbox',
+                            })}
+                        />
+                    </>
+                )}
             </div>
         </div>
     );
 };
 
-export { BasicSettingsCard, NotificationSettingsCard };
+const AccountActions = () => {
+    return (
+        <div className="w-full pb-10 bg-white lg:bg-neutral-50 ">
+            <div className="flex items-center justify-between h-20 py-5 mx-6 md:mx-16">
+                <h1 className="text-2xl text-nu-blue-800">帳號行動</h1>
+            </div>
+            <div className="flex flex-col gap-8 px-6 text-left md:grid md:grid-cols-[4fr,6fr] md:items-center ">
+                <p className={styles.p}>登出帳號</p>
+                <Button variant="outline" className="w-16">
+                    登出
+                </Button>
+                <p className={styles.p}>意見回饋</p>
+                <Button variant="outline" className="w-28">
+                    意見回饋
+                </Button>
+            </div>
+        </div>
+    );
+};
+export { BasicSettingsCard, NotificationSettingsCard, AccountActions };

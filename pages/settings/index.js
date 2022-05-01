@@ -4,6 +4,7 @@ import Footbar from '../../components/navbar/Footbar';
 import {
     BasicSettingsCard,
     NotificationSettingsCard,
+    AccountActions
 } from '../../components/settings/SettingCards';
 
 import Sidebar from '../../components/navbar/Sidebar';
@@ -30,22 +31,32 @@ const Settings = () => {
     }, []);
 
     return (
-        <div className="bg-nu-blue-50 fixed top-0 left-0 h-screen w-screen overflow-y-scroll">
+        <div className="fixed top-0 left-0 w-screen h-screen overflow-y-scroll bg-neutral-100">
             <Header />
             <Sidebar />
             <Footbar />
             <div className="w-full px-6 md:px-10 lg:py-6 lg:pl-72">
-                <div className="mx-auto flex max-w-7xl flex-grow-0 flex-col gap-10 pt-20 md:pt-24">
+                <div className="flex flex-col flex-grow-0 pt-20 mx-auto max-w-7xl gap-10 md:pt-24">
                     {!isEmpty(initValues) && (
                         <>
                             <BasicSettingsCard initValues={initValues} />
-                            {/* <NotificationSettingsCard /> */}
+                            <NotificationSettingsCard
+                                initValues={{
+                                    all: true,
+                                    cmtMod: true,
+                                    brdMod: true,
+                                    cmtReply: true,
+                                    brdAlc: true, //Board analytics
+                                    ads: true,
+                                }}
+                            />
+<AccountActions />
                         </>
                     )}
                 </div>
             </div>
 
-            <div className="h-40 flex-shrink-0"></div>
+            <div className="flex-shrink-0 h-40"></div>
         </div>
     );
 };

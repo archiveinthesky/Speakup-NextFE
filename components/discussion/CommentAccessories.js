@@ -7,10 +7,13 @@ const NewComment = ({ boardId, addComment }) => {
     const [enteringComment, setEnteringComment] = useState(false);
     const [choosingSide, setChoosingSide] = useState(false);
     const [commentSide, setCommentSide] = useState(null);
+    const [contentEditable, setContentEditable] = useState(true);
 
     const postComment = async (cmtSide) => {
         addComment(commentDiv.current.innerText, cmtSide);
         setEnteringComment(false);
+        setChoosingSide(false);
+        setCommentSide(null);
     };
 
     return (
@@ -26,7 +29,7 @@ const NewComment = ({ boardId, addComment }) => {
                     <div
                         ref={commentDiv}
                         className={`my-auto h-full w-full bg-transparent pl-2 pr-32 text-lg leading-9 text-neutral-800 focus:outline-none`}
-                        contentEditable={true}
+                        contentEditable={contentEditable}
                         onKeyPress={(e) => {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
@@ -34,6 +37,7 @@ const NewComment = ({ boardId, addComment }) => {
                                     commentDiv.current.innerText !== '' &&
                                     !choosingSide
                                 ) {
+                                    setContentEditable(false);
                                     setChoosingSide(true);
                                 }
                             }
@@ -43,12 +47,13 @@ const NewComment = ({ boardId, addComment }) => {
                 {enteringComment ? (
                     <div className="absolute top-1.5 right-2 flex h-7 flex-wrap items-center justify-end gap-2 overflow-hidden">
                         <button
-                            className={`h-6 w-6 flex-shrink-0 text-primary-800 ${
+                            className={`h-6 w-6 flex-shrink-0 text-primary-800 disabled:text-primary-500 ${
                                 choosingSide ? 'hidden' : 'block'
                             }`}
                             onClick={async () => {
                                 if (commentDiv.current.innerText !== '') {
                                     setChoosingSide(true);
+                                    setContentEditable(false);
                                 }
                             }}
                         >
@@ -111,7 +116,8 @@ const NewComment = ({ boardId, addComment }) => {
                     <button
                         className={`absolute top-1.5 right-1 m-auto h-6 w-6 flex-shrink-0 `}
                         onClick={() => {
-                            setEnteringComment(!enteringComment);
+                            setEnteringComment(true);
+                            setContentEditable(true);
                         }}
                     >
                         <svg

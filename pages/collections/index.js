@@ -43,13 +43,13 @@ const Collections = ({ discussionContent }) => {
     }, [router.query]);
 
     return (
-        <div className="bg-nu-blue-100 fixed top-0 left-0 h-screen w-screen scrollbar-hide overflow-x-hidden">
+        <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100 scrollbar-hide overflow-x-hidden">
             <Header />
             <Sidebar retractable={false} />
             <Footbar />
             <div className="flex h-screen w-full flex-col items-center pt-14 lg:ml-64 lg:w-[calc(100%-16rem)]">
                 <div className="mt-10 w-[calc(100%-72px)] max-w-3xl md:w-[calc(100%-160px)] ">
-                    <h1 className="text-pm-blue-700 text-3xl">
+                    <h1 className="text-3xl text-primary-800">
                         {maxPage > 0
                             ? '想翻個有興趣的議題？沒問題'
                             : `您目前還沒有收藏，點擊書籤圖示即可將一個議題收藏起來`}
@@ -57,7 +57,7 @@ const Collections = ({ discussionContent }) => {
                     <div className="gap2 mt-8 flex flex-col gap-8">
                         {collections.map((dayContent, i) => (
                             <div key={i}>
-                                <h3 className=" text-pm-blue-700 text-2xl">
+                                <h3 className=" text-2xl text-primary-800">
                                     {dayContent.date}
                                 </h3>
                                 <div className="mt-2 flex flex-col gap-6">

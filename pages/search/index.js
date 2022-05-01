@@ -27,7 +27,7 @@ const SearchMenu = () => {
     };
 
     return (
-        <div className="bg-nu-blue-50 fixed left-0 top-0 h-screen w-screen">
+        <div className="fixed left-0 top-0 h-screen w-screen bg-neutral-50">
             <Header />
             <Sidebar />
             <Footbar />
@@ -50,14 +50,14 @@ const SearchMenu = () => {
                         </button>
                     </form>
                     <div className="mx-auto my-3 w-11/12">
-                        <h2 className="text-nu-blue-800 my-3 text-xl lg:my-4 lg:text-3xl">
+                        <h2 className="my-3 text-xl text-nu-blue-800 lg:my-4 lg:text-3xl">
                             熱門標籤
                         </h2>
                         <div className="flex flex-wrap gap-x-4 gap-y-3">
                             {tags.map((tag, i) => (
                                 <button
                                     key={i}
-                                    className="bg-nu-blue-100 text-nu-blue-800 rounded-3xl px-4 py-2"
+                                    className="rounded-3xl bg-neutral-100 px-4 py-2 text-neutral-800"
                                     onClick={() => {
                                         window.location.href = `/search/results?searchterm=@${tag}`;
                                     }}

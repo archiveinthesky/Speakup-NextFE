@@ -3,12 +3,13 @@ import { UserCircleIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 
 const HomeNavCard = ({ cardContent }) => {
-    if (cardContent.picked) {
+    console.log(cardContent);
+    if (cardContent.isPicked) {
         return (
             <Link href={`/discussions/${cardContent.boardId}`}>
-                <div className="bg-pm-blue-600 flex w-full flex-shrink-0 cursor-pointer justify-between overflow-hidden rounded-2xl px-6 pt-4 pb-6 drop-shadow-md">
+                <div className="flex w-full flex-shrink-0 cursor-pointer justify-between overflow-hidden rounded-2xl bg-primary-700 px-6 pt-4 pb-6 drop-shadow-md">
                     <div className="h-full flex-grow ">
-                        <p className=" text-nu-blue-200 text-[10px]">
+                        <p className=" text-[10px] text-neutral-200">
                             Speakup團隊精選
                         </p>
                         <h3 className="text-lg font-light text-white">
@@ -32,13 +33,13 @@ const HomeNavCard = ({ cardContent }) => {
     } else {
         return (
             <Link href={`/discussions/${cardContent.boardId}`}>
-                <div className="bg-nu-blue-50 flex w-full flex-shrink-0 cursor-pointer justify-between overflow-hidden rounded-2xl pr-4 md:pr-7">
-                    <div className="bg-pm-blue-700 w-[4.5rem] flex-shrink-0 md:w-24"></div>
+                <div className="flex w-full flex-shrink-0 cursor-pointer justify-between overflow-hidden rounded-2xl border-2 border-primary-800 bg-white pr-4 md:pr-7 xl:border-0">
+                    <div className="w-[4.5rem] flex-shrink-0 bg-primary-800 md:w-24"></div>
                     <div className="h-full flex-grow px-4 py-3">
-                        <h3 className=" text-pm-blue-800 text-lg md:text-xl">
+                        <h3 className="text-lg text-neutral-800 lg:text-xl">
                             {cardContent.title}
                         </h3>
-                        <p className="text-pm-blue-600 mt-1 h-[48px] text-ellipsis line-clamp-2 lg:h-[96px] lg:line-clamp-4">
+                        <p className="mt-1 h-[48px] text-ellipsis text-neutral-700 line-clamp-2 lg:h-[96px] lg:line-clamp-4">
                             {cardContent.content}
                         </p>
                     </div>

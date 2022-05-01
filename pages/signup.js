@@ -37,22 +37,18 @@ const SignUp = () => {
     });
 
     return (
-        <div className=" fixed top-0 left-0 flex h-screen w-screen items-center justify-center bg-aqua-50">
+        <div className=" bg-aqua-50 fixed top-0 left-0 flex h-screen w-screen items-center justify-center">
             <div className="mx-8 w-full max-w-lg rounded-3xl bg-white py-14 px-12">
                 <div className="flex w-full items-center justify-center gap-2">
                     <h1 className="text-2xl">歡迎加入</h1>
-                    <img
-                        className="h-7 w-7"
-                        src="/landing/logo-mic.svg"
-                        alt=""
-                    />
+                    <img className="h-7 w-7" src="/logo-mic.svg" alt="" />
                 </div>
                 <p className="mt-3 text-center">
                     請輸入您的資料
                     <br />
                     註冊過了？
                     <Link href="/login">
-                        <span className="cursor-pointer text-aqua-600">
+                        <span className="text-aqua-600 cursor-pointer">
                             登入
                         </span>
                     </Link>
@@ -102,14 +98,14 @@ const SignUp = () => {
                         label="您的使用者名稱"
                         placeholder="您的使用者名稱"
                         description="使用者名稱不得超過20個字"
-                        icon={<UserIcon className="h-6 w-6 text-aqua-600" />}
+                        icon={<UserIcon className="text-aqua-600 h-6 w-6" />}
                         required
                         {...signupForm.getInputProps('username')}
                     />
                     <TextInput
                         label="您的信箱"
                         placeholder="您的信箱"
-                        icon={<InboxIcon className="h-6 w-6 text-aqua-600" />}
+                        icon={<InboxIcon className="text-aqua-600 h-6 w-6" />}
                         required
                         {...signupForm.getInputProps('email')}
                     />
@@ -118,7 +114,7 @@ const SignUp = () => {
                         label="您的密碼"
                         description="密碼必須含有一個大寫字幕、小寫字母以及一個數字"
                         icon={
-                            <LockClosedIcon className="h-6 w-6 text-aqua-600" />
+                            <LockClosedIcon className="text-aqua-600 h-6 w-6" />
                         }
                         required
                         {...signupForm.getInputProps('password')}
@@ -127,7 +123,7 @@ const SignUp = () => {
                         label="驗證密碼"
                         placeholder="驗證密碼"
                         icon={
-                            <LockClosedIcon className="h-6 w-6 text-aqua-600" />
+                            <LockClosedIcon className="text-aqua-600 h-6 w-6" />
                         }
                         required
                         {...signupForm.getInputProps('confPwd')}
