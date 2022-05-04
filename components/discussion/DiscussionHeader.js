@@ -1,9 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
-import { BookmarkIcon, FlagIcon } from '@heroicons/react/outline';
+import { BookmarkIcon, FlagIcon, LinkIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import ReportInterface from '../common/ReportInterface';
+import { Spoiler } from '@mantine/core';
 
 const DiscussionHeader = ({ pagedata }) => {
     const router = useRouter();
@@ -20,7 +21,7 @@ const DiscussionHeader = ({ pagedata }) => {
 
     if (router.isFallback) {
         return (
-            <div className="mx-auto w-full bg-white px-9 py-6">
+            <div className="mx-auto w-full bg-white py-6 px-9">
                 <div className="my-1 h-8 w-40 animate-pulse rounded-xl bg-gray-300"></div>
                 <div className="mt-1 mb-4 h-5 w-20 animate-pulse rounded-xl bg-gray-300"></div>
                 <div className="my-1.5 h-6 w-[calc(100%-20px)] animate-pulse rounded-xl bg-gray-300"></div>
@@ -30,19 +31,30 @@ const DiscussionHeader = ({ pagedata }) => {
         );
     } else {
         return (
-            <div className="mx-auto w-full bg-neutral-50 px-9 py-6">
+            <div className="mx-auto w-full bg-neutral-50 py-6 px-9">
                 <h1 className="pb-2 text-3xl text-primary-900">
                     {pagedata.title}
                 </h1>
-                <div className="pb-3">
+                <div className="flex items-center pb-3">
                     <img
-                        className="mr-3 inline h-5 w-5"
+                        className="mr-3 h-5 w-5 "
                         src={pagedata.authorPfp}
                         alt=""
-                    ></img>
-                    <p className="inline text-sm text-neutral-500">
+                    />
+                    <p className="text-sm text-neutral-500">
                         {pagedata.authorName}
                     </p>
+                    <div className="w-4" />
+                    {true && (
+                        <>
+                            <LinkIcon className="h-5 w-5 text-primary-600" />
+                            <a href={pagedata.sponsorLink}>
+                                <p className="text-sm text-primary-600">
+                                    議題連結
+                                </p>
+                            </a>
+                        </>
+                    )}
                 </div>
                 <div className="flex flex-wrap justify-start gap-4">
                     {pagedata.tags.map((tag, i) => (
@@ -60,7 +72,14 @@ const DiscussionHeader = ({ pagedata }) => {
                     <p className="text-lg">{pagedata.content}</p>
 
                     <div>
-                        {showStandpoint && (
+                        <Spoiler
+                            maxHeight={0}
+                            showLabel="展開雙方立場"
+                            hideLabel="收合雙方立場"
+                            classNames={{
+                                control: 'text-lg leading-10 text-primary-700',
+                            }}
+                        >
                             <div>
                                 <p className="mb-2 text-xl text-primary-800">
                                     支持者的立場
@@ -73,20 +92,18 @@ const DiscussionHeader = ({ pagedata }) => {
                                 </p>
                                 <p className="text-lg">{pagedata.agnContent}</p>
                             </div>
-                        )}
-                        <button
-                            onClick={() => {
-                                setShowStandpoint(!showStandpoint);
-                            }}
-                        >
-                            <p className="text-left text-lg leading-10 text-primary-700">
-                                {showStandpoint ? '收合' : '展開'}立場/論點
-                            </p>
-                        </button>
+                        </Spoiler>
                     </div>
 
                     <div>
-                        {showReference && (
+                        <Spoiler
+                            maxHeight={0}
+                            showLabel="展開延伸閱讀"
+                            hideLabel="收合延伸閱讀"
+                            classNames={{
+                                control: 'text-lg leading-10 text-primary-700',
+                            }}
+                        >
                             <div>
                                 <p className="mb-2 text-xl text-primary-800">
                                     延伸資料
@@ -108,16 +125,7 @@ const DiscussionHeader = ({ pagedata }) => {
                                     );
                                 })}
                             </div>
-                        )}
-                        <button
-                            onClick={() => {
-                                setShowReference(!showReference);
-                            }}
-                        >
-                            <p className="text-left text-lg leading-10 text-primary-700">
-                                {showReference ? '收合' : '展開'}參考/資料
-                            </p>
-                        </button>
+                        </Spoiler>
                     </div>
                     <div className="flex h-8 justify-start gap-2">
                         <button onClick={toggleSaved}>
