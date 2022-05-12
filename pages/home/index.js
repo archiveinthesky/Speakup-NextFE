@@ -2,7 +2,7 @@ import React from 'react';
 import { ChevronDownIcon, SearchCircleIcon } from '@heroicons/react/outline';
 import { useState, useEffect } from 'react';
 
-import Header from '../../components/header/Header';
+import Header from '../../components/navbar/Header';
 import Footbar from '../../components/navbar/Footbar';
 import Sidebar from '../../components/navbar/Sidebar';
 import HomeNavCard from '../../components/navigation/HomeNavCard';

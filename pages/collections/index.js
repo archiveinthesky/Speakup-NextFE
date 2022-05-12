@@ -2,11 +2,12 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import Header from '../../components/header/Header';
+import Header from '../../components/navbar/Header';
 import Sidebar from '../../components/navbar/Sidebar';
 import Footbar from '../../components/navbar/Footbar';
 import NavCard from '../../components/navigation/NavCard';
 import Pagebar from '../../components/navbar/Pagebar';
+import { Pagination } from '@mantine/core';
 
 const Collections = ({ discussionContent }) => {
     const router = useRouter();
@@ -76,6 +77,13 @@ const Collections = ({ discussionContent }) => {
                     </div>
                 </div>
                 <div className="h-16 flex-shrink-0"></div>
+                {/* <Pagination
+                    total={maxPage}
+                    page={onPage}
+                    onChange={(i) => {
+                        console.log(i);
+                    }}
+                /> */}
                 <Pagebar
                     maxPage={maxPage}
                     url={(id) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import Header from '../../components/header/Header';
+import Header from '../../components/navbar/Header';
 import Sidebar from '../../components/navbar/Sidebar';
 import Footbar from '../../components/navbar/Footbar';
 import NavCard from '../../components/navigation/NavCard';

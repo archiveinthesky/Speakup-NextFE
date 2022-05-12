@@ -121,12 +121,12 @@ const BasicSettingsCard = ({ initValues }) => {
 
     return (
         <form
-            className="w-full pb-10 bg-white lg:bg-neutral-50"
+            className="w-full bg-white pb-10 lg:bg-neutral-50"
             onSubmit={submitUserData}
             id="dataform"
         >
-            <div className="flex items-center justify-between h-20 py-5 mx-6 md:mx-16">
-                <h1 className="text-2xl text-nu-blue-800">基本資料</h1>
+            <div className="mx-6 flex h-20 items-center justify-between py-5 md:mx-16">
+                <h1 className="text-2xl text-neutral-800">基本資料</h1>
                 <Button
                     className={`${
                         isEqual(form.values, initValues) ? 'hidden' : 'flex'
@@ -196,7 +196,7 @@ const BasicSettingsCard = ({ initValues }) => {
                         {() => {
                             return (
                                 <div className="flex items-center justify-center gap-4">
-                                    <PhotographIcon className="w-16 h-16" />
+                                    <PhotographIcon className="h-16 w-16" />
                                     <div className="">
                                         <h2>將使用者頭像拖曳至此以上傳</h2>
                                         <p>頭像不得超過5mb</p>
@@ -401,9 +401,9 @@ const NotificationSettingsCard = ({ initValues }) => {
     }, [notifyForm.values.all]);
 
     return (
-        <div className="w-full pb-10 bg-white lg:bg-neutral-50 ">
-            <div className="flex items-center justify-between h-20 py-5 mx-6 md:mx-16">
-                <h1 className="text-2xl text-nu-blue-800">平台通知</h1>
+        <div className="w-full bg-white pb-10 lg:bg-neutral-50 ">
+            <div className="mx-6 flex h-20 items-center justify-between py-5 md:mx-16">
+                <h1 className="text-2xl text-neutral-800">平台通知</h1>
                 <Button
                     className={`${
                         isEqual(notifyForm.values, initValues)
@@ -473,9 +473,9 @@ const NotificationSettingsCard = ({ initValues }) => {
 
 const AccountActions = () => {
     return (
-        <div className="w-full pb-10 bg-white lg:bg-neutral-50 ">
-            <div className="flex items-center justify-between h-20 py-5 mx-6 md:mx-16">
-                <h1 className="text-2xl text-nu-blue-800">帳號行動</h1>
+        <div className="w-full bg-white pb-10 lg:bg-neutral-50 ">
+            <div className="mx-6 flex h-20 items-center justify-between py-5 md:mx-16">
+                <h1 className="text-2xl text-neutral-800">帳號行動</h1>
             </div>
             <div className="flex flex-col gap-8 px-6 text-left md:grid md:grid-cols-[4fr,6fr] md:items-center ">
                 <p className={styles.p}>登出帳號</p>

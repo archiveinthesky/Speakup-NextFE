@@ -8,7 +8,7 @@ import {
     deleteReply,
     getCommentReplies,
     postCommentReply,
-} from '../lib/commentFuncs';
+} from '../../lib/commentFuncs';
 
 import { ReplyIcon } from '@heroicons/react/solid';
 import CommentResponseField from './CommentResponseField';
@@ -90,7 +90,7 @@ const CommentGroup = forwardRef(({ boardId, cmtdata, deleteComment }, ref) => {
 
         return (
             <button
-                className="flex items-start gap-1 text-nu-blue-500"
+                className="flex items-start gap-1 text-neutral-500"
                 onClick={() => {
                     replyQueryFetchNextPage();
                 }}

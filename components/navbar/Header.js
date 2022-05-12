@@ -2,8 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import AccountOptions from './AccountOptions';
-import NotificationButton from './Notifications';
+import AccountOptions from './header/AccountOptions';
+import NotificationButton from './header/Notifications';
 
 import { SearchIcon } from '@heroicons/react/outline';
 
@@ -44,7 +44,7 @@ const Header = () => {
                         onSubmit={searchSubmit}
                     >
                         <input
-                            className="h-9 w-full rounded-3xl bg-nu-blue-50 p-5 text-base text-nu-blue-600 focus:outline-0"
+                            className="h-9 w-full rounded-3xl bg-neutral-50 p-5 text-base text-neutral-600 focus:outline-0"
                             placeholder="搜尋你感興趣的議題"
                             type="text"
                         />

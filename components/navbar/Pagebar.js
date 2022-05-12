@@ -14,8 +14,8 @@ const Pagebar = ({ maxPage, url, selected }) => {
                         <div
                             className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded ${
                                 selected == i + 1
-                                    ? 'bg-pm-blue-700'
-                                    : 'bg-pm-blue-500'
+                                    ? 'bg-primary-700'
+                                    : 'bg-primary-500'
                             }`}
                         >
                             <p className="text-center text-lg text-white">

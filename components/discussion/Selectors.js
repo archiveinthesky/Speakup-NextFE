@@ -21,7 +21,7 @@ const SideSelector = ({ changeSide }) => {
             >
                 <p
                     className={`${
-                        onSide === 0 ? 'text-nu-blue-50' : 'text-nu-blue-800'
+                        onSide === 0 ? 'text-neutral-50' : 'text-neutral-800'
                     } w-1/2 border-b-2 border-transparent text-sm leading-6 transition-colors duration-300 hover:border-primary-700`}
                 >
                     支持
@@ -38,7 +38,7 @@ const SideSelector = ({ changeSide }) => {
             >
                 <p
                     className={`${
-                        onSide === 1 ? 'text-nu-blue-50' : 'text-nu-blue-800'
+                        onSide === 1 ? 'text-neutral-50' : 'text-neutral-800'
                     } border-b-2 border-transparent text-sm leading-6 transition-colors duration-300 hover:border-primary-700`}
                 >
                     不區分立場
@@ -55,7 +55,7 @@ const SideSelector = ({ changeSide }) => {
             >
                 <p
                     className={`${
-                        onSide === 2 ? 'text-nu-blue-50' : 'text-nu-blue-800'
+                        onSide === 2 ? 'text-neutral-50' : 'text-neutral-800'
                     } w-1/2 border-b-2 border-transparent text-sm leading-6 transition-colors duration-300 hover:border-primary-700`}
                 >
                     反對
@@ -79,8 +79,8 @@ const IntegratedSideSelector = ({ changeSide }) => {
             >
                 <p
                     className={`${
-                        onSide === 0 ? 'text-primary-800' : 'text-nu-blue-400'
-                    } w-1/3 border-b-2 border-transparent text-sm leading-6 transition-colors duration-300 hover:border-pm-blue-700`}
+                        onSide === 0 ? 'text-primary-800' : 'text-neutral-400'
+                    } w-1/3 border-b-2 border-transparent text-sm leading-6 transition-colors duration-300 hover:border-primary-700`}
                 >
                     支持
                 </p>
@@ -120,7 +120,6 @@ const IntegratedSideSelector = ({ changeSide }) => {
 };
 
 const CommentSort = ({ changeSortMethod }) => {
-    const [opened, handlers] = useDisclosure(false);
     const [sortMethod, setSortMethod] = useState(1);
 
     return (

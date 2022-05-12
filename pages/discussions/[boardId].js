@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import Header from '../../components/header/Header';
+import Header from '../../components/navbar/Header';
 import Sidebar from '../../components/navbar/Sidebar';
 import Footbar from '../../components/navbar/Footbar';
 import DiscussionHeader from '../../components/discussion/DiscussionHeader';

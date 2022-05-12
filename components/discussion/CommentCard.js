@@ -8,7 +8,7 @@ import {
     ReplyIcon,
 } from '@heroicons/react/outline';
 
-import { updateCommentReactions } from '../lib/commentFuncs';
+import { updateCommentReactions } from '../../lib/commentFuncs';
 
 import styles from '../../styles/CommentCard.module.css';
 import ReportInterface from '../common/ReportInterface';
@@ -90,9 +90,9 @@ const CommentCard = forwardRef(
             };
 
             return (
-                <div className="ml-10 mb-2 flex w-11/12 items-center pt-1 overflow-x-hidden">
+                <div className="ml-10 mb-2 flex w-11/12 items-center overflow-x-hidden pt-1">
                     <div
-                        className={`w-full flex-grow-0 rounded-3xl border-2 border-nu-blue-400 py-1.5 pl-5 pr-10 text-sm`}
+                        className={`w-full flex-grow-0 rounded-3xl border-2 border-neutral-400 py-1.5 pl-5 pr-10 text-sm`}
                         contentEditable={true}
                         onKeyPress={(e) => {
                             if (e.key === 'Enter') {
@@ -106,7 +106,7 @@ const CommentCard = forwardRef(
                         className={`relative right-8 -bottom-1 pb-2`}
                         onClick={postReply}
                     >
-                        <ReplyIcon className="h-5 w-5 text-pm-blue-800" />
+                        <ReplyIcon className="h-5 w-5 text-primary-800" />
                     </button>
                 </div>
             );
@@ -121,7 +121,7 @@ const CommentCard = forwardRef(
                                 ? data.onSide === 'sup'
                                     ? 'border-green-300'
                                     : 'border-red-400'
-                                : 'border-nu-blue-300'
+                                : 'border-neutral-300'
                         } src='' alt="Profile overflow-hidden rounded-full`}
                     />
                     <div className="flex-grow">
@@ -226,7 +226,7 @@ const CommentCard = forwardRef(
                                             ref={cardmenu}
                                             width={58}
                                         >
-                                            <DotsVerticalIcon className="h-6 w-6 text-nu-blue-500" />
+                                            <DotsVerticalIcon className="h-6 w-6 text-neutral-500" />
                                         </button>
                                     }
                                     spacing={0}

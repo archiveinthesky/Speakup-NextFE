@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { PaperAirplaneIcon, XIcon } from '@heroicons/react/outline';
-import { postCommentBE } from '../lib/commentFuncs';
 
 const NewComment = ({ boardId, addComment }) => {
     const commentDiv = useRef(null);

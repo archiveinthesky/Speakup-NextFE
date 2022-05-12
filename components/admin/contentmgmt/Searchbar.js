@@ -29,7 +29,7 @@ const Searchbar = ({ submitSearch }) => {
     };
 
     useEffect(() => {
-        window.onresize = () => {
+        const updateScreen = () => {
             if (window.innerWidth > 1024) {
                 if (screenSize !== 'des') resetSearch();
                 setScreenSize('des');
@@ -38,6 +38,8 @@ const Searchbar = ({ submitSearch }) => {
                 setScreenSize('mob');
             }
         };
+        window.onresize = updateScreen;
+        updateScreen();
         return () => {
             window.onresize = undefined;
         };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SearchIcon } from '@heroicons/react/outline';
-import Header from '../../components/header/Header';
+import Header from '../../components/navbar/Header';
 import Sidebar from '../../components/navbar/Sidebar';
 import Footbar from '../../components/navbar/Footbar';
 
@@ -50,7 +50,7 @@ const SearchMenu = () => {
                         </button>
                     </form>
                     <div className="mx-auto my-3 w-11/12">
-                        <h2 className="my-3 text-xl text-nu-blue-800 lg:my-4 lg:text-3xl">
+                        <h2 className="my-3 text-xl text-neutral-800 lg:my-4 lg:text-3xl">
                             熱門標籤
                         </h2>
                         <div className="flex flex-wrap gap-x-4 gap-y-3">

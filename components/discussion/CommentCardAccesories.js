@@ -26,7 +26,7 @@ const ExtendedMenu = ({
 
             {cmtdata.isOwner && (
                 <button
-                    className=" px-4 py-2 filter transition-colors duration-200 hover:bg-nu-blue-50"
+                    className=" px-4 py-2 filter transition-colors duration-200 hover:bg-neutral-50"
                     onClick={() => {
                         setShowExtendedMenu(false);
                         deleteFunction(cmtdata.id);
@@ -66,7 +66,7 @@ const ShowRepliesButton = ({ fetchReplies }) => {
 
     return (
         <button
-            className="flex items-start gap-1 text-nu-blue-500"
+            className="flex items-start gap-1 text-neutral-500"
             onClick={() => {
                 setIsClicked(true);
                 fetchReplies();

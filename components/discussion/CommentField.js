@@ -13,7 +13,7 @@ import {
     deleteComment,
     getBoardComments,
     postComment,
-} from '../lib/commentFuncs';
+} from '../../lib/commentFuncs';
 
 import { cloneDeep } from 'lodash';
 
@@ -115,7 +115,7 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
 
     return (
         <div className="bg-neutral-50">
-            <div className="mx-auto mb-4 flex flex-col divide-y divide-nu-blue-300 px-9 lg:py-3 ">
+            <div className="mx-auto mb-4 flex flex-col divide-y divide-neutral-300 px-9 lg:py-3 ">
                 {!cmtQueryLoading && (
                     <>
                         <NewComment

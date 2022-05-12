@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../components/header/Header';
+import Header from '../../components/navbar/Header';
 import Footbar from '../../components/navbar/Footbar';
 import {
     BasicSettingsCard,
     NotificationSettingsCard,
-    AccountActions
+    AccountActions,
 } from '../../components/settings/SettingCards';
 
 import Sidebar from '../../components/navbar/Sidebar';
@@ -31,12 +31,12 @@ const Settings = () => {
     }, []);
 
     return (
-        <div className="fixed top-0 left-0 w-screen h-screen overflow-y-scroll bg-neutral-100">
+        <div className="fixed top-0 left-0 h-screen w-screen overflow-y-scroll bg-neutral-100">
             <Header />
             <Sidebar />
             <Footbar />
             <div className="w-full px-6 md:px-10 lg:py-6 lg:pl-72">
-                <div className="flex flex-col flex-grow-0 pt-20 mx-auto max-w-7xl gap-10 md:pt-24">
+                <div className="mx-auto flex max-w-7xl flex-grow-0 flex-col gap-10 pt-20 md:pt-24">
                     {!isEmpty(initValues) && (
                         <>
                             <BasicSettingsCard initValues={initValues} />
@@ -50,13 +50,13 @@ const Settings = () => {
                                     ads: true,
                                 }}
                             />
-<AccountActions />
+                            <AccountActions />
                         </>
                     )}
                 </div>
             </div>
 
-            <div className="flex-shrink-0 h-40"></div>
+            <div className="h-40 flex-shrink-0"></div>
         </div>
     );
 };

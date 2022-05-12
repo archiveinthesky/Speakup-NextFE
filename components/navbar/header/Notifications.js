@@ -21,16 +21,16 @@ const NotificationSlot = ({
                     )}
                 </div>
                 <div className="flex-grow-0 ">
-                    <h3 className="text-base text-pm-blue-800">
+                    <h3 className="text-base text-primary-800">
                         {notifyTitle}
                     </h3>
-                    <p className="mt-1 text-sm text-nu-blue-600">
+                    <p className="mt-1 text-sm text-neutral-600">
                         {notifyMessage}
                     </p>
                 </div>
             </div>
             {notifyUnread && (
-                <div className="h-2 w-2 flex-shrink-0 justify-self-end rounded-full bg-pm-blue-500"></div>
+                <div className="h-2 w-2 flex-shrink-0 justify-self-end rounded-full bg-primary-500"></div>
             )}
         </div>
     );
@@ -80,10 +80,10 @@ const NotificationButton = () => {
                 leaveTo="transform opacity-0 scale-95"
             >
                 <Menu.Items className="absolute -right-14 mt-2 max-h-[90vh] w-96 origin-top-right overflow-y-auto rounded-md bg-white pt-4 shadow-lg scrollbar-hide focus:outline-none md:right-0">
-                    <h1 className="ml-[18px] text-xl text-pm-blue-700">
+                    <h1 className="ml-[18px] text-xl text-primary-700">
                         您的通知
                     </h1>
-                    <div className="flex flex-col gap-2 divide-y divide-pm-blue-700 p-2">
+                    <div className="flex flex-col gap-2 divide-y divide-primary-700 p-2">
                         {notifications.map((notification, i) => (
                             <Menu.Item key={i}>
                                 {({ active }) => (
