@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useForm } from '@mantine/form';
 import { Button, PasswordInput, TextInput } from '@mantine/core';
@@ -6,6 +6,8 @@ import { UserIcon, InboxIcon, LockClosedIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 
 const SignUp = () => {
+    const [signupPhase, setSignupPhase] = useState(0);
+
     const signupForm = useForm({
         initialValues: {
             username: '',
@@ -37,7 +39,7 @@ const SignUp = () => {
     });
 
     return (
-        <div className=" bg-aqua-50 fixed top-0 left-0 flex h-screen w-screen items-center justify-center">
+        <div className=" fixed top-0 left-0 flex h-screen w-screen items-center justify-center bg-primary-50">
             <div className="mx-8 w-full max-w-lg rounded-3xl bg-white py-14 px-12">
                 <div className="flex w-full items-center justify-center gap-2">
                     <h1 className="text-2xl">歡迎加入</h1>
@@ -48,7 +50,7 @@ const SignUp = () => {
                     <br />
                     註冊過了？
                     <Link href="/login">
-                        <span className="text-aqua-600 cursor-pointer">
+                        <span className="cursor-pointer text-primary-600">
                             登入
                         </span>
                     </Link>
@@ -98,14 +100,16 @@ const SignUp = () => {
                         label="您的使用者名稱"
                         placeholder="您的使用者名稱"
                         description="使用者名稱不得超過20個字"
-                        icon={<UserIcon className="text-aqua-600 h-6 w-6" />}
+                        icon={<UserIcon className="h-6 w-6 text-primary-600" />}
                         required
                         {...signupForm.getInputProps('username')}
                     />
                     <TextInput
                         label="您的信箱"
                         placeholder="您的信箱"
-                        icon={<InboxIcon className="text-aqua-600 h-6 w-6" />}
+                        icon={
+                            <InboxIcon className="h-6 w-6 text-primary-600" />
+                        }
                         required
                         {...signupForm.getInputProps('email')}
                     />
@@ -114,7 +118,7 @@ const SignUp = () => {
                         label="您的密碼"
                         description="密碼必須含有一個大寫字幕、小寫字母以及一個數字"
                         icon={
-                            <LockClosedIcon className="text-aqua-600 h-6 w-6" />
+                            <LockClosedIcon className="h-6 w-6 text-primary-600" />
                         }
                         required
                         {...signupForm.getInputProps('password')}
@@ -123,13 +127,13 @@ const SignUp = () => {
                         label="驗證密碼"
                         placeholder="驗證密碼"
                         icon={
-                            <LockClosedIcon className="text-aqua-600 h-6 w-6" />
+                            <LockClosedIcon className="h-6 w-6 text-primary-600" />
                         }
                         required
                         {...signupForm.getInputProps('confPwd')}
                     />{' '}
                     <Button
-                        className="bg-aqua-600 hover:bg-aqua-700"
+                        className="bg-primary-600 hover:bg-primary-700"
                         type="submit"
                     >
                         註冊

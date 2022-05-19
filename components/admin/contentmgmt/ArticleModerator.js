@@ -1,8 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { EyeIcon, ExclamationIcon } from '@heroicons/react/solid';
-import { ClockIcon } from '@heroicons/react/outline';
 import { Button } from '@mantine/core';
 
 const ArticleModerator = ({ data, acceptArticle, declineArticle }) => {

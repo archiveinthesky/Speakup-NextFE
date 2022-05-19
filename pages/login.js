@@ -22,7 +22,7 @@ const Login = () => {
     });
 
     return (
-        <div className=" bg-aqua-50 fixed top-0 left-0 flex h-screen w-screen items-center justify-center">
+        <div className=" fixed top-0 left-0 flex h-screen w-screen items-center justify-center bg-primary-50">
             <div className="mx-8 w-full max-w-lg rounded-3xl bg-white py-14 px-12">
                 <div className="flex w-full items-center justify-center gap-2">
                     <h1 className="text-2xl">歡迎回來</h1>
@@ -33,7 +33,7 @@ const Login = () => {
                     <br />
                     沒有帳號密碼？
                     <Link href="/signup">
-                        <span className="text-aqua-600 cursor-pointer">
+                        <span className="cursor-pointer text-primary-600">
                             立刻註冊
                         </span>
                     </Link>
@@ -76,20 +76,27 @@ const Login = () => {
                 >
                     <TextInput
                         placeholder="您的信箱"
-                        icon={<InboxIcon className="text-aqua-600 h-6 w-6" />}
+                        icon={
+                            <InboxIcon className="h-6 w-6 text-primary-600" />
+                        }
                         required
                         {...loginForm.getInputProps('email')}
                     />
                     <PasswordInput
                         placeholder="您的密碼"
                         icon={
-                            <LockClosedIcon className="text-aqua-600 h-6 w-6" />
+                            <LockClosedIcon className="h-6 w-6 text-primary-600" />
                         }
                         required
                         {...loginForm.getInputProps('password')}
                     />
+                    <Link href="/auth/resetpwd">
+                        <p className=" cursor-pointer text-sm text-primary-600">
+                            忘記密碼
+                        </p>
+                    </Link>
                     <Button
-                        className="bg-aqua-600 hover:bg-aqua-700"
+                        className="bg-primary-600 hover:bg-primary-700"
                         type="submit"
                     >
                         登入

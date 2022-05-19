@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button, MultiSelect, Textarea, TextInput } from '@mantine/core';
-import { useForm } from '@mantine/hooks';
+import { useForm } from '@mantine/form';
 import { PlusCircleIcon, XCircleIcon } from '@heroicons/react/outline';
 import { isEqual } from 'lodash';
 
@@ -11,9 +11,11 @@ const ArticleEditor = ({ data, submitChanges, discardChanges }) => {
         validate: {
             title: (title) => (console.log('Hello') < 5 ? '標題過短' : null),
             tags: (tags) => (tags.length == 0 ? '請至少選擇一個標籤' : null),
-            brief: (brief) => (brief.length < 50 ? '議題過短' : null),
-            supContent: (brief) => (brief.length < 50 ? '議題過短' : null),
-            agnContent: (brief) => (brief.length < 50 ? '議題過短' : null),
+            brief: (brief) => (brief.length < 50 ? '簡述過短' : null),
+            supContent: (brief) =>
+                brief.length < 50 ? '支持方論點過短' : null,
+            agnContent: (brief) =>
+                brief.length < 50 ? '反對方論點過短' : null,
             refLinks: (link) =>
                 refLinks.length < 2 ? '請至少附上兩篇相關文章' : null,
         },

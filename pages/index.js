@@ -5,7 +5,7 @@ import { ChevronRightIcon } from '@heroicons/react/outline';
 export default function Home() {
     return (
         <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden ">
-            <div className="bg-aqua-50 flex h-24 w-screen items-center justify-center px-11 lg:justify-between">
+            <div className="flex h-24 w-screen items-center justify-center bg-primary-50 px-11 lg:justify-between">
                 <div className="hidden w-[64px] lg:block"></div>
                 <img className=" h-14" src="/logo-black.svg" alt="logo" />
                 <div className=" flex flex-grow-0 items-center gap-6">
@@ -13,7 +13,7 @@ export default function Home() {
                         <p className="text-lg">關於我們</p>
                     </a> */}
                     <Link href="/signup">
-                        <div className="bg-aqua-600 hidden h-12 cursor-pointer rounded-2xl px-4 lg:block">
+                        <div className="hidden h-12 cursor-pointer rounded-2xl bg-primary-600 px-4 lg:block">
                             <p className="text-center leading-[48px] text-white">
                                 開始使用
                             </p>
@@ -33,13 +33,13 @@ export default function Home() {
                         <span className="inline-block">為重要議題</span>
                         <span className="inline-block">
                             的
-                            <span className="from-aqua-700 to-aqua-500 bg-gradient-to-br bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-br from-primary-700 to-primary-400 bg-clip-text text-transparent">
                                 交流
                             </span>
                         </span>
                         <br />
                         <span className="inline-block">提供</span>
-                        <span className="from-aqua-800 to-aqua-600 bg-gradient-to-br bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-br from-primary-900 to-primary-500 bg-clip-text text-transparent">
                             理性溝通
                         </span>
                         <span className="inline-block">的空間</span>
@@ -53,7 +53,7 @@ export default function Home() {
                     <div className=" h-10"></div>
                     <Link href="/signup">
                         <div>
-                            <div className=" bg-aqua-600 mx-auto flex h-20 w-60 cursor-pointer items-center justify-around rounded-[48px] px-6">
+                            <div className=" mx-auto flex h-20 w-60 cursor-pointer items-center justify-around rounded-[48px] bg-primary-600 px-6">
                                 <p className=" text-4xl text-white">加入討論</p>
                             </div>
                             <ChevronRightIcon className="h-11 w-11 text-white" />
@@ -61,33 +61,33 @@ export default function Home() {
                     </Link>
                     <div className="h-20 lg:h-40"></div>
                 </div>
-                <div className="bg-aqua-50 w-screen py-16">
-                    <h2 className=" text-aqua-600 text-center text-5xl font-bold lg:text-7xl">
+                <div className="w-screen bg-primary-50 py-16">
+                    <h2 className=" text-center text-5xl font-bold text-primary-600 lg:text-7xl">
                         Let's Speakup!
                     </h2>
                     <div className="  mx-auto mt-20 flex w-[80vw] max-w-5xl flex-col items-center gap-8 text-center text-3xl font-bold lg:grid lg:w-[60vw] lg:grid-cols-2 lg:justify-center">
-                        <div className=" border-aqua-600 flex h-48 w-full items-center justify-center rounded-3xl border-4 lg:w-80 xl:w-[480px]">
+                        <div className=" flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 lg:w-80 xl:w-[480px]">
                             <p>
                                 打破同溫層和謾罵的屏障
                                 <br />
                                 讓理性的交流在彼此間發生
                             </p>
                         </div>
-                        <div className=" border-aqua-600 flex h-48 w-full items-center justify-center rounded-3xl border-4 lg:w-80 xl:w-[480px]">
+                        <div className=" flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 lg:w-80 xl:w-[480px]">
                             <p>
                                 每週精選議題焦點
                                 <br />
                                 快速理解焦點內容、雙方立場
                             </p>
                         </div>
-                        <div className=" border-aqua-600 flex h-48 w-full items-center justify-center rounded-3xl border-4 lg:w-80 xl:w-[480px]">
+                        <div className=" flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 lg:w-80 xl:w-[480px]">
                             <p>
                                 專門為議題討論設計的介面
                                 <br />
                                 更容易的表達意見
                             </p>
                         </div>
-                        <div className=" border-aqua-600 flex h-48 w-full items-center justify-center rounded-3xl border-4 lg:w-80 xl:w-[480px]">
+                        <div className=" flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 lg:w-80 xl:w-[480px]">
                             <p>
                                 明確的留言管理
                                 <br />
@@ -96,7 +96,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-aqua-500 flex h-60 w-screen items-center justify-between xl:h-72">
+                <div className="flex h-60 w-screen items-center justify-between bg-primary-500 xl:h-72">
                     <div className="mx-auto flex w-10/12 flex-col items-start gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <h1 className="my-auto text-4xl leading-[48px] text-white lg:leading-[60px] xl:text-5xl xl:leading-[72px]">
                             準備好了嗎？
