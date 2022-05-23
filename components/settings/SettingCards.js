@@ -9,7 +9,6 @@ import {
     Modal,
     Group,
     PasswordInput,
-    Switch,
     Checkbox,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';

@@ -6,6 +6,7 @@ import {
     BookOpenIcon,
     AnnotationIcon,
     ClipboardCheckIcon,
+    ArrowLeftIcon,
 } from '@heroicons/react/outline';
 
 const Sidebar = () => {
@@ -14,7 +15,7 @@ const Sidebar = () => {
             <div className="h-6" />
             <div className="w-full">
                 <ul className="mx-auto pl-7 text-primary-900">
-                    <Link href="/home">
+                    <Link href="/admin">
                         <li className="flex cursor-pointer list-none gap-4 py-3">
                             <HomeIcon className="w-7 flex-shrink-0" />
                             <p className="whitespace-nowrap text-xl leading-8 text-primary-900">
@@ -38,7 +39,7 @@ const Sidebar = () => {
                             </p>
                         </li>
                     </Link>
-                    <Link href="/admin/manage/comments">
+                    <Link href="/admin/moderate/comments">
                         <li className="flex cursor-pointer list-none gap-4 py-3">
                             <AnnotationIcon className="w-7 flex-shrink-0" />
                             <p className="whitespace-nowrap text-xl leading-8 text-primary-900">
