@@ -1,4 +1,5 @@
 import { MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
@@ -41,7 +42,9 @@ function SpeakupFE({ Component, pageProps }) {
                         primaryShade: 6,
                     }}
                 >
-                    <Component {...pageProps} />;
+                    <NotificationsProvider>
+                        <Component {...pageProps} />;
+                    </NotificationsProvider>
                 </MantineProvider>
             </QueryClientProvider>
         </RecoilRoot>

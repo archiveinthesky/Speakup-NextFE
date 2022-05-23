@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Header from '../../components/navbar/Header';
 import Footbar from '../../components/navbar/Footbar';
-import { NotificationSlot } from '../../components/header/Notifications';
+import { NotificationSlot } from '../../components/navbar/header/Notifications';
 
 const NotificationMenu = () => {
     const [notifications, setNotifications] = useState([]);

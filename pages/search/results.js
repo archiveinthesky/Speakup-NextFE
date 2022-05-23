@@ -1,6 +1,7 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
+import { showNotification } from '@mantine/notifications';
 
 import Header from '../../components/navbar/Header';
 import Sidebar from '../../components/navbar/Sidebar';
@@ -8,74 +9,100 @@ import Footbar from '../../components/navbar/Footbar';
 import NavCard from '../../components/navigation/NavCard';
 import Pagebar from '../../components/navbar/Pagebar';
 
-const SearchResults = ({ discussionContent }) => {
+const SearchResults = () => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
-    const [maxPage, setMaxPage] = useState(1);
-    const [onPage, setOnPage] = useState(1);
 
-    useEffect(() => {
-        if (!localStorage.getItem('AuthToken')) {
-            window.location.href = '/login';
+    const { data, error, isLoading, isIdle, refetch } = useQuery(
+        'searchres',
+        () => {
+            let response = fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/search`,
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: localStorage.getItem('AuthToken'),
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        searchterm: router.query.searchterm,
+                    }),
+                }
+            );
+            return response.json();
+        },
+        {
+            enabled: false,
         }
-    }, []);
+    );
 
     useEffect(() => {
         if (router.isReady) {
             if (router.query.searchterm === undefined) {
                 window.location.href = '/search';
             }
-            setSearchTerm(router.query.searchterm);
-            console.log(router.query);
-            if (router.query.onpage !== undefined) {
-                setOnPage(router.query.onpage);
-                console.log(onPage);
-            } else console.log(router.query);
-            fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/search`, {
-                method: 'POST',
-                headers: {
-                    Authorization: localStorage.getItem('AuthToken'),
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    searchterm: router.query.searchterm,
-                }),
-            }).then(async (response) => {
-                let res = await response.json();
-                console.log(res);
-                setSearchResults(res.results);
-                setMaxPage(res.pages);
-            });
+            refetch();
         }
     }, [router.query]);
 
+    if (isIdle || isLoading) {
+        return (
+            <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
+                <Header />
+                <Sidebar retractable={false} />
+                <Footbar />
+                <div className="flex h-screen w-full flex-col items-center pt-14 lg:ml-64 lg:w-[calc(100%-16rem)]">
+                    <div className="mt-10 w-[calc(100%-56px)] max-w-3xl md:mt-16 md:w-[calc(100%-160px)] ">
+                        <div className="h-10 w-96 animate-pulse rounded-xl bg-neutral-200" />
+                        <div className="mt-6 h-36 w-full animate-pulse rounded-xl bg-neutral-200" />
+                        <div className="mt-6 h-36 w-full animate-pulse rounded-xl bg-neutral-200" />
+                    </div>
+                </div>
+            </div>
+        );
+    } else if (error) {
+        showNotification({
+            title: '資料獲取失敗',
+            message: '請重新整理頁面',
+            color: 'red',
+            disallowClose: true,
+            autoClose: false,
+        });
+        return (
+            <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
+                <Header />
+                <Sidebar retractable={false} />
+                <Footbar />
+            </div>
+        );
+    }
+
     return (
-        <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100 scrollbar-hide overflow-x-hidden">
+        <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
             <Header />
             <Sidebar retractable={false} />
             <Footbar />
             <div className="flex h-screen w-full flex-col items-center pt-14 lg:ml-64 lg:w-[calc(100%-16rem)]">
                 <div className="mt-10 w-[calc(100%-56px)] max-w-3xl md:mt-16 md:w-[calc(100%-160px)] ">
                     <h1 className="text-2xl text-primary-800 md:text-3xl">
-                        {maxPage > 0
-                            ? `以下為${searchTerm}的搜尋結果`
-                            : `很抱歉，我們找不到符合${searchTerm}的結果`}
+                        {data.pages > 0
+                            ? `以下為${router.query.searchterm}的搜尋結果`
+                            : `很抱歉，我們找不到符合${router.query.searchterm}的結果`}
                     </h1>
                     <div className="mt-8 flex flex-col gap-6">
-                        {searchResults.map((cardContent, i) => (
+                        {data.results.map((cardContent, i) => (
                             <NavCard key={i} cardContent={cardContent} />
                         ))}
                     </div>
                 </div>
                 <div className="h-16 flex-shrink-0"></div>
                 <Pagebar
-                    maxPage={maxPage}
+                    maxPage={data.pages}
                     url={(id) => {
                         return `/search/results?searchterm=${searchTerm}&onpage=${id}`;
                     }}
-                    selected={onPage}
+                    selected={router.query.onpage ? router.query.onpage : 1}
                 />
                 <div className="mt-16 h-1 w-1 flex-shrink-0" />
             </div>
