@@ -76,7 +76,7 @@ const AccountOptions = () => {
                 className="text-primary-900"
                 icon={<CogIcon className="h-7 w-7" />}
                 onClick={() => {
-                    window.location.href = '/settings';
+                    window.location.href = '/user/settings';
                 }}
             >
                 設定
