@@ -6,7 +6,6 @@ import {
     BookOpenIcon,
     AnnotationIcon,
     ClipboardCheckIcon,
-    ArrowLeftIcon,
 } from '@heroicons/react/outline';
 
 const Sidebar = () => {

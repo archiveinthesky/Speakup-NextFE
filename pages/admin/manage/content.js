@@ -7,6 +7,7 @@ import AdminSidebar from '../../../components/navbar/AdminSidebar.js';
 import Searchbar from '../../../components/admin/contentmgmt/Searchbar.js';
 import BoardCard from '../../../components/admin/cards/BoardCardwStatus';
 import Link from 'next/link';
+import AdminFootbar from '../../../components/navbar/AdminFootbar';
 
 const ContentManager = () => {
     const infQuery = useInfiniteQuery();
@@ -48,6 +49,7 @@ const ContentManager = () => {
         <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100">
             <Header />
             <AdminSidebar />
+            <AdminFootbar />
             <div className="relative mt-14 h-[calc(100vh-56px)] overflow-y-auto pb-32 lg:mt-16 lg:ml-56 lg:h-[calc(100vh-64px)] lg:px-16 lg:pt-16 xl:ml-64 xl:px-20">
                 <div className=" mx-auto max-w-[1660px]">
                     <h1 className="hidden text-4xl text-primary-800 lg:block">
@@ -69,7 +71,7 @@ const ContentManager = () => {
                     </div>
                 </div>
                 <Link href="/admin/manage/content/new">
-                    <PlusCircleIcon className="fixed bottom-2 right-2 h-10 w-10 cursor-pointer fill-primary-700 lg:bottom-4 lg:right-4 lg:h-14 lg:w-14" />
+                    <PlusCircleIcon className="fixed bottom-20 right-2 h-14 w-14 cursor-pointer fill-primary-700 lg:bottom-4 lg:right-4 lg:h-14 lg:w-14" />
                 </Link>
             </div>
         </div>
