@@ -15,22 +15,23 @@ const UserHome = ({}) => {
     const [homeVer, setHomeVer] = useState('mob');
     const [errDisplayed, setErrDisplayed] = useState(false);
 
-    const { data, error, isLoading } = useQuery('home', () => {
-        let response = fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/home`,
-            {
-                headers: {
-                    Authorization: localStorage.getItem('AuthToken'),
-                },
-            },
-            {
-                refetchOnWindowFocus: false,
-            }
-        );
+    const { data, error, isLoading } = useQuery(
+        'home',
+        () => {
+            let response = fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/home`,
+                {
+                    headers: {
+                        Authorization: localStorage.getItem('AuthToken'),
+                    },
+                }
+            );
 
-        if (!response.ok) throw new Error('Fetch failed');
-        return response.json();
-    });
+            if (!response.ok) throw new Error('Fetch failed');
+            return response.json();
+        },
+        { refetchOnWindowFocus: false }
+    );
 
     useEffect(() => {
         if (!errDisplayed && error) {

@@ -28,6 +28,7 @@ const Collections = () => {
         },
         {
             enabled: false,
+            refetchOnWindowFocus: false,
         }
     );
 

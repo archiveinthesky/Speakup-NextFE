@@ -34,6 +34,7 @@ const SearchResults = () => {
         },
         {
             enabled: false,
+            refetchOnWindowFocus: false,
         }
     );
 
