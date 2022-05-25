@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
 
 import { useForm } from '@mantine/form';
 import { Button, PasswordInput, TextInput } from '@mantine/core';
 import { UserIcon, InboxIcon, LockClosedIcon } from '@heroicons/react/outline';
-import Link from 'next/link';
+import { showNotification } from '@mantine/notifications';
 
 const SignUp = () => {
-    const [signupPhase, setSignupPhase] = useState(0);
+    const router = useRouter();
 
     const signupForm = useForm({
         initialValues: {
@@ -38,6 +41,51 @@ const SignUp = () => {
         },
     });
 
+    const signupMutation = useMutation(
+        async (values) => {
+            let response = await fetch(
+                //`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/signup`,
+                'http://localhost:5500/hello',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(values),
+                }
+            );
+            if (response.ok) return response.json();
+            let res = await response.json();
+            throw new Error(res.Error);
+        },
+        {
+            onSuccess: (data) => {
+                router.push(`/verifyemail?token=${data.Token}`);
+            },
+            onError: (error) => {
+                if (error === 'Email not allowed') {
+                    signupForm.setErrors({
+                        email: 'Speakup目前正在封閉測試階段，此帳號沒有測試許可',
+                    });
+                } else if (error === 'Email has been registered') {
+                    signupForm.setErrors({
+                        email: '此信箱已註冊過，請登入',
+                    });
+                } else if (error === 'Username taken') {
+                    signupForm.setErrors({
+                        username: '使用者名稱已被使用過',
+                    });
+                } else
+                    showNotification({
+                        title: '發生未知的錯誤',
+                        message: '請再試一次',
+                        color: 'red',
+                        autoClose: false,
+                    });
+            },
+        }
+    );
+
     return (
         <div className=" fixed top-0 left-0 flex h-screen w-screen items-center justify-center bg-primary-50">
             <div className="mx-8 w-full max-w-lg rounded-3xl bg-white py-14 px-12">
@@ -58,42 +106,7 @@ const SignUp = () => {
                 <form
                     className="mt-11 flex flex-col gap-4"
                     onSubmit={signupForm.onSubmit((values) => {
-                        fetch(
-                            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/signup`,
-                            {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(values),
-                            }
-                        ).then(async (response) => {
-                            let res = await response.json();
-                            console.log(res);
-                            if (response.status === 201) {
-                                localStorage.setItem(
-                                    'AuthToken',
-                                    `Token ${res.Token}`
-                                );
-                                window.location.href = '/home';
-                            } else if (response.status === 403) {
-                                if (res.Error === 'Email not allowed') {
-                                    signupForm.setErrors({
-                                        email: 'Speakup目前正在封閉測試階段，此帳號沒有測試許可',
-                                    });
-                                }
-                            } else if (response.status === 409) {
-                                if (res.Error === 'Email has been registered') {
-                                    signupForm.setErrors({
-                                        email: '此信箱已註冊過，請登入',
-                                    });
-                                } else if (res.Error === 'Username taken') {
-                                    signupForm.setErrors({
-                                        username: '使用者名稱已被使用過',
-                                    });
-                                }
-                            }
-                        });
+                        signupMutation.mutate(values);
                     })}
                 >
                     <TextInput
