@@ -5,13 +5,24 @@ import { ChevronRightIcon } from '@heroicons/react/outline';
 export default function Home() {
     return (
         <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden ">
-            <div className="flex h-24 w-screen items-center justify-center bg-primary-50 px-11 lg:justify-between">
-                <div className="hidden w-[64px] lg:block"></div>
-                <img className=" h-14" src="/logo-black.svg" alt="logo" />
-                <div className=" flex flex-grow-0 items-center gap-6">
-                    {/* <a href="/about">
+            <div className="relative flex h-24 w-screen items-center justify-center bg-primary-50 px-11 ">
+                <img className="h-14" src="/logo-black.svg" alt="logo" />
+                <div className="absolute right-11 hidden flex-grow-0 items-center gap-8 lg:flex">
+                    <a
+                        href="https://speakup-team.notion.site/Speakup-50887304586641559268ef313ef6e1f6"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
+                        <p className="text-lg">使用幫助</p>
+                    </a>
+
+                    <a
+                        href="https://speakup-team.notion.site/Speakup-ff4943ac425a430ebc06e74982d18968"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                    >
                         <p className="text-lg">關於我們</p>
-                    </a> */}
+                    </a>
                     <Link href="/signup">
                         <div className="hidden h-12 cursor-pointer rounded-2xl bg-primary-600 px-4 lg:block">
                             <p className="text-center leading-[48px] text-white">
@@ -23,10 +34,18 @@ export default function Home() {
             </div>
             <div className="relative mt-20 h-[30vw] w-full">
                 <div className=" absolute top-0 left-[-15vw] hidden opacity-50 lg:block ">
-                    <img className="w-[30vw]" src="/logo-mic.svg" alt="" />
+                    <img
+                        className="w-[30vw] max-w-2xl"
+                        src="/logo-mic.svg"
+                        alt=""
+                    />
                 </div>
                 <div className="absolute top-0 right-[-15vw] hidden opacity-50 lg:block ">
-                    <img className="w-[30vw]" src="/logo-mic.svg" alt="" />
+                    <img
+                        className="w-[30vw] max-w-2xl"
+                        src="/logo-mic.svg"
+                        alt=""
+                    />
                 </div>
                 <div className="mt-12">
                     <h1 className="text-center text-5xl font-bold leading-[60px] lg:pt-24 lg:text-7xl lg:leading-[84px]">
@@ -65,29 +84,29 @@ export default function Home() {
                     <h2 className=" text-center text-5xl font-bold text-primary-600 lg:text-7xl">
                         Let's Speakup!
                     </h2>
-                    <div className="  mx-auto mt-20 flex w-[80vw] max-w-5xl flex-col items-center gap-8 text-center text-3xl font-bold lg:grid lg:w-[60vw] lg:grid-cols-2 lg:justify-center">
-                        <div className=" flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 lg:w-80 xl:w-[480px]">
+                    <div className="\ mx-auto mt-20 flex w-[80vw] max-w-5xl flex-col items-center gap-8 text-center text-3xl font-bold lg:grid lg:grid-cols-2 lg:justify-center">
+                        <div className=" 80 flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 xl:w-[480px]">
                             <p>
                                 打破同溫層和謾罵的屏障
                                 <br />
                                 讓理性的交流在彼此間發生
                             </p>
                         </div>
-                        <div className=" flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 lg:w-80 xl:w-[480px]">
+                        <div className=" 80 flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 xl:w-[480px]">
                             <p>
                                 每週精選議題焦點
                                 <br />
                                 快速理解焦點內容、雙方立場
                             </p>
                         </div>
-                        <div className=" flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 lg:w-80 xl:w-[480px]">
+                        <div className=" 80 flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 xl:w-[480px]">
                             <p>
                                 專門為議題討論設計的介面
                                 <br />
                                 更容易的表達意見
                             </p>
                         </div>
-                        <div className=" flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 lg:w-80 xl:w-[480px]">
+                        <div className=" 80 flex h-48 w-full items-center justify-center rounded-3xl border-4 border-primary-600 xl:w-[480px]">
                             <p>
                                 明確的留言管理
                                 <br />
