@@ -1,195 +1,54 @@
 {
-    "searchresults": {
-        "pages": 6,
-        "results": [
-            {
-                "title": "台灣應該廢除早自習嗎?",
-                "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                "tags": ["education"],
-                "author": "Speakup內容團隊",
-                "views": 1000000,
-                "comments": 10000,
-                "boardId": 1
-            }
-        ]
-    },
-    "collections": {
-        "pages": 3,
-        "collections": [
-            {
-                "date": "03242021",
-                "collections": [
-                    {
-                        "title": "台灣應該廢除早自習嗎?",
-                        "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                        "tags": ["education"],
-                        "author": "Speakup內容團隊",
-                        "boardId": 1
-                    },
-                    {
-                        "title": "台灣應該廢除早自習嗎?",
-                        "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                        "tags": ["education"],
-                        "author": "Speakup內容團隊",
-                        "boardId": 1
-                    }
-                ]
-            },
-            {
-                "date": "03232021",
-                "collections": [
-                    {
-                        "title": "台灣應該廢除早自習嗎?",
-                        "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                        "tags": ["education"],
-                        "author": "Speakup內容團隊",
-                        "boardId": 1
-                    }
-                ]
-            },
-            {
-                "date": "03232021",
-                "collections": [
-                    {
-                        "title": "台灣應該廢除早自習嗎?",
-                        "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                        "tags": ["education"],
-                        "author": "Speakup內容團隊",
-                        "boardId": 1
-                    }
-                ]
-            },
-            {
-                "date": "03232021",
-                "collections": [
-                    {
-                        "title": "台灣應該廢除早自習嗎?",
-                        "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                        "tags": ["education"],
-                        "author": "Speakup內容團隊",
-                        "boardId": 1
-                    }
-                ]
-            },
-            {
-                "date": "03232021",
-                "collections": [
-                    {
-                        "title": "台灣應該廢除早自習嗎?",
-                        "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                        "tags": ["education"],
-                        "author": "Speakup內容團隊",
-                        "boardId": 1
-                    }
-                ]
-            }
-        ]
-    },
-    "notifications": [
+    "comments": [
         {
-            "type": "warn",
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除",
-            "unread": true
+            "boardTitle": "台灣應該廢除早自習嗎",
+            "comments": [
+                {
+                    "content": "Adipisicing mollit qui commodo sint anim est Lorem adipisicing ex veniam anim occaecat. Et anim amet commodo enim veniam veniam nulla do ad amet consectetur et. Exercitation id nisi sint ipsum ut cupidatat eiusmod dolor Lorem aute consectetur aliqua. Lorem pariatur irure nisi in est ipsum excepteur laborum. Excepteur veniam cupidatat aliquip enim deserunt.",
+                    "remainTime": 3,
+                    "type": "cmt"
+                },
+                {
+                    "content": "Adipisicing mollit qui commodo sint anim est Lorem adipisicing ex veniam anim occaecat. Et anim amet commodo enim veniam veniam nulla do ad amet consectetur et. Exercitation id nisi sint ipsum ut cupidatat eiusmod dolor Lorem aute consectetur aliqua. Lorem pariatur irure nisi in est ipsum excepteur laborum. Excepteur veniam cupidatat aliquip enim deserunt.",
+                    "remainTime": 3,
+                    "type": "cmt"
+                },
+                {
+                    "content": "Adipisicing mollit qui commodo sint anim est Lorem adipisicing ex veniam anim occaecat. Et anim amet commodo enim veniam veniam nulla do ad amet consectetur et. Exercitation id nisi sint ipsum ut cupidatat eiusmod dolor Lorem aute consectetur aliqua. Lorem pariatur irure nisi in est ipsum excepteur laborum. Excepteur veniam cupidatat aliquip enim deserunt.",
+                    "remainTime": 3,
+                    "type": "cmt"
+                },
+                {
+                    "content": "Adipisicing mollit qui commodo sint anim est Lorem adipisicing ex veniam anim occaecat. Et anim amet commodo enim veniam veniam nulla do ad amet consectetur et. Exercitation id nisi sint ipsum ut cupidatat eiusmod dolor Lorem aute consectetur aliqua. Lorem pariatur irure nisi in est ipsum excepteur laborum. Excepteur veniam cupidatat aliquip enim deserunt.",
+                    "remainTime": 3,
+                    "type": "cmt"
+                }
+            ]
         },
         {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
-        },
-        {
-            "title": "您的留言已被撤除",
-            "message": "您的留言已被撤除"
+            "boardTitle": "台灣應該廢除早自習嗎",
+            "comments": [
+                {
+                    "content": "Adipisicing mollit qui commodo sint anim est Lorem adipisicing ex veniam anim occaecat. Et anim amet commodo enim veniam veniam nulla do ad amet consectetur et. Exercitation id nisi sint ipsum ut cupidatat eiusmod dolor Lorem aute consectetur aliqua. Lorem pariatur irure nisi in est ipsum excepteur laborum. Excepteur veniam cupidatat aliquip enim deserunt.",
+                    "remainTime": 3,
+                    "type": "cmt"
+                },
+                {
+                    "content": "Adipisicing mollit qui commodo sint anim est Lorem adipisicing ex veniam anim occaecat. Et anim amet commodo enim veniam veniam nulla do ad amet consectetur et. Exercitation id nisi sint ipsum ut cupidatat eiusmod dolor Lorem aute consectetur aliqua. Lorem pariatur irure nisi in est ipsum excepteur laborum. Excepteur veniam cupidatat aliquip enim deserunt.",
+                    "remainTime": 3,
+                    "type": "cmt"
+                },
+                {
+                    "content": "Adipisicing mollit qui commodo sint anim est Lorem adipisicing ex veniam anim occaecat. Et anim amet commodo enim veniam veniam nulla do ad amet consectetur et. Exercitation id nisi sint ipsum ut cupidatat eiusmod dolor Lorem aute consectetur aliqua. Lorem pariatur irure nisi in est ipsum excepteur laborum. Excepteur veniam cupidatat aliquip enim deserunt.",
+                    "remainTime": 3,
+                    "type": "cmt"
+                },
+                {
+                    "content": "Adipisicing mollit qui commodo sint anim est Lorem adipisicing ex veniam anim occaecat. Et anim amet commodo enim veniam veniam nulla do ad amet consectetur et. Exercitation id nisi sint ipsum ut cupidatat eiusmod dolor Lorem aute consectetur aliqua. Lorem pariatur irure nisi in est ipsum excepteur laborum. Excepteur veniam cupidatat aliquip enim deserunt.",
+                    "remainTime": 3,
+                    "type": "cmt"
+                }
+            ]
         }
-    ],
-    "home": {
-        "user": "Andrew",
-        "tracks": [
-            {
-                "name": "熱門話題",
-                "cards": [
-                    {
-                        "title": "台灣應該廢除早自習嗎?",
-                        "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                        "tags": ["education"],
-                        "author": "Speakup內容團隊",
-                        "boardId": 1
-                    },
-                    {
-                        "title": "台灣應該廢除早自習嗎?",
-                        "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                        "tags": ["education"],
-                        "author": "Speakup內容團隊",
-                        "boardId": 1,
-                        "picked": true
-                    },
-                    {
-                        "title": "台灣應該廢除早自習嗎?",
-                        "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                        "tags": ["education"],
-                        "author": "Speakup內容團隊",
-                        "boardId": 1
-                    },
-                    {
-                        "title": "台灣應該廢除早自習嗎?",
-                        "content": "Do qui laborum Lorem et exercitation commodo dolore nostrud deserunt dolore. Dolore et eiusmod cupidatat ut aute. Veniam ullamco amet ex fugiat excepteur incididunt ipsum mollit ex deserunt. Dolore est excepteur reprehenderit voluptate commodo reprehenderit cillum cupidatat. Exercitation aute amet sint est ullamco.",
-                        "tags": ["education"],
-                        "author": "Speakup內容團隊",
-                        "boardId": 1
-                    }
-                ]
-            }
-        ]
-    }
+    ]
 }

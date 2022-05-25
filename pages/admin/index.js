@@ -35,7 +35,7 @@ const AdminHomePage = () => {
                         創作者管理介面
                     </span>
                 </h1>
-                <div className="flex w-full flex-col gap-8 lg:flex-row">
+                <div className="flex w-full flex-col gap-8 lg:flex-row lg:justify-center">
                     <NavBtn
                         link="/admin/manage/content"
                         icon={<PencilAltIcon className="h-12 lg:h-24 " />}

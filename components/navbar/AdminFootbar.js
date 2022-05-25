@@ -54,7 +54,8 @@ const AdminFootbar = () => {
             <Link href="/admin/moderate/comments">
                 <a>
                     {pageUrl[pageUrl.length - 2] == 'moderate' &&
-                    pageUrl[pageUrl.length - 1] == 'comments' ? (
+                    (pageUrl[pageUrl.length - 1] == 'comments' ||
+                        pageUrl[pageUrl.length - 1] == 'comment') ? (
                         <AnnotationIconSolid className="h-8 w-8" />
                     ) : (
                         <AnnotationIcon className="h-8 w-8" />
