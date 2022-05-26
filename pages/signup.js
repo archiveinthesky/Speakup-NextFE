@@ -4,7 +4,12 @@ import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
 
 import { useForm } from '@mantine/form';
-import { Button, PasswordInput, TextInput } from '@mantine/core';
+import {
+    Button,
+    LoadingOverlay,
+    PasswordInput,
+    TextInput,
+} from '@mantine/core';
 import { UserIcon, InboxIcon, LockClosedIcon } from '@heroicons/react/outline';
 import { showNotification } from '@mantine/notifications';
 
@@ -44,8 +49,7 @@ const SignUp = () => {
     const signupMutation = useMutation(
         async (values) => {
             let response = await fetch(
-                //`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/signup`,
-                'http://localhost:5500/hello',
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/reg/email`,
                 {
                     method: 'POST',
                     headers: {
@@ -60,28 +64,25 @@ const SignUp = () => {
         },
         {
             onSuccess: (data) => {
-                router.push(`/verifyemail?token=${data.Token}`);
+                router.push(`/auth/verifyemail?token=${data.valtoken}`);
             },
             onError: (error) => {
-                if (error === 'Email not allowed') {
-                    signupForm.setErrors({
-                        email: 'Speakup目前正在封閉測試階段，此帳號沒有測試許可',
-                    });
-                } else if (error === 'Email has been registered') {
+                if (error.message === 'Email registered') {
                     signupForm.setErrors({
                         email: '此信箱已註冊過，請登入',
                     });
-                } else if (error === 'Username taken') {
+                } else if (error.message === 'Username taken') {
                     signupForm.setErrors({
                         username: '使用者名稱已被使用過',
                     });
-                } else
+                } else {
                     showNotification({
                         title: '發生未知的錯誤',
                         message: '請再試一次',
                         color: 'red',
                         autoClose: false,
                     });
+                }
             },
         }
     );
@@ -104,11 +105,12 @@ const SignUp = () => {
                     </Link>
                 </p>
                 <form
-                    className="mt-11 flex flex-col gap-4"
+                    className="relative mt-11 flex flex-col gap-4"
                     onSubmit={signupForm.onSubmit((values) => {
                         signupMutation.mutate(values);
                     })}
                 >
+                    <LoadingOverlay visible={signupMutation.isLoading} />
                     <TextInput
                         label="您的使用者名稱"
                         placeholder="您的使用者名稱"

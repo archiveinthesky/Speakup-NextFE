@@ -1,19 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Chips, Chip, TextInput, Select } from '@mantine/core';
+import {
+    Button,
+    Chips,
+    Chip,
+    TextInput,
+    Select,
+    LoadingOverlay,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { showNotification } from '@mantine/notifications';
+import { useMutation } from 'react-query';
+import { signIn } from 'next-auth/react';
+import { sortedIndexBy } from 'lodash';
 
 const VerifyEmail = () => {
     const router = useRouter();
 
-    const [emailCD, setEmailCD] = useState(0);
-    const [emailSent, setEmailSent] = useState(false);
-    const [userEmail, setUserEmail] = useState('');
+    const [emailCD, setEmailCD] = useState(60);
+
+    const [valcode, setValcode] = useState('');
+    const [valcodeInputError, setValcodeInputError] = useState(undefined);
     const emailCDInterval = useRef();
 
-    const valcode = /^[0-9]{6}$/;
-
+    const valcodeTest = /^[0-9]{6}$/;
     const [authToken, setAuthToken] = useState();
+    const [signinLoading, setSigninLoading] = useState(false);
     const possibleYears = (() => {
         let day = new Date();
         let year = day.getFullYear() - 12;
@@ -36,7 +48,11 @@ const VerifyEmail = () => {
             if (!emailCDInterval.current)
                 emailCDInterval.current = setInterval(updateEmailCD, 100);
             setEmailCD(parseInt(localStorage.getItem('p2emailcd')));
-            setEmailSent(true);
+        } else {
+            localStorage.setItem('p2emailcd', '60');
+            if (!emailCDInterval.current)
+                emailCDInterval.current = setInterval(updateEmailCD, 100);
+            setEmailCD(parseInt(localStorage.getItem('p2emailcd')));
         }
     }, []);
 
@@ -54,13 +70,138 @@ const VerifyEmail = () => {
         }
     };
 
-    const sendEmail = () => {
-        localStorage.setItem('p2emailcd', 60);
-        setEmailCD(60);
-        setEmailSent(true);
-        if (!emailCDInterval.current) {
-            emailCDInterval.current = setInterval(updateEmailCD, 100);
+    const verifyEmailMutation = useMutation(
+        async (data) => {
+            console.log(data);
+            let response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/reg/validate`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
+            if (response.ok) return response.json();
+            let res = await response.json();
+            throw new Error(res.Error);
+        },
+        {
+            onSuccess: (data) => {
+                setAuthToken(data.Token);
+            },
+            onError: (error) => {
+                if (error.message === 'Failed too many times') {
+                    setValcodeInputError('驗證錯誤次數過多，註冊失敗');
+                } else if (error.message === 'Validation Failed') {
+                    setValcodeInputError('驗證碼錯誤');
+                } else if (error.message === 'Validation Token Invalid') {
+                    setValcodeInputError(
+                        '系統註冊碼錯誤，請回首頁重新註冊，並讓系統自動重新導向頁面'
+                    );
+                } else {
+                    showNotification({
+                        title: '發生未知的錯誤',
+                        message: '請再試一次',
+                        color: 'red',
+                        autoClose: false,
+                    });
+                }
+            },
         }
+    );
+
+    const resendVerifyEmailMutation = useMutation(
+        async (data) => {
+            let response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/reg/resendemail`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
+            if (response.ok) return response.json();
+            let res = await response.json();
+            throw new Error(res.Error);
+        },
+        {
+            onSuccess: () => {
+                localStorage.setItem('p2emailcd', 60);
+                setEmailCD(60);
+                if (!emailCDInterval.current) {
+                    emailCDInterval.current = setInterval(updateEmailCD, 100);
+                }
+            },
+            onError: (error) => {
+                let ntfMsg;
+                if (error.message == 'Validation Token Invalid') {
+                    ntfMsg =
+                        '系統註冊碼錯誤，請回首頁重新註冊，並讓系統自動重新導向頁面';
+                } else if (error.message == 'Too many emails have been sent') {
+                    ntfMsg = '請等候信件寄送倒數計時！';
+                } else {
+                    ntfMsg = '發生了未知的錯誤，請再試一次';
+                }
+                showNotification({
+                    title: '信件寄送失敗',
+                    message: ntfMsg,
+                    color: 'red',
+                    autoClose: false,
+                });
+            },
+        }
+    );
+
+    const submitDataMutation = useMutation(
+        async (data) => {
+            let response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/reg/info`,
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Token ${authToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
+            if (response.ok) return response.json();
+            let res = await response.json();
+            throw new Error(res.Error);
+        },
+        {
+            onSuccess: async (data) => {
+                setSigninLoading(true);
+                let response = await signIn('credentials', {
+                    redirect: false,
+                    callbackUrl: '/home',
+                    ...data,
+                });
+                if (!response.error) router.push('/home');
+                else router.push('/login');
+                setSigninLoading(false);
+            },
+            onError: () => {
+                showNotification({
+                    title: '發生未知的錯誤',
+                    message: '請再試一次',
+                    color: 'red',
+                    autoClose: false,
+                });
+            },
+        }
+    );
+
+    const sendEmail = () => {
+        verifyEmailMutation.mutate({
+            valtoken: router.query.token,
+            valcode: valcode,
+        });
+        setValcodeInputError(undefined);
     };
 
     const personalDataForm = useForm({
@@ -80,62 +221,77 @@ const VerifyEmail = () => {
                 <div className="mx-8 w-full max-w-lg rounded-3xl bg-white py-14 px-12">
                     <h1 className="text-2xl text-primary-500">最後一步</h1>
                     <p className="mt-2 text-neutral-700">
-                        請填寫最後的部分，就可以開始使用Speakup了！
+                        請填寫您的資料，就可以開始使用Speakup了！
                     </p>
-
-                    <div className="mt-4">
-                        <h3 className=" font-medium">您的性別</h3>
-                        <Chips
-                            className="mt-2"
-                            {...personalDataForm.getInputProps('gender')}
-                            required
-                        >
-                            <Chip value="male">男</Chip>
-                            <Chip value="female">女</Chip>
-                            <Chip value="other">其他</Chip>
-                        </Chips>
-                        {personalDataForm.errors.gender && (
-                            <p className="mt-2 text-sm text-red-500">
-                                {personalDataForm.errors.gender}
-                            </p>
-                        )}
-                    </div>
-
-                    <div className="mt-6 ">
-                        <h3 className="font-medium">您的出生年月</h3>
-                        <div className="flex gap-4">
-                            <Select
-                                className="inline w-5/12"
-                                label="年"
-                                searchable
-                                data={possibleYears}
-                                maxDropdownHeight={280}
-                                {...personalDataForm.getInputProps('birthyear')}
+                    <div className="relative">
+                        <LoadingOverlay
+                            visible={
+                                submitDataMutation.isLoading || signinLoading
+                            }
+                        />
+                        <div className="mt-4">
+                            <h3 className=" font-medium">您的性別</h3>
+                            <Chips
+                                className="mt-2"
+                                {...personalDataForm.getInputProps('gender')}
                                 required
-                            />
-                            <Select
-                                className=" inline w-3/12"
-                                label="月"
-                                searchable
-                                data={possibleMonths}
-                                maxDropdownHeight={280}
-                                {...personalDataForm.getInputProps(
-                                    'birthmonth'
-                                )}
-                                required
-                            />
+                            >
+                                <Chip value="male">男</Chip>
+                                <Chip value="female">女</Chip>
+                                <Chip value="other">其他</Chip>
+                            </Chips>
+                            {personalDataForm.errors.gender && (
+                                <p className="mt-2 text-sm text-red-500">
+                                    {personalDataForm.errors.gender}
+                                </p>
+                            )}
                         </div>
-                    </div>
 
-                    <div className="mt-4 flex items-center gap-2">
-                        <Button
-                            className="bg-primary-500"
-                            onClick={personalDataForm.onSubmit((values) => {
-                                console.log(values);
-                            })}
-                        >
-                            開始使用Speakup
-                        </Button>
+                        <div className="mt-6 ">
+                            <h3 className="font-medium">您的出生年月</h3>
+                            <div className="flex gap-4">
+                                <Select
+                                    className="inline w-5/12"
+                                    label="年"
+                                    searchable
+                                    data={possibleYears}
+                                    maxDropdownHeight={280}
+                                    {...personalDataForm.getInputProps(
+                                        'birthyear'
+                                    )}
+                                    required
+                                />
+                                <Select
+                                    className=" inline w-3/12"
+                                    label="月"
+                                    searchable
+                                    data={possibleMonths}
+                                    maxDropdownHeight={280}
+                                    {...personalDataForm.getInputProps(
+                                        'birthmonth'
+                                    )}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mt-4 flex items-center gap-2">
+                            <Button
+                                className="bg-primary-500"
+                                onClick={personalDataForm.onSubmit((values) => {
+                                    submitDataMutation.mutate({
+                                        gender: values.gender,
+                                        birthym: `${values.birthyear}${
+                                            values.birthmonth.length < 2
+                                                ? '0' + values.birthmonth
+                                                : values.birthmonth
+                                        }`,
+                                    });
+                                })}
+                            >
+                                開始使用Speakup
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -149,44 +305,52 @@ const VerifyEmail = () => {
                 <p className="mt-2 text-neutral-700">
                     請檢查您用來註冊的信箱，Speakup有寄送一封有驗證碼的信給您
                 </p>
-                {emailSent && (
-                    <p className="mt-2 text-neutral-700">
-                        沒收到信件？有時候信件會被誤判為垃圾郵件，因此您也可以去垃圾郵件翻找看看
-                    </p>
-                )}
-                <TextInput
-                    className="mt-4"
-                    placeholder="驗證碼"
-                    value={userEmail}
-                    onChange={(e) => {
-                        setUserEmail(e.currentTarget.value);
-                    }}
-                />
-                <div className="mt-4 flex items-center gap-2">
-                    <Button
-                        className="bg-primary-500"
-                        onClick={sendEmail}
-                        disabled={emailCD > 0 || !valcode.test(userEmail)}
-                    >
-                        驗證
-                    </Button>
-                    {emailCD > 0 && (
-                        <p className="text-primary-500">
-                            未收到信件？{emailCD}秒後再次傳送
-                        </p>
-                    )}
-                    {emailSent && emailCD <= 0 && (
-                        <button onClick={sendEmail}>
-                            <p className="text-primary-500">再次傳送</p>
-                        </button>
-                    )}
-                    <button
-                        onClick={() => {
-                            setAuthToken('F');
+
+                <p className="mt-2 text-neutral-700">
+                    沒收到信件？有時候信件會被誤判為垃圾郵件，因此您也可以去垃圾郵件翻找看看
+                </p>
+
+                <div className="relative">
+                    <LoadingOverlay visible={verifyEmailMutation.isLoading} />
+                    <TextInput
+                        className="mt-4"
+                        placeholder="驗證碼"
+                        value={valcode}
+                        onChange={(e) => {
+                            setValcode(e.currentTarget.value);
                         }}
-                    >
-                        你好
-                    </button>
+                        error={valcodeInputError}
+                    />
+                    <div className=" mt-4 flex items-center gap-2">
+                        <Button
+                            className="bg-primary-500"
+                            onClick={sendEmail}
+                            disabled={
+                                emailCD > 0 ||
+                                !valcodeTest.test(valcode) ||
+                                valcodeInputError ==
+                                    '驗證錯誤次數過多，註冊失敗'
+                            }
+                        >
+                            驗證
+                        </Button>
+                        {emailCD > 0 && (
+                            <p className="text-primary-500">
+                                未收到信件？{emailCD}秒後再次傳送
+                            </p>
+                        )}
+                        {emailCD <= 0 && (
+                            <button
+                                onClick={() => {
+                                    resendVerifyEmailMutation.mutate({
+                                        valtoken: router.query.token,
+                                    });
+                                }}
+                            >
+                                <p className="text-primary-500">再次傳送</p>
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
