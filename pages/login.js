@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { signIn, useSession } from 'next-auth/react';
 
 import { useForm } from '@mantine/form';
-import { Button, PasswordInput, TextInput } from '@mantine/core';
+import {
+    Button,
+    LoadingOverlay,
+    PasswordInput,
+    TextInput,
+} from '@mantine/core';
 import { InboxIcon, LockClosedIcon } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
+import { showNotification } from '@mantine/notifications';
 
 const Login = () => {
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+
     const loginForm = useForm({
         initialValues: {
             email: '',
@@ -39,41 +50,31 @@ const Login = () => {
                     </Link>
                 </p>
                 <form
-                    className="mt-11 flex flex-col gap-4"
-                    onSubmit={loginForm.onSubmit((values) => {
-                        fetch(
-                            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,
-                            {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(values),
-                            }
-                        ).then(async (response) => {
-                            let res = await response.json();
-                            console.log(res);
-                            if (response.status === 200) {
-                                localStorage.setItem(
-                                    'AuthToken',
-                                    `Token ${res.Token}`
-                                );
-                                window.location.href = '/home';
-                            } else if (response.status === 401) {
-                                console.log(res);
-                                if (
-                                    res.Error ===
-                                    'Username or password is incorrect'
-                                ) {
-                                    loginForm.setErrors({
-                                        email: '帳號或密碼不正確',
-                                        password: '帳號或密碼不正確',
-                                    });
-                                }
-                            }
+                    className="relative mt-11 flex flex-col gap-4"
+                    onSubmit={loginForm.onSubmit(async (values) => {
+                        setLoading(true);
+                        let response = await signIn('credentials', {
+                            redirect: false,
+                            callbackUrl: '/home',
+                            ...values,
                         });
+                        if (!response.error) router.push('/home');
+                        else if (response.error == 'CredentialsSignin') {
+                            loginForm.setErrors({
+                                email: true,
+                                password: '信箱或密碼錯誤',
+                            });
+                        } else
+                            showNotification({
+                                title: '發生未知的錯誤',
+                                message: '請再試一次',
+                                color: 'red',
+                                autoClose: false,
+                            });
+                        setLoading(false);
                     })}
                 >
+                    <LoadingOverlay visible={loading} />
                     <TextInput
                         placeholder="您的信箱"
                         icon={
