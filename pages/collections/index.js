@@ -84,7 +84,7 @@ const Collections = () => {
                     {data.pages > 0 ? (
                         <>
                             <h1 className="text-3xl text-primary-800">
-                                '想翻個有興趣的議題？沒問題'
+                                想翻個有興趣的議題？沒問題
                             </h1>
                             <div className="gap2 mt-8 flex flex-col gap-8">
                                 {data.collections.map((dayContent, i) => (

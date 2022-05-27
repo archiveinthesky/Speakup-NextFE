@@ -27,12 +27,12 @@ const SearchMenu = () => {
     };
 
     return (
-        <div className="fixed left-0 top-0 h-screen w-screen bg-neutral-50">
+        <div className="fixed left-0 top-0 h-screen w-screen bg-neutral-50 lg:bg-neutral-100">
             <Header />
             <Sidebar />
             <Footbar />
             <div className="lg:ml-64">
-                <div className="mx-auto mt-14 max-w-3xl bg-gray-50 px-3 py-5 md:mt-[20vh]">
+                <div className="mx-auto mt-14 max-w-3xl bg-gray-50 px-3 py-5 md:mt-[20vh] lg:rounded-2xl">
                     <form
                         className="flex  h-8 items-center lg:h-14"
                         onSubmit={formSubmit}

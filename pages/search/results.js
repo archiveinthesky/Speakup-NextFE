@@ -16,8 +16,8 @@ const SearchResults = () => {
 
     const { data, error, isLoading, isIdle, refetch } = useQuery(
         'searchres',
-        () => {
-            let response = fetch(
+        async () => {
+            let response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/search`,
                 {
                     method: 'POST',
@@ -31,7 +31,9 @@ const SearchResults = () => {
                     }),
                 }
             );
-            return response.json();
+            if (response.ok) return response.json();
+            let res = await response.json();
+            throw new Error(res.Error);
         },
         {
             enabled: false,

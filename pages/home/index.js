@@ -102,7 +102,8 @@ const UserHome = () => {
                         ))}
                     </div>
                     <Link
-                        href={`/search/results?searchterm=${data?.tracks[0]?.title}`}
+                        href={'/search'}
+                        // href={`/search/results?searchterm=${data?.tracks[0]?.title}`}
                     >
                         <div className="cursor-pointer text-center text-primary-900">
                             <p>探索更多</p>
@@ -132,7 +133,7 @@ const UserHome = () => {
             );
         }
         return (
-            <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100">
+            <div className="fixed top-0 left-0 h-screen w-screen overflow-y-auto bg-neutral-100 pb-20">
                 <Header />
                 <Sidebar />
                 <div className="ml-64 mt-16 pl-20 pt-16">
@@ -160,7 +161,8 @@ const UserHome = () => {
                                     </div>
                                     <div className="flex w-20 flex-shrink-0 items-center justify-center">
                                         <a
-                                            href={`/search/results?searchterm=@${track.title}`}
+                                            href={'/search'}
+                                            // href={`/search/results?searchterm=@${track.title}`}
                                             className=" w-10 rounded-full text-primary-700"
                                         >
                                             <SearchCircleIcon />
