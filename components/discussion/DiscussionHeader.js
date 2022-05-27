@@ -5,17 +5,47 @@ import { BookmarkIcon, FlagIcon, LinkIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import ReportInterface from '../common/ReportInterface';
 import { Spoiler } from '@mantine/core';
+import { useMutation } from 'react-query';
+import { useSession } from 'next-auth/react';
+import { showNotification } from '@mantine/notifications';
 
 const DiscussionHeader = ({ pagedata }) => {
     const router = useRouter();
+    const { data: session, status: loginStatus } = useSession();
 
     const [userSaved, setUserSaved] = useState(false);
     const [showReportMenu, setShowReportMenu] = useState(false);
 
-    const toggleSaved = () => {
-        // SaveBoard(boardId, !userSaved)
-        setUserSaved(!userSaved);
-    };
+    const collectBoardMutation = useMutation(
+        async (values) => {
+            let response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/collections`,
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Token ${session.authToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(values),
+                }
+            );
+            if (response.ok) return true;
+            throw new Error('Fetch failed');
+        },
+        {
+            onSuccess: (data, variables) => {
+                setUserSaved(variables.save);
+            },
+            onError: (error) => {
+                showNotification({
+                    title: '收藏本議題時發生錯誤',
+                    message: '請再試一次',
+                    color: 'red',
+                    autoClose: false,
+                });
+            },
+        }
+    );
 
     if (router.isFallback) {
         return (
@@ -126,20 +156,34 @@ const DiscussionHeader = ({ pagedata }) => {
                         </Spoiler>
                     </div>
                     <div className="flex h-8 justify-start gap-2">
-                        <button onClick={toggleSaved}>
-                            <BookmarkIcon
-                                className={`h-7 w-7 text-primary-700 transition-colors ${
-                                    userSaved ? 'fill-yellow-300' : 'fill-white'
-                                }`}
-                            />
-                        </button>
-                        <button
-                            onClick={() => {
-                                setShowReportMenu(true);
-                            }}
-                        >
-                            <FlagIcon className="h-7 w-7 text-primary-700 " />
-                        </button>
+                        {loginStatus === 'authenticated' && (
+                            <>
+                                <button
+                                    onClick={() => {
+                                        if (!collectBoardMutation.isLoading)
+                                            collectBoardMutation.mutate({
+                                                boardId: pagedata.boardId,
+                                                save: !userSaved,
+                                            });
+                                    }}
+                                >
+                                    <BookmarkIcon
+                                        className={`h-7 w-7 text-primary-700 transition-colors ${
+                                            userSaved
+                                                ? 'fill-yellow-300'
+                                                : 'fill-white'
+                                        }`}
+                                    />
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setShowReportMenu(true);
+                                    }}
+                                >
+                                    <FlagIcon className="h-7 w-7 text-primary-700 " />
+                                </button>
+                            </>
+                        )}
                     </div>
                 </div>
 
