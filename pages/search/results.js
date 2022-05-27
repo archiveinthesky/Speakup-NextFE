@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
+import { useSession } from 'next-auth/react';
 import { showNotification } from '@mantine/notifications';
 
 import Header from '../../components/navbar/Header';
@@ -11,7 +12,7 @@ import Pagebar from '../../components/navbar/Pagebar';
 
 const SearchResults = () => {
     const router = useRouter();
-    const [searchTerm, setSearchTerm] = useState('');
+    const { data: session } = useSession();
 
     const { data, error, isLoading, isIdle, refetch } = useQuery(
         'searchres',
@@ -21,7 +22,7 @@ const SearchResults = () => {
                 {
                     method: 'POST',
                     headers: {
-                        Authorization: localStorage.getItem('AuthToken'),
+                        Authorization: `Token ${session.authToken}`,
                         Accept: 'application/json',
                         'Content-Type': 'application/json',
                     },
@@ -39,13 +40,13 @@ const SearchResults = () => {
     );
 
     useEffect(() => {
-        if (router.isReady) {
+        if (router.isReady && session) {
             if (router.query.searchterm === undefined) {
                 window.location.href = '/search';
             }
             refetch();
         }
-    }, [router.query]);
+    }, [router.query, session]);
 
     if (isIdle || isLoading) {
         return (
@@ -101,7 +102,7 @@ const SearchResults = () => {
                 <Pagebar
                     maxPage={data.pages}
                     url={(id) => {
-                        return `/search/results?searchterm=${searchTerm}&onpage=${id}`;
+                        return `/search/results?searchterm=${router.query.searchTerm}&onpage=${id}`;
                     }}
                     selected={router.query.onpage ? router.query.onpage : 1}
                 />

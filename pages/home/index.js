@@ -9,29 +9,33 @@ import HomeNavCard from '../../components/navigation/HomeNavCard';
 import Link from 'next/link';
 import { useQuery } from 'react-query';
 import { showNotification } from '@mantine/notifications';
-import Head from 'next/head';
+import { useSession } from 'next-auth/react';
 
-const UserHome = ({}) => {
+const UserHome = () => {
+    const { data: session } = useSession();
     const [homeVer, setHomeVer] = useState('mob');
     const [errDisplayed, setErrDisplayed] = useState(false);
 
-    const { data, error, isLoading } = useQuery(
+    const { data, error, isLoading, refetch } = useQuery(
         'home',
-        () => {
-            let response = fetch(
+        async () => {
+            let response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/home`,
                 {
                     headers: {
-                        Authorization: localStorage.getItem('AuthToken'),
+                        Authorization: `Token ${session?.authToken}`,
                     },
                 }
             );
-
             if (!response.ok) throw new Error('Fetch failed');
             return response.json();
         },
-        { refetchOnWindowFocus: false }
+        { refetchOnWindowFocus: false, enabled: false }
     );
+
+    useEffect(() => {
+        if (session) refetch();
+    }, [session]);
 
     useEffect(() => {
         if (!errDisplayed && error) {
@@ -56,8 +60,6 @@ const UserHome = ({}) => {
             window.onresize = null;
         };
     }, []);
-
-    console.log(isLoading);
 
     if (error) {
         return (
@@ -84,23 +86,23 @@ const UserHome = ({}) => {
                 </div>
             );
         return (
-            <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-50">
+            <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-50 xl:hidden">
                 <Footbar />
                 <div className="absolute top-0 left-0 right-0 h-[30vh] min-h-[208px] bg-primary-600 pt-12">
-                    <img className="mx-auto w-20" src="/logo-mic.svg" />
+                    <img className="mx-auto w-20" src="/assets/logo-mic.svg" />
                     <h1 className="mt-4 text-center text-2xl text-white">
                         歡迎回來Speakup
                     </h1>
                 </div>
                 <div className="mt-[calc(max(30vh,208px))] mb-16 flex h-[calc(100vh-max(30vh,208px)-64px)] w-full flex-col gap-4 overflow-y-scroll px-12">
-                    <h2 className="pt-6 text-xl">{data.tracks[0].name}</h2>
+                    <h2 className="pt-6 text-xl">{data?.tracks[0]?.name}</h2>
                     <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
-                        {data.tracks[0].cards?.map((card, i) => (
+                        {data?.tracks[0].cards?.map((card, i) => (
                             <HomeNavCard key={i} cardContent={card} />
                         ))}
                     </div>
                     <Link
-                        href={`/search/results?searchterm=${data.tracks[0].title}`}
+                        href={`/search/results?searchterm=${data?.tracks[0]?.title}`}
                     >
                         <div className="cursor-pointer text-center text-primary-900">
                             <p>探索更多</p>
@@ -113,7 +115,6 @@ const UserHome = ({}) => {
         );
     } else if (homeVer === 'des') {
         if (isLoading) {
-            console.log('Screw you');
             return (
                 <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100">
                     <Header />
@@ -136,10 +137,10 @@ const UserHome = ({}) => {
                 <Sidebar />
                 <div className="ml-64 mt-16 pl-20 pt-16">
                     <h1 className="text-4xl text-primary-800">
-                        {data.user} 歡迎回來Speakup!
+                        {session?.user?.name} 歡迎回來Speakup!
                     </h1>
                     <div className="mt-6 flex w-full flex-col gap-9">
-                        {data.tracks.map((track, i) => (
+                        {data?.tracks?.map((track, i) => (
                             <div key={i}>
                                 <h2 className="text-2xl text-primary-800">
                                     {track.name}
