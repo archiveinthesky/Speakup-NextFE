@@ -24,7 +24,7 @@ const Header = () => {
                 <Link href="/home">
                     <img
                         className="my-auto h-10 cursor-pointer"
-                        src="/logo-white.svg"
+                        src="/assets/logo-white.svg"
                         alt="logo"
                     />
                 </Link>
@@ -35,7 +35,7 @@ const Header = () => {
                     <Link href="/home">
                         <img
                             className="my-auto h-10"
-                            src="/logo-white.svg"
+                            src="/assets/logo-white.svg"
                             alt="logo"
                         />
                     </Link>

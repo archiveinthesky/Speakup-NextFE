@@ -92,7 +92,11 @@ const SignUp = () => {
             <div className="mx-8 w-full max-w-lg rounded-3xl bg-white py-14 px-12">
                 <div className="flex w-full items-center justify-center gap-2">
                     <h1 className="text-2xl">歡迎加入</h1>
-                    <img className="h-7 w-7" src="/logo-mic.svg" alt="" />
+                    <img
+                        className="h-7 w-7"
+                        src="/assets/logo-mic.svg"
+                        alt=""
+                    />
                 </div>
                 <p className="mt-3 text-center">
                     請輸入您的資料

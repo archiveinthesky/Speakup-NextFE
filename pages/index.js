@@ -6,7 +6,7 @@ export default function Home() {
     return (
         <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden ">
             <div className="relative flex h-24 w-screen items-center justify-center bg-primary-50 px-11 ">
-                <img className="h-14" src="/logo-black.svg" alt="logo" />
+                <img className="h-14" src="/assets/logo-black.svg" alt="logo" />
                 <div className="absolute right-11 hidden flex-grow-0 items-center gap-8 lg:flex">
                     <a
                         href="https://speakup-team.notion.site/Speakup-50887304586641559268ef313ef6e1f6"
@@ -36,14 +36,14 @@ export default function Home() {
                 <div className=" absolute top-0 left-[-15vw] hidden opacity-50 lg:block ">
                     <img
                         className="w-[30vw] max-w-2xl"
-                        src="/logo-mic.svg"
+                        src="/assets/logo-mic.svg"
                         alt=""
                     />
                 </div>
                 <div className="absolute top-0 right-[-15vw] hidden opacity-50 lg:block ">
                     <img
                         className="w-[30vw] max-w-2xl"
-                        src="/logo-mic.svg"
+                        src="/assets/logo-mic.svg"
                         alt=""
                     />
                 </div>
@@ -135,7 +135,7 @@ export default function Home() {
                             <div className="flex items-center gap-4">
                                 <img
                                     className="inline h-20 w-20"
-                                    src="/logo-mic.svg"
+                                    src="/assets/logo-mic.svg"
                                     alt=""
                                 />
                                 <h1 className="my-2 inline text-3xl lg:my-4 lg:text-5xl">
