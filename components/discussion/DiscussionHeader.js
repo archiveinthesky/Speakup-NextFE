@@ -9,8 +9,6 @@ import { Spoiler } from '@mantine/core';
 const DiscussionHeader = ({ pagedata }) => {
     const router = useRouter();
 
-    const [showStandpoint, setShowStandpoint] = useState(false);
-    const [showReference, setShowReference] = useState(false);
     const [userSaved, setUserSaved] = useState(false);
     const [showReportMenu, setShowReportMenu] = useState(false);
 
@@ -45,7 +43,7 @@ const DiscussionHeader = ({ pagedata }) => {
                         {pagedata.authorName}
                     </p>
                     <div className="w-4" />
-                    {true && (
+                    {false && (
                         <>
                             <LinkIcon className="h-5 w-5 text-primary-600" />
                             <a href={pagedata.sponsorLink}>
