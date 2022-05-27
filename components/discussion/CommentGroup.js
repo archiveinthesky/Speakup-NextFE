@@ -12,9 +12,11 @@ import {
 
 import { ReplyIcon } from '@heroicons/react/solid';
 import CommentResponseField from './CommentResponseField';
+import { useSession } from 'next-auth/react';
 
 const CommentGroup = forwardRef(({ boardId, cmtdata, deleteComment }, ref) => {
     const [userReplies, setUserReplies] = useState([]);
+    const { data: session } = useSession();
 
     const {
         data: replyQueryData,
@@ -27,7 +29,12 @@ const CommentGroup = forwardRef(({ boardId, cmtdata, deleteComment }, ref) => {
     } = useInfiniteQuery(
         `reply-${cmtdata.id}`,
         ({ pageParam = 0 }) => {
-            return getCommentReplies(boardId, cmtdata.id, pageParam);
+            return getCommentReplies({
+                auth: `Token ${session.authToken}`,
+                boardId,
+                commentId: cmtdata.id,
+                onpage: pageParam,
+            });
         },
         {
             getNextPageParam: (lastPage, pages) =>
@@ -40,7 +47,12 @@ const CommentGroup = forwardRef(({ boardId, cmtdata, deleteComment }, ref) => {
 
     const addReplyMutation = useMutation(
         (newReply) => {
-            return postCommentReply(boardId, cmtdata.id, newReply);
+            return postCommentReply({
+                auth: `Token ${session.authToken}`,
+                boardId,
+                commentid: cmtdata.id,
+                cmtcontent: newReply,
+            });
         },
         {
             onSuccess: (data) => {
@@ -50,7 +62,13 @@ const CommentGroup = forwardRef(({ boardId, cmtdata, deleteComment }, ref) => {
     );
 
     const deleteReplyMutation = useMutation(
-        (replyId) => deleteReply(boardId, cmtdata.id, replyId),
+        (replyId) =>
+            deleteReply({
+                auth: `Token ${session.authToken}`,
+                boardId,
+                commentId: cmtdata.id,
+                replyId,
+            }),
         {
             onSuccess: (data, variables) => {
                 let replyId = variables;

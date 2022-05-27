@@ -14,25 +14,25 @@ import {
 } from '../../components/discussion/Selectors';
 import { useSetRecoilState } from 'recoil';
 import { boardDataState } from '../../components/atoms/recoilAtoms';
+import { useSession } from 'next-auth/react';
+import NotSignedInDisplay from '../../components/discussion/NotSignedInDisplay';
 
 const MainBoard = ({ discussionContent }) => {
     const [commentFieldSide, setCommentFieldSide] = useState(1);
     const [commentSort, setCommentSort] = useState(0);
+    const { data: session } = useSession();
 
     const setBoardData = useSetRecoilState(boardDataState);
 
     useEffect(() => {
-        if (!localStorage.getItem('AuthToken')) {
-            window.location.href = '/login';
-        }
         setBoardData({
-            boardId: discussionContent.boardId,
+            boardId: discussionContent?.boardId,
         });
-    }, []);
+    }, [discussionContent?.boardId]);
 
     if (discussionContent !== undefined)
         return (
-            <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100 scrollbar-hide overflow-x-hidden">
+            <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
                 <Header />
                 <Sidebar retractable={true} />
                 <Footbar />
@@ -46,17 +46,23 @@ const MainBoard = ({ discussionContent }) => {
                             <SideSelector changeSide={setCommentFieldSide} />
                             <CommentSort changeSortMethod={setCommentSort} />
                         </div>
-                        <div className="w-full">
-                            <IntegratedSideSelector
-                                changeSide={setCommentFieldSide}
-                            />
-                            <ReactQueryDevtools initialIsOpen={false} />
-                            <CommentField
-                                key={commentFieldSide * commentSort}
-                                boardId={discussionContent.boardId}
-                                onSide={commentFieldSide}
-                                sortMethod={commentSort}
-                            />
+                        <div className="w-full pb-16">
+                            {session ? (
+                                <>
+                                    <IntegratedSideSelector
+                                        changeSide={setCommentFieldSide}
+                                    />
+                                    <ReactQueryDevtools initialIsOpen={false} />
+                                    <CommentField
+                                        key={commentFieldSide * commentSort}
+                                        boardId={discussionContent.boardId}
+                                        onSide={commentFieldSide}
+                                        sortMethod={commentSort}
+                                    />
+                                </>
+                            ) : (
+                                <NotSignedInDisplay />
+                            )}
                         </div>
                     </div>
                 </div>

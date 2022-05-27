@@ -20,7 +20,7 @@ export async function middleware(req) {
         return NextResponse.next();
     }
 
-    const allowedPaths = ['', 'login', 'signup', 'about'];
+    const allowedPaths = ['', 'login', 'signup', 'about', 'discussions'];
 
     if (!token && !allowedPaths.includes(pathnameParse[1])) {
         const url = req.nextUrl.clone();

@@ -16,8 +16,11 @@ import {
 } from '../../lib/commentFuncs';
 
 import { cloneDeep } from 'lodash';
+import { useSession } from 'next-auth/react';
+import { showNotification } from '@mantine/notifications';
 
 const CommentField = ({ boardId, onSide, sortMethod }) => {
+    const { data: session } = useSession();
     const [userComments, setUserComments] = useState([]);
 
     const {
@@ -31,35 +34,53 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
     } = useInfiniteQuery(
         'comments',
         ({ pageParam = 0 }) =>
-            getBoardComments(
+            getBoardComments({
+                auth: `Token ${session.authToken}`,
                 boardId,
                 onSide,
-                pageParam,
-                [(null, 'time', 'replies')][sortMethod - 1]
-            ),
+                fetchPage: pageParam,
+                order: [(null, 'time', 'replies')][sortMethod - 1],
+            }),
         {
             getNextPageParam: (lastPage, pages) =>
                 Math.ceil(lastPage[0].totalComments / 20) > pages.length
                     ? pages.length
                     : undefined,
+            enabled: false,
+            refetchOnWindowFocus: false,
         }
     );
 
     const addComment = useMutation(
-        (cmtParams) => postComment(cmtParams.content, boardId, cmtParams.side),
+        (cmtParams) =>
+            postComment({
+                auth: `Token ${session.authToken}`,
+                cmtContent: cmtParams.content,
+                boardId,
+                onSide: cmtParams.side,
+            }),
         {
             onSuccess: (data) => {
-                console.log(typeof [data, ...userComments]);
                 setUserComments([data, ...userComments]);
             },
             onError: (err) => {
-                console.log(err);
+                showNotification({
+                    title: '發生未知的錯誤',
+                    message: ' 請再試一次',
+                    color: 'red',
+                    autoClose: false,
+                });
             },
         }
     );
 
     const delComment = useMutation(
-        (commentId) => deleteComment(boardId, commentId),
+        (commentId) =>
+            deleteComment({
+                auth: `Token ${session.authToken}`,
+                boardId,
+                commentid: commentId,
+            }),
         {
             onSuccess: (data, variables) => {
                 let commentId = variables.commentId;
@@ -84,8 +105,8 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
     const { ref: lastCardRef, inView: lastCardInView, entry } = useInView();
 
     useEffect(() => {
-        cmtQueryRefetch({ refetchPage: () => true });
-    }, [onSide, sortMethod]);
+        if (session) cmtQueryRefetch({ refetchPage: () => true });
+    }, [onSide, sortMethod, session]);
 
     useEffect(() => {
         if (entry !== undefined) {
@@ -107,7 +128,7 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
                         錯誤
                     </h1>
                     <p className="my-2 px-6 text-center text-xl text-red-500">
-                        {cmtQueryError}
+                        {`${cmtQueryError}`}
                     </p>
                 </div>
             </div>

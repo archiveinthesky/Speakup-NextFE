@@ -74,8 +74,6 @@ const Collections = () => {
         );
     }
 
-    console.log(data);
-
     return (
         <div className="fixed top-0 left-0 h-screen w-screen overflow-x-hidden bg-neutral-100 scrollbar-hide">
             <Header />

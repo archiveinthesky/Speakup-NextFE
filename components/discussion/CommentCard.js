@@ -17,9 +17,12 @@ import { useMutation } from 'react-query';
 
 import { useRecoilValue } from 'recoil';
 import { boardDataState } from '../atoms/recoilAtoms';
+import { useSession } from 'next-auth/react';
 
 const CommentCard = forwardRef(
     ({ data, motherComment, addReply, deleteFunction }, ref) => {
+        const { data: session } = useSession();
+
         const [supported, setSupported] = useState(data.userSupported);
         const [liked, setLiked] = useState(data.userLiked);
         const [disliked, setDisliked] = useState(data.userDisliked);
@@ -36,12 +39,13 @@ const CommentCard = forwardRef(
         const cardmenu = useRef(null);
 
         const reactionsMutation = useMutation((updatedStats) =>
-            updateCommentReactions(
-                boardData.boardId,
+            updateCommentReactions({
+                auth: `Token ${session.authToken}`,
+                boardId: boardData.boardId,
                 motherComment,
-                data.id,
-                updatedStats
-            )
+                commentId: data.id,
+                updatedStats,
+            })
         );
 
         useEffect(() => {

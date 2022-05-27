@@ -72,7 +72,6 @@ const VerifyEmail = () => {
 
     const verifyEmailMutation = useMutation(
         async (data) => {
-            console.log(data);
             let response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/reg/validate`,
                 {
