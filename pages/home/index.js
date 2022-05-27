@@ -52,7 +52,7 @@ const UserHome = () => {
 
     useEffect(() => {
         function updateScreen() {
-            setHomeVer(window.innerWidth <= 1280 ? 'mob' : 'des');
+            setHomeVer(window.innerWidth <= 1024 ? 'mob' : 'des');
         }
         updateScreen();
         window.onresize = updateScreen;

@@ -3,9 +3,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import AccountOptions from './header/AccountOptions';
-import NotificationButton from './header/Notifications';
-
 import { SearchIcon } from '@heroicons/react/outline';
+import DesktopNotifications from './header/DesktopNotificationHandler';
 
 const Header = () => {
     const router = useRouter();
@@ -54,7 +53,7 @@ const Header = () => {
                     </form>
                 </div>
                 <div className="flex h-9 items-center justify-end gap-5 ">
-                    <NotificationButton />
+                    <DesktopNotifications />
                     <AccountOptions />
                 </div>
             </div>

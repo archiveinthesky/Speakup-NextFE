@@ -42,17 +42,20 @@ const AccountOptions = () => {
     return (
         <Menu
             control={
-                <button className="flex items-center gap-2 rounded-3xl bg-primary-400 py-2 px-3 text-neutral-800">
-                    {/* <div className="h-7 w-7 overflow-hidden rounded-full">
-                        <img
-                            className="h-full"
-                            src={session?.user?.image}
-                            alt="pfp"
-                        />
-                    </div> */}
-                    <UserCircleIcon className="w- h-7 text-white" />
-                    <p className="">{session?.user?.name}</p>
-                    <ChevronDownIcon className="h-4 w-4" />
+                <button className="">
+                    <UserCircleIcon className="h-8 w-8 lg:hidden" />
+                    <div className=" hidden items-center gap-2 rounded-3xl bg-primary-400 py-2 px-3 text-neutral-800 lg:flex">
+                        {/* <div className="h-7 w-7 overflow-hidden rounded-full">
+                                    <img
+                                        className="h-full"
+                                        src={session?.user?.image}
+                                        alt="pfp"
+                                    />
+                                </div> */}
+                        <UserCircleIcon className="w7- h-7 text-white" />
+                        <p className="">{session?.user?.name}</p>
+                        <ChevronDownIcon className="h-4 w-4" />
+                    </div>
                 </button>
             }
             position="bottom"
@@ -104,6 +107,7 @@ const AccountOptions = () => {
             >
                 登出
             </Menu.Item>
+            <Menu.Label>Speakup Alpha 0.1.0</Menu.Label>
         </Menu>
     );
 };

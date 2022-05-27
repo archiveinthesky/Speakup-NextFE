@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
     HomeIcon,
@@ -12,13 +12,15 @@ import {
     HomeIcon as HomeIconSolid,
     SearchIcon as SearchIconSolid,
     BookmarkIcon as BookmarkIconSolid,
-    BellIcon as BellIconSolid,
     UserCircleIcon as UserCircleIconSolid,
 } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
+import AccountOptions from './header/AccountOptions';
+import MobileNotifications from './header/MobileNotificationHandler';
 
 const Footbar = () => {
     const router = useRouter();
+    const [showNtfModal, setShowNtfModal] = useState(false);
 
     const pageUrl = (() => {
         let url = '',
@@ -61,16 +63,8 @@ const Footbar = () => {
                     )}
                 </a>
             </Link>
-            <Link href="/notifications">
-                <a>
-                    {pageUrl == 'notifications' ? (
-                        <BellIconSolid className="h-8 w-8" />
-                    ) : (
-                        <BellIcon className="h-8 w-8" />
-                    )}
-                </a>
-            </Link>
-            <Link href="/aboutuser">
+            <MobileNotifications />
+            {/* <Link href="/aboutuser">
                 <a>
                     {pageUrl == 'aboutuser' ? (
                         <UserCircleIconSolid className="h-8 w-8" />
@@ -78,7 +72,8 @@ const Footbar = () => {
                         <UserCircleIcon className="h-8 w-8" />
                     )}
                 </a>
-            </Link>
+            </Link> */}
+            <AccountOptions />
         </div>
     );
 };

@@ -154,7 +154,7 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
                                     [].concat.apply([], cmtQueryData?.pages)
                                 )
                                 .map((data, i, arr) => {
-                                    return data.totalComments ? (
+                                    return data.totalComments !== undefined ? (
                                         <div key={i}></div>
                                     ) : (
                                         <CommentGroup
@@ -164,6 +164,7 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
                                             deleteComment={(cmtId) => {
                                                 delComment.mutate(cmtId);
                                             }}
+                                            random={console.log(data)}
                                             ref={
                                                 i === arr.length - 1
                                                     ? lastCardRef
@@ -174,7 +175,8 @@ const CommentField = ({ boardId, onSide, sortMethod }) => {
                                 })}
                         </div>
 
-                        {userComments.length + cmtQueryData?.length === 0 &&
+                        {userComments.length === 0 &&
+                            cmtQueryData?.pages[0][0].totalComments === 0 &&
                             !cmtQueryLoading && <NoCommentsDisplay />}
                     </>
                 )}
