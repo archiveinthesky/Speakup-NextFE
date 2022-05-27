@@ -133,7 +133,7 @@ const UserHome = () => {
             );
         }
         return (
-            <div className="fixed top-0 left-0 h-screen w-screen bg-neutral-100">
+            <div className="fixed top-0 left-0 h-screen w-screen overflow-y-auto bg-neutral-100 pb-20">
                 <Header />
                 <Sidebar />
                 <div className="ml-64 mt-16 pl-20 pt-16">
