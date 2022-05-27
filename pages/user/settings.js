@@ -1,41 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../components/navbar/Header';
-import Footbar from '../../components/navbar/Footbar';
-import {
-    BasicSettingsCard,
-    NotificationSettingsCard,
-    AccountActions,
-} from '../../components/settings/SettingCards';
 
-import Sidebar from '../../components/navbar/Sidebar';
-
-import dayjs from 'dayjs';
-
-import { cloneDeep } from 'lodash';
 import { useQuery } from 'react-query';
 import { LoadingOverlay, Overlay } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
+import { useSession } from 'next-auth/react';
+import { cloneDeep } from 'lodash';
+import dayjs from 'dayjs';
+
+import Header from '../../components/navbar/Header';
+import Sidebar from '../../components/navbar/Sidebar';
+import Footbar from '../../components/navbar/Footbar';
+import BasicSettingsCard from '../../components/settings/UserInfo';
+import AccountActions from '../../components/settings/AccountActions';
 
 const Settings = () => {
     const [initValues, setInitValues] = useState({});
+    const { data: session } = useSession();
 
-    const { data, error, isLoading } = useQuery(
+    const { data, error, isLoading, refetch } = useQuery(
         'settings',
-        () => {
-            let response = fetch(
+        async () => {
+            let response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/data`,
                 {
                     method: 'GET',
                     headers: {
-                        Authorization: localStorage.getItem('AuthToken'),
+                        Authorization: `Token ${session.authToken}`,
                         Accept: 'application/json',
                     },
                 }
             );
+            if (!response.ok) throw new Error('Fetch failed');
             return response.json();
         },
-        { refetchOnWindowFocus: false }
+        { refetchOnWindowFocus: false, enabled: false }
     );
+
+    useEffect(() => {
+        if (session) refetch();
+    }, [session]);
 
     useEffect(() => {
         if (data) {
@@ -46,13 +49,14 @@ const Settings = () => {
     }, [data]);
 
     useEffect(() => {
-        showNotification({
-            title: '資料獲取失敗',
-            message: '請重新整理頁面',
-            color: 'red',
-            disallowClose: true,
-            autoClose: false,
-        });
+        if (error)
+            showNotification({
+                title: '資料獲取失敗',
+                message: '請重新整理頁面',
+                color: 'red',
+                disallowClose: true,
+                autoClose: false,
+            });
     }, [error]);
 
     return (
@@ -67,20 +71,7 @@ const Settings = () => {
                         {error && <Overlay opacity={0.6} zIndex={10} />}
                         <BasicSettingsCard initValues={initValues} />
                     </div>
-                    <div className="relative">
-                        <LoadingOverlay visible={isLoading} zIndex={10} />
-                        {error && <Overlay opacity={0.6} zIndex={10} />}
-                        <NotificationSettingsCard
-                            initValues={{
-                                all: true,
-                                cmtMod: true,
-                                brdMod: true,
-                                cmtReply: true,
-                                brdAlc: true, //Board analytics
-                                ads: true,
-                            }}
-                        />
-                    </div>
+
                     <div className="relative">
                         <LoadingOverlay visible={isLoading} zIndex={10} />
                         {error && <Overlay opacity={0.6} zIndex={10} />}
