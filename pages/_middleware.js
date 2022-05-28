@@ -35,6 +35,8 @@ export async function middleware(req) {
         'auth',
     ];
 
+    return NextResponse.next();
+
     if (!token && !allowedPaths.includes(pathnameParse[1])) {
         const url = req.nextUrl.clone();
         url.pathname = '/login';
