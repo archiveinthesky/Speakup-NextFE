@@ -62,6 +62,7 @@ const Login = () => {
                             callbackUrl: '/home',
                             ...values,
                         });
+                        console.log(response);
                         if (!response.error) router.push('/home');
                         else if (response.error == 'CredentialsSignin') {
                             loginForm.setErrors({

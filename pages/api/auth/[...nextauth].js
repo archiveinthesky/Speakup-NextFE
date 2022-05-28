@@ -48,6 +48,7 @@ export default NextAuth({
                 token.reputation = user.reputation;
                 token.role = user.role;
             }
+            console.log(token);
             return token;
         },
         async session({ session, token }) {
@@ -56,6 +57,7 @@ export default NextAuth({
                 session.reputation = token.reputation;
                 session.role = token.role;
             }
+            console.log(session);
             return session;
         },
     },

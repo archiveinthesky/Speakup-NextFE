@@ -2,7 +2,7 @@ import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(req) {
-    const token = await getToken({ req, secret: process.env.JWT_SECRET });
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
     const { pathname } = req.nextUrl;
     const pathnameParse = pathname.split('/');
@@ -12,8 +12,7 @@ export async function middleware(req) {
     if (pathnameParse[1] == 'assets') return NextResponse.next();
 
     console.log(`Trying to go to ${pathname}`);
-    console.log(`Token is`);
-    console.log(token);
+    console.log(`Token is ${token ? token.authToken : null}`);
 
     if (pathname.includes('/api/auth') || token) {
         if (pathnameParse[1] == 'admin' && !allowAdmin.includes(token.role)) {
@@ -25,6 +24,7 @@ export async function middleware(req) {
     }
 
     console.log('Not signed in,');
+    console.log(pathnameParse);
 
     const allowedPaths = [
         '',
