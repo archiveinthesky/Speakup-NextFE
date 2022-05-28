@@ -11,6 +11,10 @@ export async function middleware(req) {
 
     if (pathnameParse[1] == 'assets') return NextResponse.next();
 
+    console.log(`Trying to go to ${pathname}`);
+    console.log(`Token is`);
+    console.log(token);
+
     if (pathname.includes('/api/auth') || token) {
         if (pathnameParse[1] == 'admin' && !allowAdmin.includes(token.role)) {
             const url = req.nextUrl.clone();
@@ -19,6 +23,8 @@ export async function middleware(req) {
         }
         return NextResponse.next();
     }
+
+    console.log('Not signed in,');
 
     const allowedPaths = [
         '',
